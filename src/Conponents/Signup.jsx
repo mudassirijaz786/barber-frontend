@@ -151,7 +151,7 @@ class Sign_Up extends Component {
   render() {
     return (
       <Grid container spacing={3}>
-        <Grid item xs={12} spacing={5}>
+        <Grid item center xs={4} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}
@@ -172,16 +172,12 @@ class Sign_Up extends Component {
             }}
           >
             <TextField
-              style={{
-                marginLeft: 200,
-                marginRight: 200,
-                width: 200
-              }}
               placeholder="Please enter your email"
               value={this.state.Salon.Salon_owner_email}
               onChange={this.handleChange}
               name="Salon_owner_email"
               label="email"
+              fullWidth
               variant="standard"
             />
             <div style={{ color: "red" }}>
@@ -194,6 +190,7 @@ class Sign_Up extends Component {
               value={this.state.Salon.Salon_owner_password}
               onChange={this.handleChange}
               label="password"
+              fullWidth
               name="Salon_owner_password"
             />
             <div>{this.state.error.Salon_owner_password}</div>
@@ -202,6 +199,7 @@ class Sign_Up extends Component {
               value={this.state.Salon.Salon_owner_firstName}
               onChange={this.handleChange}
               label="first name"
+              fullWidth
               name="Salon_owner_firstName"
               placeholder="Please enter your firstname"
             />
@@ -212,6 +210,7 @@ class Sign_Up extends Component {
               name="Salon_owner_lastName"
               placeholder="Please enter your lastname"
               label="lastname"
+              fullWidth
               variant="standard"
             />
             <div>{this.state.error.Salon_owner_lastName}</div>
@@ -220,6 +219,7 @@ class Sign_Up extends Component {
               onChange={this.handleChange}
               name="Salon_owner_cnic"
               label="cnic"
+              fullWidth
               placeholder="Please enter your cnic"
               variant="standard"
             />
@@ -230,6 +230,7 @@ class Sign_Up extends Component {
               name="Salon_owner_phoneNumber"
               placeholder="Please enter your phone number"
               variant="standard"
+              fullWidth
               label="phone number"
             />
             <div>{this.state.error.Salon_owner_phoneNumber}</div>
@@ -238,6 +239,7 @@ class Sign_Up extends Component {
               placeholder="Please enter your salon name"
               onChange={this.handleChange}
               name="Salon_Name"
+              fullWidth
               variant="standard"
               label="salon name"
             />
@@ -245,6 +247,7 @@ class Sign_Up extends Component {
             <Button
               variant="contained"
               color="primary"
+              fullWidth
               className="p-button-raised p-button-rounded"
               disabled={this.validate()}
               onClick={this.handleSubmit}

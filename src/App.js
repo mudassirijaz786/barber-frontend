@@ -6,7 +6,7 @@ import { Header, Footer } from "./Conponents/layouts/index";
 import Landing from "./Conponents/Landing.jsx";
 import Signup from "./Conponents/Signup";
 import Login from "./Conponents/Login";
-// import index from "./Conponents/dashboard/react-material-admin/src/index";
+import Home from "./Conponents/dashboard/Home";
 import Test from "./Conponents/layouts/Test";
 function App() {
   return (
@@ -16,8 +16,9 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Home} />
+
         {/* <Test /> */}
-        {/* <index /> */}
         <Footer />
       </Fragment>
     </BrowserRouter>
