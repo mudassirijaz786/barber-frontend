@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { InputText } from "primereact/inputtext";
+import Joi from "joi-browser";
+import { Button } from "primereact/button";
+import axios from "axios";
 class changePassword extends Component {
 	state = {
 		Password: {

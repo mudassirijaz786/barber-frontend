@@ -97,13 +97,13 @@ class Sign_Up extends Component {
 		axios
 			.post(
 				"http://localhost:5000/Digital_Saloon.com/api/SalonSignUp",
-				{ crossdomain: true },
+
 				{
-					Salon_owner_firstNameme: this.state.Salon.Salon_owner_firstName,
+					Salon_owner_firstName: this.state.Salon.Salon_owner_firstName,
 					Salon_owner_lastName: this.state.Salon.Salon_owner_lastName,
 					email: this.state.Salon.Salon_owner_email,
 					password: this.state.Salon.Salon_owner_password,
-					phoneNumber: this.state.Salon.phoneNumber,
+					phoneNumber: this.state.Salon.Salon_owner_phoneNumber,
 					cnic: this.state.Salon.Salon_owner_cnic,
 					salonname: this.state.Salon.Salon_Name
 				}
@@ -112,8 +112,7 @@ class Sign_Up extends Component {
 				console.log(response);
 			})
 			.catch(function(error) {
-				alert(error);
-				//console.log(error);
+				alert(error.response.data); //console.log(error);
 			});
 		//	const result = await axios.post(url, this.state.Salon);
 		//	console.log(result);
