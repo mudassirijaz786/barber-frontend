@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import { InputText } from "primereact/inputtext";
 import Joi from "joi-browser";
-import { Button } from "primereact/button";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+
 class Sign_Up extends Component {
 	state = {
 		Salon: {
@@ -97,13 +105,13 @@ class Sign_Up extends Component {
 		axios
 			.post(
 				"http://localhost:5000/Digital_Saloon.com/api/SalonSignUp",
-
+				{ crossdomain: true },
 				{
-					Salon_owner_firstName: this.state.Salon.Salon_owner_firstName,
+					Salon_owner_firstNameme: this.state.Salon.Salon_owner_firstName,
 					Salon_owner_lastName: this.state.Salon.Salon_owner_lastName,
 					email: this.state.Salon.Salon_owner_email,
 					password: this.state.Salon.Salon_owner_password,
-					phoneNumber: this.state.Salon.Salon_owner_phoneNumber,
+					phoneNumber: this.state.Salon.phoneNumber,
 					cnic: this.state.Salon.Salon_owner_cnic,
 					salonname: this.state.Salon.Salon_Name
 				}
@@ -112,7 +120,8 @@ class Sign_Up extends Component {
 				console.log(response);
 			})
 			.catch(function(error) {
-				alert(error.response.data); //console.log(error);
+				alert(error);
+				//console.log(error);
 			});
 		//	const result = await axios.post(url, this.state.Salon);
 		//	console.log(result);
@@ -141,103 +150,122 @@ class Sign_Up extends Component {
 
 	render() {
 		return (
-			<div className="container">
-				<span className="p-float-label">
-					<label htmlFor="Email">Email</label>
-					<InputText
-						id="Email"
-						placeholder="xyz@gmail.com"
-						value={this.state.Salon.Salon_owner_email}
-						onChange={this.handleChange}
-						name="Salon_owner_email"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_owner_email}</div>
-				</span>
+			<Grid container spacing={3}>
+				<Grid item center xs={4} spacing={10}>
+					<Typography component="div">
+						<Box
+							fontSize={16}
+							fontWeight="fontWeightBold"
+							textAlign="center"
+							m={1}
+							color="indigo"
+						>
+							New Salon owner? Signup now
+						</Box>
+					</Typography>{" "}
+					<Paper
+						style={{
+							margin: "2px",
+							textAlign: "center",
+							color: "black",
+							marginTop: 30
+						}}
+					>
+						<TextField
+							placeholder="Please enter your email"
+							value={this.state.Salon.Salon_owner_email}
+							onChange={this.handleChange}
+							name="Salon_owner_email"
+							label="email"
+							fullWidth
+							variant="standard"
+						/>
+						<div style={{ color: "red" }}>
+							{this.state.error.Salon_owner_email}
+						</div>
 
-				<br></br>
-				<span className="p-float-label">
-					<label htmlFor="password">password</label>
-					<InputText
-						id="password"
-						value={this.state.Salon.Salon_owner_password}
-						onChange={this.handleChange}
-						name="Salon_owner_password"
-					/>
-					<br></br>
-
-					<div>{this.state.error.Salon_owner_password}</div>
-				</span>
-				<br></br>
-				<span className="p-float-label">
-					<label htmlFor="Firstname">Firstname</label>
-					<InputText
-						id="Firstname"
-						value={this.state.Salon.Salon_owner_firstName}
-						onChange={this.handleChange}
-						name="Salon_owner_firstName"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_owner_firstName}</div>
-				</span>
-				<span className="p-float-label">
-					<label htmlFor="LastName">LastName</label>
-					<InputText
-						id="LastName"
-						value={this.state.Salon.Salon_owner_lastName}
-						onChange={this.handleChange}
-						name="Salon_owner_lastName"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_owner_lastName}</div>
-				</span>
-
-				<br></br>
-				<span className="p-float-label">
-					<label htmlFor="Cnic">Cnic</label>
-					<InputText
-						id="Cnic"
-						value={this.state.Salon.Salon_owner_cnic}
-						onChange={this.handleChange}
-						name="Salon_owner_cnic"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_owner_cnic}</div>
-				</span>
-				<br></br>
-				<span className="p-float-label">
-					<label htmlFor="PhoneNumber">PhoneNumber</label>
-					<InputText
-						id="PhoneNumber"
-						value={this.state.Salon.Salon_owner_phoneNumber}
-						onChange={this.handleChange}
-						name="Salon_owner_phoneNumber"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_owner_phoneNumber}</div>
-				</span>
-				<br></br>
-				<span className="p-float-label">
-					<label htmlFor="SalonName">SalonName</label>
-					<InputText
-						id="SalonName"
-						value={this.state.Salon.Salon_Name}
-						onChange={this.handleChange}
-						name="Salon_Name"
-					/>
-					<br></br>
-					<div>{this.state.error.Salon_Name}</div>
-				</span>
-				<br></br>
-				<div className="content-section implementation button-demo">
-					<Button
-						label="Primary"
-						className="p-button-raised p-button-rounded"
-						disabled={this.validate()}
-						onClick={this.handleSubmit}
-					/>
-				</div>
-			</div>
+						<TextField
+							variant="standard"
+							placeholder="Please enter your password"
+							value={this.state.Salon.Salon_owner_password}
+							onChange={this.handleChange}
+							label="password"
+							fullWidth
+							name="Salon_owner_password"
+						/>
+						<div>{this.state.error.Salon_owner_password}</div>
+						<TextField
+							variant="standard"
+							value={this.state.Salon.Salon_owner_firstName}
+							onChange={this.handleChange}
+							label="first name"
+							fullWidth
+							name="Salon_owner_firstName"
+							placeholder="Please enter your firstname"
+						/>
+						<div>{this.state.error.Salon_owner_firstName}</div>
+						<TextField
+							value={this.state.Salon.Salon_owner_lastName}
+							onChange={this.handleChange}
+							name="Salon_owner_lastName"
+							placeholder="Please enter your lastname"
+							label="lastname"
+							fullWidth
+							variant="standard"
+						/>
+						<div>{this.state.error.Salon_owner_lastName}</div>
+						<TextField
+							value={this.state.Salon.Salon_owner_cnic}
+							onChange={this.handleChange}
+							name="Salon_owner_cnic"
+							label="cnic"
+							fullWidth
+							placeholder="Please enter your cnic"
+							variant="standard"
+						/>
+						<div>{this.state.error.Salon_owner_cnic}</div>
+						<TextField
+							value={this.state.Salon.Salon_owner_phoneNumber}
+							onChange={this.handleChange}
+							name="Salon_owner_phoneNumber"
+							placeholder="Please enter your phone number"
+							variant="standard"
+							fullWidth
+							label="phone number"
+						/>
+						<div>{this.state.error.Salon_owner_phoneNumber}</div>
+						<TextField
+							value={this.state.Salon.Salon_Name}
+							placeholder="Please enter your salon name"
+							onChange={this.handleChange}
+							name="Salon_Name"
+							fullWidth
+							variant="standard"
+							label="salon name"
+						/>
+						<div>{this.state.error.Salon_Name}</div>
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							className="p-button-raised p-button-rounded"
+							disabled={this.validate()}
+							onClick={this.handleSubmit}
+						>
+							Signup
+						</Button>
+					</Paper>
+					<Grid
+						item
+						xs={2}
+						style={{
+							padding: "2px",
+							alighItem: "center",
+							color: "black"
+						}}
+					></Grid>
+				</Grid>
+			</Grid>
 		);
 	}
 }
