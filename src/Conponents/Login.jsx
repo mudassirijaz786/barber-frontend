@@ -53,7 +53,7 @@ export default class Login extends Component {
     //const port=5000
     axios
       .post(
-        "http://localhost:5000//Digital_Saloon.com/api/login/salonOwner",
+        "http://localhost:5000/Digital_Saloon.com/api/login/salonOwner",
         { crossdomain: true },
         {
           email: this.state.account.email,

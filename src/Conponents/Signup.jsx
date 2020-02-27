@@ -104,7 +104,7 @@ class Sign_Up extends Component {
     //const port=5000
     axios
       .post(
-        "http://localhost:5000/Digital_Saloon.com/api/SalonSignUp",
+        "https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
         { crossdomain: true },
         {
           Salon_owner_firstNameme: this.state.Salon.Salon_owner_firstName,

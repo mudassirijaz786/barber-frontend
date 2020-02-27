@@ -13,6 +13,7 @@
 		"classnames": "^2.2.6",
 		"formik": "^2.1.4",
 		"joi-browser": "^13.4.0",
+		"material-ui-dropzone": "^2.4.8",
 		"primeicons": "^2.0.0",
 		"primereact": "^3.4.0",
 		"react": "^16.12.0",
