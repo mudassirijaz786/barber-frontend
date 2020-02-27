@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { InputText } from "primereact/inputtext";
 import Joi from "joi-browser";
 import axios from "axios";
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import { FileUpload } from "primereact/fileupload";
-
+import TextField from "@material-ui/core/TextField";
 class Add_Service extends Component {
   state = {
     Service: {
@@ -17,7 +14,7 @@ class Add_Service extends Component {
       service_name: "half cut",
       category_name: "",
       Salon_id: "",
-      price: "20",
+      price: 20,
       img_url: "",
       service_description:
         "this is the haircut performed by xyz jkkjjkfd knf dfkkdf kdkd"
@@ -48,6 +45,7 @@ class Add_Service extends Component {
       .required()
       .min(1)
       .label("confirm_NewPassword"),
+
     img_url: Joi.required()
   };
 
@@ -73,19 +71,21 @@ class Add_Service extends Component {
     return error;
   }
   async handleSubmit(e) {
-    console.log("state is ", this.state.Service);
+    //	console.log("state is ", this.state.Service);
+
+    let form_data = new FormData();
+    form_data.append("image", this.state.Service.img_url);
+    form_data.append("servicename", this.state.Service.service_name);
+    form_data.append("price", this.state.Service.price);
+    form_data.append("description", this.state.Service.service_description);
     const error = this.validate();
     this.setState({ error: error || {} });
-    axios
-      .put(
-        "http://localhost:5000//Digital_Saloon.com/api/login/salonOwner",
-        { crossdomain: true },
-        {
-          servicename: this.state.Service.service_name,
-          servicePrice: this.state.Service.price,
-          serviceDescription: this.state.Service.service_description
-        }
-      )
+    console.log("form data is ", form_data);
+    axios({
+      url: "http://localhost:5000/Digital_Saloon.com/api/salonservices",
+      method: "POST",
+      data: form_data
+    })
       .then(function(response) {
         console.log(response);
       })
@@ -109,106 +109,87 @@ class Add_Service extends Component {
   };
 
   handlefilechange = e => {
-    //console.log("h", e.target.files[0].name);
+    //console.log("h", e.target.files[0].name);s
     //if (e) {
     //	console.log("name", e.target.name);
     //console.log("h", e.target.files[0]);
     //console.log("event", e.target.files[0]);
-    const size = e.target.files[0].size / 1024;
-    if (size < 10240) {
-      console.log("img", e.target.files[0]);
-      //	this.state.Service.service_name = "ju";
-      //	sconsole.log("sates", this.state.Service);
-      //this.setState({ Service });
-      const Service = { ...this.state.Service };
-      console.log(Service);
-      Service["img_url"] = e.target.files[0];
-      //	console.log();
-      console.log("service is", Service);
-      //this.setState({ Service });
-      //clone = e.target.files[0];
-      //	console.log("clone is ", clone);
-      this.setState({ Service });
-      //console.log("after updating statees", this.state.Service);
+    if (e.target.files[0]) {
+      const size = e.target.files[0].size / 1024;
+
+      if (size < 10240) {
+        //console.log("img", e.target.files[0]);
+        //	this.state.Service.service_name = "ju";
+        //	sconsole.log("sates", this.state.Service);
+        //this.setState({ Service });
+        const Service = { ...this.state.Service };
+        //	console.log(Service);
+        Service["img_url"] = e.target.files[0];
+        //	console.log();
+        //console.log("service is", Service);
+        //this.setState({ Service });
+        //clone = e.target.files[0];
+        //	console.log("clone is ", clone);
+        this.setState({ Service });
+        //console.log("after updating statees", this.state.Service);
+      }
     }
   };
   render() {
     return (
-      <Grid container spacing={3}>
-        <Grid item center xs={4} spacing={10}>
-          <Typography component="div">
-            <Box
-              fontSize={16}
-              fontWeight="fontWeightBold"
-              textAlign="center"
-              m={1}
-              color="indigo"
-            >
-              Add service
-            </Box>
-          </Typography>{" "}
-          <Paper
-            style={{
-              margin: "2px",
-              textAlign: "center",
-              color: "black",
-              marginTop: 30
-            }}
-          >
-            <FileUpload
-              name="demo[]"
-              url="./upload.php"
-              onUpload={this.onUpload}
-              multiple={true}
-              accept="image/*"
-              maxFileSize={1000000}
-            />
-            <input
-              type="file"
-              onChange={this.handlefilechange}
-              fullWidth
-              //	value={this.state.Service.img_url}
-              //name="img_url"
-            ></input>
-            <TextField
-              fullWidth
-              placeholder="xyz@gmail.com"
-              value={this.state.Service.service_name}
-              onChange={this.handleChange}
-              name="service_name"
-            />
-            <div>{this.state.error.service_name}</div>
-            <TextField
-              fullWidth
-              placeholder="xyz@gmail.com"
-              value={this.state.Service.price}
-              onChange={this.handleChange}
-              name="price"
-            />
-            <div>{this.state.error.price}</div>
+      <div className="container">
+        <input
+          type="file"
+          onChange={this.handlefilechange}
+          //	value={this.state.Service.img_url}
+          //name="img_url"
+        ></input>
+        <br></br>
+        <span className="p-float-label">
+          {/* <label htmlFor="service_name">Service name</label> */}
+          <InputText
+            id="service_name"
+            placeholder="xyz@gmail.com"
+            value={this.state.Service.service_name}
+            onChange={this.handleChange}
+            name="service_name"
+          />
+          <br></br>
+          <div>{this.state.error.service_name}</div>
+        </span>
+        <span className="p-float-label">
+          {/* <label htmlFor="service_price">Service Price</label> */}
+          <InputText
+            id="service_price"
+            // placeholder="xyz@gmail.com"
+            value={this.state.Service.price}
+            onChange={this.handleChange}
+            name="price"
+          />
+          <br></br>
+          <div>{this.state.error.price}</div>
+        </span>
 
-            <TextField
-              fullWidth
-              placeholder="xyz@gmail.com"
-              value={this.state.Service.service_description}
-              onChange={this.handleChange}
-              name="price"
-            />
-            <div>{this.state.error.price}</div>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={this.validate()}
-              onClick={this.handleSubmit}
-              label="Primary"
-              className="p-button-raised p-button-rounded"
-            >
-              Add service
-            </Button>
-          </Paper>
-        </Grid>
-      </Grid>
+        <InputText
+          fullWidth
+          // placeholder="xyz@gmail.com"
+          value={this.state.Service.service_description}
+          onChange={this.handleChange}
+          name="price"
+        />
+        <div>{this.state.error.price}</div>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          // disabled={this.validate()}
+          onClick={this.handleSubmit}
+          label="Primary"
+          className="p-button-raised p-button-rounded"
+        >
+          Add service
+        </Button>
+      </div>
     );
   }
 }
