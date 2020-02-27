@@ -134,8 +134,8 @@ class Add_Service extends Component {
   };
   render() {
     return (
-      <Grid center container spacing={3}>
-        <Grid item center xs={4} spacing={10} style={{ marginLeft: 450 }}>
+      <Grid container spacing={3}>
+        <Grid item center xs={4} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}
@@ -157,7 +157,6 @@ class Add_Service extends Component {
           >
             <FileUpload
               name="demo[]"
-              //server sy jb complete ki request ay ge to kia print krwana ha wo idr ay ag
               url="./upload.php"
               onUpload={this.onUpload}
               multiple={true}
