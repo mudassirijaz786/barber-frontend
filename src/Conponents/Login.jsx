@@ -103,8 +103,8 @@ export default class Login extends Component {
   };
   render() {
     return (
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid center container spacing={3}>
+        <Grid item center xs={4} spacing={10} style={{ marginLeft: 450 }}>
           <Typography component="div">
             <Box
               fontSize={16}
@@ -118,9 +118,10 @@ export default class Login extends Component {
           </Typography>{" "}
           <Paper
             style={{
-              padding: "2px",
+              margin: "2px",
               textAlign: "center",
-              color: "black"
+              color: "black",
+              marginTop: 30
             }}
           >
             <TextField
@@ -129,13 +130,17 @@ export default class Login extends Component {
               placeholder="Please enter your email"
               value={this.state.account.email}
               onChange={this.handleChange}
+              style={{ marginBottom: 6 }}
+              fullWidth
               name="email"
             />
             <div>{this.state.error.email}</div>
 
             <TextField
+              fullWidth
               value={this.state.account.password}
               onChange={this.handleChange}
+              style={{ marginBottom: 6 }}
               name="password"
               label="password"
               variant="standard"
@@ -144,6 +149,8 @@ export default class Login extends Component {
 
             <div>{this.state.error.password}</div>
             <Button
+              fullWidth
+              style={{ marginBottom: 6 }}
               variant="contained"
               color="primary"
               className="p-button-raised p-button-rounded"

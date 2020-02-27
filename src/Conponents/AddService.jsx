@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { InputText } from "primereact/inputtext";
 import Joi from "joi-browser";
-import { Button } from "primereact/button";
 import axios from "axios";
-
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 class Add_Service extends Component {
 	state = {
 		Service: {
@@ -167,27 +170,25 @@ class Add_Service extends Component {
 					<div>{this.state.error.price}</div>
 				</span>
 
-				<span className="p-float-label">
-					<label htmlFor="service_price">Description</label>
-					<InputText
-						id="service_price"
-						placeholder="xyz@gmail.com"
-						value={this.state.Service.service_description}
-						onChange={this.handleChange}
-						name="price"
-					/>
-					<br></br>
-					<div>{this.state.error.price}</div>
-				</span>
-
-				<div className="content-section implementation button-demo">
-					<Button
-						label="Primary"
-						className="p-button-raised p-button-rounded"
-						//disabled={this.validate()}
-						onClick={this.handleSubmit}
-					/>
-				</div>
+				<TextField
+					fullWidth
+					placeholder="xyz@gmail.com"
+					value={this.state.Service.service_description}
+					onChange={this.handleChange}
+					name="price"
+				/>
+				<div>{this.state.error.price}</div>
+				<Button
+					variant="contained"
+					color="primary"
+					fullWidth
+					disabled={this.validate()}
+					onClick={this.handleSubmit}
+					label="Primary"
+					className="p-button-raised p-button-rounded"
+				>
+					Add service
+				</Button>
 			</div>
 		);
 	}

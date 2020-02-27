@@ -44,6 +44,7 @@ export default function Header() {
 					>
 						Salon App
 					</Typography>
+
 					<Button color="inherit" component={Link} to="/signup">
 						Signup
 					</Button>
