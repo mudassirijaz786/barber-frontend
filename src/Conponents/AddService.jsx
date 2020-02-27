@@ -11,7 +11,7 @@ class Add_Service extends Component {
 			service_name: "half cut",
 			category_name: "",
 			Salon_id: "",
-			price: "20",
+			price: 20,
 			img_url: "",
 			service_description:
 				"this is the haircut performed by xyz jkkjjkfd knf dfkkdf kdkd"
@@ -42,6 +42,7 @@ class Add_Service extends Component {
 			.required()
 			.min(1)
 			.label("confirm_NewPassword"),
+
 		img_url: Joi.required()
 	};
 
@@ -67,19 +68,21 @@ class Add_Service extends Component {
 		return error;
 	}
 	async handleSubmit(e) {
-		console.log("state is ", this.state.Service);
+		//	console.log("state is ", this.state.Service);
+
+		let form_data = new FormData();
+		form_data.append("image", this.state.Service.img_url);
+		form_data.append("servicename", this.state.Service.service_name);
+		form_data.append("price", this.state.Service.price);
+		form_data.append("description", this.state.Service.service_description);
 		const error = this.validate();
 		this.setState({ error: error || {} });
-		axios
-			.put(
-				"http://localhost:5000//Digital_Saloon.com/api/login/salonOwner",
-				{ crossdomain: true },
-				{
-					servicename: this.state.Service.service_name,
-					servicePrice: this.state.Service.price,
-					serviceDescription: this.state.Service.service_description
-				}
-			)
+		console.log("form data is ", form_data);
+		axios({
+			url: "http://localhost:5000/Digital_Saloon.com/api/salonservices",
+			method: "POST",
+			data: form_data
+		})
 			.then(function(response) {
 				console.log(response);
 			})
@@ -103,27 +106,30 @@ class Add_Service extends Component {
 	};
 
 	handlefilechange = e => {
-		//console.log("h", e.target.files[0].name);
+		//console.log("h", e.target.files[0].name);s
 		//if (e) {
 		//	console.log("name", e.target.name);
 		//console.log("h", e.target.files[0]);
 		//console.log("event", e.target.files[0]);
-		const size = e.target.files[0].size / 1024;
-		if (size < 10240) {
-			console.log("img", e.target.files[0]);
-			//	this.state.Service.service_name = "ju";
-			//	sconsole.log("sates", this.state.Service);
-			//this.setState({ Service });
-			const Service = { ...this.state.Service };
-			console.log(Service);
-			Service["img_url"] = e.target.files[0];
-			//	console.log();
-			console.log("service is", Service);
-			//this.setState({ Service });
-			//clone = e.target.files[0];
-			//	console.log("clone is ", clone);
-			this.setState({ Service });
-			//console.log("after updating statees", this.state.Service);
+		if (e.target.files[0]) {
+			const size = e.target.files[0].size / 1024;
+
+			if (size < 10240) {
+				//console.log("img", e.target.files[0]);
+				//	this.state.Service.service_name = "ju";
+				//	sconsole.log("sates", this.state.Service);
+				//this.setState({ Service });
+				const Service = { ...this.state.Service };
+				//	console.log(Service);
+				Service["img_url"] = e.target.files[0];
+				//	console.log();
+				//console.log("service is", Service);
+				//this.setState({ Service });
+				//clone = e.target.files[0];
+				//	console.log("clone is ", clone);
+				this.setState({ Service });
+				//console.log("after updating statees", this.state.Service);
+			}
 		}
 	};
 	render() {
