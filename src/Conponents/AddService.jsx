@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { InputText, Button } from "primereact/inputtext";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 import Joi from "joi-browser";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ class Add_Service extends Component {
 			service_name: "half cut",
 			category_name: "",
 			Salon_id: "",
-			price: "20",
+			price: 20,
 			img_url: "",
 			service_description:
 				"this is the haircut performed by xyz jkkjjkfd knf dfkkdf kdkd"
@@ -41,6 +42,7 @@ class Add_Service extends Component {
 			.required()
 			.min(1)
 			.label("confirm_NewPassword"),
+
 		img_url: Joi.required()
 	};
 
@@ -66,19 +68,21 @@ class Add_Service extends Component {
 		return error;
 	}
 	async handleSubmit(e) {
-		console.log("state is ", this.state.Service);
+		//	console.log("state is ", this.state.Service);
+
+		let form_data = new FormData();
+		form_data.append("image", this.state.Service.img_url);
+		form_data.append("servicename", this.state.Service.service_name);
+		form_data.append("price", this.state.Service.price);
+		form_data.append("description", this.state.Service.service_description);
 		const error = this.validate();
 		this.setState({ error: error || {} });
-		axios
-			.put(
-				"http://localhost:5000//Digital_Saloon.com/api/login/salonOwner",
-				{ crossdomain: true },
-				{
-					servicename: this.state.Service.service_name,
-					servicePrice: this.state.Service.price,
-					serviceDescription: this.state.Service.service_description
-				}
-			)
+		console.log("form data is ", form_data);
+		axios({
+			url: "http://localhost:5000/Digital_Saloon.com/api/salonservices",
+			method: "POST",
+			data: form_data
+		})
 			.then(function(response) {
 				console.log(response);
 			})
@@ -102,27 +106,30 @@ class Add_Service extends Component {
 	};
 
 	handlefilechange = e => {
-		//console.log("h", e.target.files[0].name);
+		//console.log("h", e.target.files[0].name);s
 		//if (e) {
 		//	console.log("name", e.target.name);
 		//console.log("h", e.target.files[0]);
 		//console.log("event", e.target.files[0]);
-		const size = e.target.files[0].size / 1024;
-		if (size < 10240) {
-			console.log("img", e.target.files[0]);
-			//	this.state.Service.service_name = "ju";
-			//	sconsole.log("sates", this.state.Service);
-			//this.setState({ Service });
-			const Service = { ...this.state.Service };
-			console.log(Service);
-			Service["img_url"] = e.target.files[0];
-			//	console.log();
-			console.log("service is", Service);
-			//this.setState({ Service });
-			//clone = e.target.files[0];
-			//	console.log("clone is ", clone);
-			this.setState({ Service });
-			//console.log("after updating statees", this.state.Service);
+		if (e.target.files[0]) {
+			const size = e.target.files[0].size / 1024;
+
+			if (size < 10240) {
+				//console.log("img", e.target.files[0]);
+				//	this.state.Service.service_name = "ju";
+				//	sconsole.log("sates", this.state.Service);
+				//this.setState({ Service });
+				const Service = { ...this.state.Service };
+				//	console.log(Service);
+				Service["img_url"] = e.target.files[0];
+				//	console.log();
+				//console.log("service is", Service);
+				//this.setState({ Service });
+				//clone = e.target.files[0];
+				//	console.log("clone is ", clone);
+				this.setState({ Service });
+				//console.log("after updating statees", this.state.Service);
+			}
 		}
 	};
 	render() {
@@ -136,7 +143,7 @@ class Add_Service extends Component {
 				></input>
 				<br></br>
 				<span className="p-float-label">
-					<label htmlFor="service_name">Service name</label>
+					{/* <label htmlFor="service_name">Service name</label> */}
 					<InputText
 						id="service_name"
 						placeholder="xyz@gmail.com"
@@ -148,10 +155,10 @@ class Add_Service extends Component {
 					<div>{this.state.error.service_name}</div>
 				</span>
 				<span className="p-float-label">
-					<label htmlFor="service_price">Service Price</label>
+					{/* <label htmlFor="service_price">Service Price</label> */}
 					<InputText
 						id="service_price"
-						placeholder="xyz@gmail.com"
+						// placeholder="xyz@gmail.com"
 						value={this.state.Service.price}
 						onChange={this.handleChange}
 						name="price"
@@ -162,23 +169,21 @@ class Add_Service extends Component {
 
 				<InputText
 					fullWidth
-					placeholder="xyz@gmail.com"
+					// placeholder="xyz@gmail.com"
 					value={this.state.Service.service_description}
 					onChange={this.handleChange}
 					name="price"
 				/>
 				<div>{this.state.error.price}</div>
 				<Button
-					//	variant="contained"
-					color="primary"
-					//	fullWidth
-					disabled={this.validate()}
+					//variant="contained"
+					//color="primary"
+					fullWidth
+					// disabled={this.validate()}
 					onClick={this.handleSubmit}
-					label="Primary"
+					label="Add Service"
 					className="p-button-raised p-button-rounded"
-				>
-					Add service
-				</Button>
+				/>
 			</div>
 		);
 	}
