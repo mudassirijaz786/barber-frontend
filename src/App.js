@@ -8,6 +8,9 @@ import Signup from "./Conponents/Signup";
 import Login from "./Conponents/Login";
 import Home from "./Conponents/dashboard/Home";
 import Test from "./Conponents/layouts/Test";
+import AddServices from "./Conponents/AddService";
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
 function App() {
   return (
     <BrowserRouter>
@@ -17,7 +20,7 @@ function App() {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/dashboard" component={Home} />
-
+        <Route exact path="/services/add" component={AddServices} />
         {/* <Test /> */}
         <Footer />
       </Fragment>
