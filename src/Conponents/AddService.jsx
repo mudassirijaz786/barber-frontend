@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { InputText } from "primereact/inputtext";
+import { InputText, Button } from "primereact/inputtext";
 import Joi from "joi-browser";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+
 class Add_Service extends Component {
 	state = {
 		Service: {
@@ -170,7 +166,7 @@ class Add_Service extends Component {
 					<div>{this.state.error.price}</div>
 				</span>
 
-				<TextField
+				<InputText
 					fullWidth
 					placeholder="xyz@gmail.com"
 					value={this.state.Service.service_description}
@@ -179,9 +175,9 @@ class Add_Service extends Component {
 				/>
 				<div>{this.state.error.price}</div>
 				<Button
-					variant="contained"
+					//	variant="contained"
 					color="primary"
-					fullWidth
+					//	fullWidth
 					disabled={this.validate()}
 					onClick={this.handleSubmit}
 					label="Primary"
