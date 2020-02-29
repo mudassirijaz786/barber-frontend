@@ -9,53 +9,53 @@ import Home from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    flexGrow: 1
-  }
+	root: {
+		flexGrow: 1
+	},
+	menuButton: {
+		marginRight: theme.spacing(2)
+	},
+	title: {
+		flexGrow: 1
+	}
 }));
 
 export default function Header() {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="home"
-          >
-            <Home />
-          </IconButton>
-          <Typography
-            color="inherit"
-            component={Link}
-            to="/"
-            variant="h6"
-            className={classes.title}
-          >
-            Salon App
-          </Typography>
+	return (
+		<div className={classes.root}>
+			<AppBar position="static">
+				<Toolbar>
+					<IconButton
+						edge="start"
+						className={classes.menuButton}
+						color="inherit"
+						aria-label="home"
+					>
+						<Home />
+					</IconButton>
+					<Typography
+						color="inherit"
+						component={Link}
+						to="/"
+						variant="h6"
+						className={classes.title}
+					>
+						Salon App
+					</Typography>
 
-          <Button color="inherit" component={Link} to="/card">
-            Card
-          </Button>
-          <Button color="inherit" component={Link} to="/signup">
-            Signup
-          </Button>
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+					<Button color="inherit" component={Link} to="/card">
+						Card
+					</Button>
+					<Button color="inherit" component={Link} to="/signup">
+						Signup
+					</Button>
+					<Button color="inherit" component={Link} to="/login">
+						Login
+					</Button>
+				</Toolbar>
+			</AppBar>
+		</div>
+	);
 }
