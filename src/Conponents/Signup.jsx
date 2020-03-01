@@ -119,8 +119,9 @@ class Sign_Up extends Component {
 				console.log(response);
 			})
 			.catch(function(error) {
-				alert(error);
-				//console.log(error);
+				if (error.response) {
+					alert(error.response.data);
+				}
 			});
 		//	const result = await axios.post(url, this.state.Salon);
 		//	console.log(result);
