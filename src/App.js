@@ -13,6 +13,7 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import Upload from "./Conponents/dashboard/Upload.jsx";
 import CardMaterial from "./Conponents/dashboard/CardMaterial";
+import CardEdit from "./Conponents/dashboard/CardEdit";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
         <Route exact path="/dashboard" component={Home} />
         <Route exact path="/services/add" component={AddServices} />
         <Route exact path="/upload" component={Upload} />
-        <Route exact path="/card" component={CardMaterial} />
+        <Route exact path="/services" component={CardMaterial} />
+        <Route exact path="/services/edit" component={CardEdit} />
 
         {/* <Test /> */}
         <Footer />

@@ -45,14 +45,17 @@ export default function Header() {
             Salon App
           </Typography>
 
-          <Button color="inherit" component={Link} to="/card">
-            Card
+          <Button color="inherit" component={Link} to="/services">
+            Services
           </Button>
           <Button color="inherit" component={Link} to="/signup">
             Signup
           </Button>
           <Button color="inherit" component={Link} to="/login">
             Login
+          </Button>
+          <Button color="inherit" component={Link} to="/">
+            Logout
           </Button>
         </Toolbar>
       </AppBar>
