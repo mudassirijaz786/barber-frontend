@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ height: "100%" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -35,13 +35,13 @@ export default function Footer() {
           <Typography variant="h6" className={classes.title}>
             &copy; All right reserved
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             Address
           </Typography>
           <Typography variant="h6" className={classes.title}>
             Address
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
+          </Typography> */}
+          <Typography variant="h6" align="right" className={classes.title}>
             Address
           </Typography>
         </Toolbar>

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import { InputText } from "@material-ui/core";
-import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/styles";
+
+import axios from "axios";
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -33,10 +33,6 @@ const styles = theme => ({
   error: {
     color: "red"
   },
-  backendErrorStyle: {
-    color: "red",
-    textAlign: "center"
-  },
   paperStyle: {
     margin: "2px",
     textAlign: "center",
@@ -44,14 +40,14 @@ const styles = theme => ({
     marginTop: 30
   }
 });
-class Login extends Component {
+class changePassword extends Component {
   state = {
-    account: {
-      email: "alio@gmail.com",
-      password: "1ff4567"
+    Password: {
+      old_password: "",
+      new_password: "",
+      confirm_new_password: ""
     },
-    error: {},
-    backendError: ""
+    error: {}
   };
   constructor() {
     super();
@@ -61,7 +57,20 @@ class Login extends Component {
     this.validate = this.validate.bind(this);
     this.validate_single = this.validate_single.bind(this);
   }
-
+  schema = {
+    old_password: Joi.string()
+      .required()
+      .min(5)
+      .label("oldPassword"),
+    new_password: Joi.string()
+      .required()
+      .min(5)
+      .label("newPassword"),
+    confirm_new_password: Joi.string()
+      .required()
+      .min(5)
+      .label("confirm_NewPassword")
+  };
   validate() {
     const { error } = Joi.validate(this.state.account, this.schema, {
       abortEarly: false
@@ -75,9 +84,9 @@ class Login extends Component {
     return errors;
   }
   validate_single(field_name) {
-    //	console.log(this.state.Salon[field_name]);
+    console.log(this.state.Password[field_name]);
     const { error } = Joi.validate(
-      this.state.account[field_name],
+      this.state.Password[field_name],
       this.schema[field_name]
     );
     if (!error) return null;
@@ -86,71 +95,43 @@ class Login extends Component {
   async handleSubmit(e) {
     const error = this.validate();
     this.setState({ error: error || {} });
-    //const port=5000
-    await axios
-      .post(
+    axios
+      .patch(
         "https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
         {
-          email: this.state.account.email,
-          password: this.state.account.password
+          oldpassword: this.state.Password.old_password,
+          newpassword: this.state.Password.new_password,
+          confirm_newpassword: this.state.Password.confirm_new_password
         }
       )
       .then(function(response) {
-        const token = response.headers["x-auth-token"];
-        localStorage.setItem("x-auth-token", token);
-        console.log("RESPONSE", response);
+        console.log(response);
       })
-      .catch(error => {
-        //	alert(error.data);
-        if (error.response) {
-          this.setState({
-            backendError: error.response.data
-          });
-          //   alert(error.response.data);
-          //		console.log(error.response.status);
-          //		console.log(error.response.headers);
-        }
+      .catch(function(error) {
+        alert(error);
       });
-    //	const result = await axios.post(url, this.state.Salon);
-    //	console.log(result);
   }
   handleChange = e => {
     const { name, value } = e.target;
-    //console.log(e.type);
-    //console.log(e.currentTarget.name);
-    const account = { ...this.state.account };
-    //console.log(Salon);
-    account[name] = value;
-    this.setState({ account });
+
+    const Salon = { ...this.state.Salon };
+    Salon[name] = value;
+    this.setState({ Salon });
     const error = this.validate_single(name);
-    //console.log(error);
     const state_error = { ...this.state.error };
     if (error) state_error[name] = error.message;
     else delete state_error[name];
     this.setState({ error: state_error });
 
-    //	this.setState({ error, [e.currentTarget.name]: error.message });
-    //console.log(error.Salon_owner_email);
-    //	this.setState({ onj: oj });
     if (error) return;
   };
 
-  schema = {
-    email: Joi.string()
-      .email()
-      .required()
-      .label("Email"),
-    password: Joi.string()
-      .required()
-      .min(5)
-      .label("Password")
-  };
   render() {
     const { classes } = this.props;
 
     return (
       <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+        <Grid item center xs={4} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}
@@ -159,36 +140,46 @@ class Login extends Component {
               m={1}
               color="indigo"
             >
-              Already our customer? Login now
+              Forget your password? Reset now
             </Box>
           </Typography>{" "}
-          <Typography className={classes.backendErrorStyle} variant="h5">
-            {this.state.backendError}
-          </Typography>
           <TextField
-            label="email"
-            variant="standard"
-            placeholder="Please enter your email"
-            value={this.state.account.email}
-            className={classes.fields}
+            placeholder="Please enter your old password"
+            value={this.state.Password.old_password}
             onChange={this.handleChange}
+            // name="old_password"
+            // variant="contained"
+            // color="primary"
             fullWidth
-            name="email"
+            className={classes.fields}
+            label="Old password"
           />
-          <div className={classes.error}>{this.state.error.email}</div>
           <TextField
+            value={this.state.Password.new_password}
+            placeholder="Please enter your new password"
+            label="New password"
             fullWidth
-            value={this.state.account.password}
             onChange={this.handleChange}
-            style={{ marginBottom: 20 }}
             className={classes.fields}
-            name="password"
-            label="password"
-            type="password"
-            variant="standard"
-            placeholder="Please enter your password"
+
+            // name="new_password"
+            // variant="contained"
+            // color="primary"
           />
-          <div className={classes.error}>{this.state.error.password}</div>
+          <div>{this.state.error.new_password}</div>
+          <TextField
+            placeholder="Please confirm your password"
+            label="Confirm password"
+            fullWidth
+            value={this.state.Password.confirm_new_password}
+            onChange={this.handleChange}
+            // name="confirm_new_password"
+            className={classes.fields}
+            style={{ marginBottom: 6 }}
+            // variant="contained"
+            // color="primary"
+          />
+          <div>{this.state.error.confirm_new_password}</div>
           <Button
             fullWidth
             className={(classes.fields, classes.button)}
@@ -198,7 +189,7 @@ class Login extends Component {
             disabled={this.validate()}
             onClick={this.handleSubmit}
           >
-            Login
+            Reset it now
           </Button>
         </Grid>
       </Grid>
@@ -206,8 +197,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+changePassword.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(changePassword);

@@ -16,8 +16,13 @@ export default class Home extends Component {
         >
           Add services
         </Typography>
-        <Typography color="inherit" component={Link} to="/upload" variant="h6">
-          Upload
+        <Typography
+          color="inherit"
+          component={Link}
+          to="/password/change"
+          variant="h6"
+        >
+          change password
         </Typography>
       </div>
     );

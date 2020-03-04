@@ -48,6 +48,9 @@ export default function Header() {
           <Button color="inherit" component={Link} to="/services">
             Services
           </Button>
+          <Button color="inherit" component={Link} to="/dashboard">
+            Dashboard
+          </Button>
           <Button color="inherit" component={Link} to="/signup">
             Signup
           </Button>
