@@ -9,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
+import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 const styles = theme => ({
   root: {
@@ -47,8 +48,8 @@ const styles = theme => ({
 class Login extends Component {
   state = {
     account: {
-      email: "alio@gmail.com",
-      password: "1ff4567"
+      email: "owner@gmail.com",
+      password: "123123"
     },
     error: {},
     backendError: ""
@@ -98,6 +99,8 @@ class Login extends Component {
       .then(function(response) {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
+        console.log("TOKEN", token);
+        // this.props.history.push("/dashboard");
         console.log("RESPONSE", response);
       })
       .catch(error => {

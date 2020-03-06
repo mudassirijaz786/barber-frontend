@@ -131,7 +131,7 @@ class changePassword extends Component {
 
     return (
       <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={4} spacing={10}>
+        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}

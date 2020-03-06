@@ -69,6 +69,9 @@ class Add_Service extends Component {
     this.handlefilechange = this.handlefilechange.bind(this);
   }
 
+  componentDidMount() {
+    console.log("GET TOKEN", localStorage.getItem("x-auth-token"));
+  }
   schema = {
     service_name: Joi.string()
       .required()
@@ -155,7 +158,12 @@ class Add_Service extends Component {
       url:
         "https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
       method: "POST",
-      data: form_data
+      data: form_data,
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("x-auth-token")
+      }
     })
       .then(function(response) {
         console.log(response);
@@ -216,7 +224,7 @@ class Add_Service extends Component {
 
     return (
       <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={4} spacing={10}>
+        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}

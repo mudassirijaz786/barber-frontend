@@ -65,7 +65,7 @@ class CardMaterial extends React.Component {
     return this.state.List_of_services.map(items => {
       return (
         <Grid center container spacing={3} className={classes.root}>
-          <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+          <Grid item center xs={10} sm={4} lg={4} md={4} spacing={10}>
             {" "}
             <Card key={items._id} item lg={6} xs={6} className={classes.card}>
               <CardHeader
