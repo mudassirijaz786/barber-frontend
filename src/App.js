@@ -13,25 +13,26 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import Upload from "./Conponents/dashboard/Upload.jsx";
 import CardMaterial from "./Conponents/dashboard/CardMaterial";
-
+import Schedule from "./Conponents/calander";
 function App() {
-  return (
-    <BrowserRouter>
-      <Fragment>
-        <Header />
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/dashboard" component={Home} />
-        <Route exact path="/services/add" component={AddServices} />
-        <Route exact path="/upload" component={Upload} />
-        <Route exact path="/card" component={CardMaterial} />
+	return (
+		<BrowserRouter>
+			<Fragment>
+				<Header />
+				<Route exact path="/" component={Landing} />
+				<Route exact path="/signup" component={Signup} />
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/dashboard" component={Home} />
+				<Route exact path="/services/add" component={AddServices} />
+				<Route exact path="/upload" component={Upload} />
+				<Route exact path="/card" component={CardMaterial} />
+				<Route exact path="/schedule/:date" component={Schedule} />
 
-        {/* <Test /> */}
-        <Footer />
-      </Fragment>
-    </BrowserRouter>
-  );
+				{/* <Test /> */}
+				<Footer />
+			</Fragment>
+		</BrowserRouter>
+	);
 }
 
 export default App;

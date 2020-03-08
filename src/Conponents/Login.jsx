@@ -52,10 +52,13 @@ export default class Login extends Component {
 		this.setState({ error: error || {} });
 		//const port=5000
 		await axios
-			.post("http://localhost:5000/Digital_Saloon.com/api/login/salonOwner", {
-				email: this.state.account.email,
-				password: this.state.account.password
-			})
+			.post(
+				"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
+				{
+					email: this.state.account.email,
+					password: this.state.account.password
+				}
+			)
 			.then(function(response) {
 				const token = response.headers["x-auth-token"];
 				localStorage.setItem("x-auth-token", token);

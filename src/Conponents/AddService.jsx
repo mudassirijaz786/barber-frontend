@@ -70,7 +70,7 @@ class Add_Service extends Component {
 		return error;
 	}
 	async handleSubmit(e) {
-		console.log("state is ", this.state.Service);
+		//	console.log("state is ", this.state.Service);
 
 		let form_data = new FormData();
 		form_data.append("image", this.state.Service.img_url);
@@ -83,12 +83,14 @@ class Add_Service extends Component {
 		console.log("form data is ", form_data);
 		axios({
 			url:
-				//"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
-				"http://localhost:5000/Digital_Saloon.com/api/salonservices",
+				"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
+			//"http://localhost:5000/Digital_Saloon.com/api/salonservices",
 			method: "POST",
+			headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
 			data: form_data
 		})
 			.then(function(response) {
+				//	console.log(req.headers);
 				console.log(response);
 			})
 			.catch(function(error) {

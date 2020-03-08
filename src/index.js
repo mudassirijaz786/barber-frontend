@@ -4,7 +4,10 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import Add_Service from "./Conponents/AddService";
+import Schedule from "./Conponents/calander";
 import CardMaterial from "./Conponents/dashboard/CardMaterial";
+import Time from "./Conponents/time";
+import Sidebar from "./Conponents/layouts/sidemenu";
 //import Add_Service from "./Conponents/AddService";
 ReactDOM.render(<App />, document.getElementById("root"));
 

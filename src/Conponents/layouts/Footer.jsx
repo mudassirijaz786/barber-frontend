@@ -8,44 +8,44 @@ import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    flexGrow: 1
-  }
+	root: {
+		flexGrow: 1
+	},
+	menuButton: {
+		marginRight: theme.spacing(2)
+	},
+	title: {
+		flexGrow: 1
+	}
 }));
 
 export default function Footer() {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          ></IconButton>
-          <Typography variant="h6" className={classes.title}>
-            &copy; All right reserved
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            Address
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            Address
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            Address
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+	return (
+		<div className={classes.root}>
+			<AppBar position="static">
+				<Toolbar>
+					<IconButton
+						edge="start"
+						className={classes.menuButton}
+						color="inherit"
+						aria-label="menu"
+					></IconButton>
+					<Typography variant="h6" className={classes.title}>
+						&copy; All right reserved
+					</Typography>
+					<Typography variant="h6" className={classes.title}>
+						Address
+					</Typography>
+					<Typography variant="h6" className={classes.title}>
+						Address
+					</Typography>
+					<Typography variant="h6" className={classes.title}>
+						Address
+					</Typography>
+				</Toolbar>
+			</AppBar>
+		</div>
+	);
 }
