@@ -10,6 +10,7 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import TimePicker from "react-time-picker";
 
 class Sign_Up extends Component {
 	state = {
@@ -21,7 +22,9 @@ class Sign_Up extends Component {
 			Salon_owner_phoneNumber: "93949494949449",
 			Salon_owner_firstName: "alia",
 			Salon_owner_lastName: "rais",
-			Salon_Name: "tony and guy"
+			Salon_Name: "tony and guy",
+			Salon_opening_hours: "10:00",
+			Salon_closing_hours: "23:00"
 		},
 		error: {}
 	};
@@ -112,7 +115,9 @@ class Sign_Up extends Component {
 					password: this.state.Salon.Salon_owner_password,
 					phoneNumber: this.state.Salon.Salon_owner_phoneNumber,
 					cnic: this.state.Salon.Salon_owner_cnic,
-					salonname: this.state.Salon.Salon_Name
+					salonname: this.state.Salon.Salon_Name,
+					Salon_opening_hours: this.state.Salon.Salon_opening_hours,
+					Salon_closing_hours: this.state.Salon.Salon_closing_hours
 				}
 			)
 			.then(function(response) {
@@ -126,6 +131,14 @@ class Sign_Up extends Component {
 		//	const result = await axios.post(url, this.state.Salon);
 		//	console.log(result);
 	}
+
+	handle_opening_time_change = time => {
+		this.setState({ Salon_opening_hours: time });
+	};
+
+	handle_closing_time_change = time => {
+		this.setState({ Salon_closing_hours: time });
+	};
 
 	handleChange = e => {
 		const { name, value } = e.target;
@@ -243,17 +256,37 @@ class Sign_Up extends Component {
 							variant="standard"
 							label="salon name"
 						/>
+
 						<div>{this.state.error.Salon_Name}</div>
 						<Button
 							variant="contained"
 							color="primary"
 							fullWidth
-							className="p-button-raised p-button-rounded"
+							//	className="p-button-raised p-button-rounded"
 							disabled={this.validate()}
 							onClick={this.handleSubmit}
 						>
 							Signup
 						</Button>
+						<TimePicker
+							onChange={this.handle_opening_time_change}
+							value={this.state.Salon.Salon_opening_hours}
+							isOpen={false}
+							clearIcon="Clear"
+							clockAriaLabel="Toggle clock"
+							clockIcon=""
+							required={true}
+						/>
+
+						<TimePicker
+							onChange={this.handle_closing_time_change}
+							value={this.state.Salon.Salon_closing_hours}
+							isOpen={false}
+							clearIcon="Clear"
+							clockAriaLabel="Toggle clock"
+							clockIcon=""
+							required={true}
+						/>
 					</Paper>
 					<Grid
 						item
