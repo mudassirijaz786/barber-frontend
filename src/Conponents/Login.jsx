@@ -7,15 +7,52 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
-
-export default class Login extends Component {
+import { Redirect } from "react-router-dom";
+import { withStyles } from "@material-ui/styles";
+const styles = theme => ({
+	root: {
+		flexGrow: 1,
+		justifyContent: "center"
+	},
+	control: {
+		padding: 10
+	},
+	button: {
+		background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+		border: 0,
+		borderRadius: 3,
+		boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+		color: "white",
+		height: 48,
+		padding: "0 30px"
+	},
+	fields: {
+		marginTop: 15
+	},
+	error: {
+		color: "red"
+	},
+	backendErrorStyle: {
+		color: "red",
+		textAlign: "center"
+	},
+	paperStyle: {
+		margin: "2px",
+		textAlign: "center",
+		color: "black",
+		marginTop: 30
+	}
+});
+class Login extends Component {
 	state = {
 		account: {
-			email: "alio@gmail.com",
-			password: "1ff4567"
+			email: "owner@gmail.com",
+			password: "123123"
 		},
-		error: {}
+		error: {},
+		backendError: ""
 	};
 	constructor() {
 		super();
@@ -62,11 +99,17 @@ export default class Login extends Component {
 			.then(function(response) {
 				const token = response.headers["x-auth-token"];
 				localStorage.setItem("x-auth-token", token);
+				console.log("TOKEN", token);
+				// this.props.history.push("/dashboard");
+				console.log("RESPONSE", response);
 			})
-			.catch(function(error) {
+			.catch(error => {
 				//	alert(error.data);
 				if (error.response) {
-					alert(error.response.data);
+					this.setState({
+						backendError: error.response.data
+					});
+					//   alert(error.response.data);
 					//		console.log(error.response.status);
 					//		console.log(error.response.headers);
 				}
@@ -106,9 +149,11 @@ export default class Login extends Component {
 			.label("Password")
 	};
 	render() {
+		const { classes } = this.props;
+
 		return (
-			<Grid center container spacing={3}>
-				<Grid item center xs={4} spacing={10} style={{ marginLeft: 450 }}>
+			<Grid center container spacing={3} className={classes.root}>
+				<Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
 					<Typography component="div">
 						<Box
 							fontSize={16}
@@ -120,60 +165,52 @@ export default class Login extends Component {
 							Already our customer? Login now
 						</Box>
 					</Typography>{" "}
-					<Paper
-						style={{
-							margin: "2px",
-							textAlign: "center",
-							color: "black",
-							marginTop: 30
-						}}
+					<Typography className={classes.backendErrorStyle} variant="h5">
+						{this.state.backendError}
+					</Typography>
+					<TextField
+						label="email"
+						variant="standard"
+						placeholder="Please enter your email"
+						value={this.state.account.email}
+						className={classes.fields}
+						onChange={this.handleChange}
+						fullWidth
+						name="email"
+					/>
+					<div className={classes.error}>{this.state.error.email}</div>
+					<TextField
+						fullWidth
+						value={this.state.account.password}
+						onChange={this.handleChange}
+						style={{ marginBottom: 20 }}
+						className={classes.fields}
+						name="password"
+						label="password"
+						type="password"
+						variant="standard"
+						placeholder="Please enter your password"
+					/>
+					<div className={classes.error}>{this.state.error.password}</div>
+					<Button
+						fullWidth
+						className={(classes.fields, classes.button)}
+						style={{ marginBottom: 6 }}
+						variant="contained"
+						color="primary"
+						disabled={this.validate()}
+						onClick={this.handleSubmit}
 					>
-						<TextField
-							label="email"
-							variant="standard"
-							placeholder="Please enter your email"
-							value={this.state.account.email}
-							onChange={this.handleChange}
-							style={{ marginBottom: 6 }}
-							fullWidth
-							name="email"
-						/>
-						<div>{this.state.error.email}</div>
-
-						<TextField
-							fullWidth
-							value={this.state.account.password}
-							onChange={this.handleChange}
-							style={{ marginBottom: 6 }}
-							name="password"
-							label="password"
-							variant="standard"
-							placeholder="Please enter your password"
-						/>
-						<div>{this.state.error.password}</div>
-						<Button
-							fullWidth
-							style={{ marginBottom: 6 }}
-							variant="contained"
-							color="primary"
-							className="p-button-raised p-button-rounded"
-							disabled={this.validate()}
-							onClick={this.handleSubmit}
-						>
-							Login
-						</Button>
-					</Paper>
-					<Grid
-						item
-						xs={2}
-						style={{
-							padding: "2px",
-							alighItem: "center",
-							color: "black"
-						}}
-					></Grid>
+						Login
+					</Button>
 				</Grid>
 			</Grid>
 		);
 	}
 }
+
+Login.propTypes = {
+	classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Login);

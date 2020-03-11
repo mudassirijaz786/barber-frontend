@@ -1,10 +1,47 @@
 import React, { Component } from "react";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
 import Joi from "joi-browser";
 import axios from "axios";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
+import PropTypes from "prop-types";
+
+import {
+	TextField,
+	MenuItem,
+	Button,
+	Grid,
+	Box,
+	Typography,
+	Paper
+} from "@material-ui/core";
+import { DropzoneDialog } from "material-ui-dropzone";
+import { withStyles } from "@material-ui/styles";
+const styles = theme => ({
+	root: {
+		flexGrow: 1,
+		justifyContent: "center"
+	},
+	control: {
+		padding: 10
+	},
+	button: {
+		background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+		border: 0,
+		borderRadius: 3,
+		boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+		color: "white",
+		height: 48,
+		padding: "0 30px"
+	},
+	fields: {
+		marginTop: 15
+	},
+	paper: {
+		display: "flex",
+		flexWrap: "wrap"
+	},
+	error: {
+		color: "red"
+	}
+});
 class Add_Service extends Component {
 	state = {
 		Service: {
@@ -14,11 +51,12 @@ class Add_Service extends Component {
 			Salon_id: "",
 			price: 20,
 			img_url: "",
-			service_description:
-				"this is the haircut performed by xyz jkkjjkfd knf dfkkdf kdkd"
+			service_description: "hair cut service provided by tony and guy"
 		},
 		category: ["Hair", "Facial", "Khat"],
 		value: "",
+		open: false,
+		files: [],
 		error: {}
 	};
 	constructor() {
@@ -31,6 +69,9 @@ class Add_Service extends Component {
 		this.handlefilechange = this.handlefilechange.bind(this);
 	}
 
+	componentDidMount() {
+		console.log("GET TOKEN", localStorage.getItem("x-auth-token"));
+	}
 	schema = {
 		service_name: Joi.string()
 			.required()
@@ -42,12 +83,44 @@ class Add_Service extends Component {
 		// 	.label("Category"),
 		price: Joi.number()
 			.required()
-			.min(1)
-			.label("confirm_NewPassword"),
+			.min(2)
+			.label("Service Price"),
+		description: Joi.string()
+			.required()
+			.min(2)
+			.label("Service Description"),
 
 		img_url: Joi.required()
 	};
+	handleClose() {
+		this.setState({
+			open: false
+		});
+	}
 
+	handleSave(files) {
+		//Saving files to state for further use and closing Modal.
+		const Service = { ...this.state.Service };
+		//	console.log(Service);
+		Service["img_url"] = files[0];
+		//	console.log();
+		//console.log("service is", Service);
+		//this.setState({ Service });
+		//clone = e.target.files[0];
+		//	console.log("clone is ", clone);
+		this.setState({ Service, files: files, open: false });
+		// this.setState({
+		//   files: files,
+		//   open: false
+		// });
+		console.log(files[0].name);
+	}
+
+	handleOpen() {
+		this.setState({
+			open: true
+		});
+	}
 	validate() {
 		const { error } = Joi.validate(this.state.Service, this.schema, {
 			abortEarly: false
@@ -70,7 +143,7 @@ class Add_Service extends Component {
 		return error;
 	}
 	async handleSubmit(e) {
-		//	console.log("state is ", this.state.Service);
+		console.log("state is ", this.state.Service);
 
 		let form_data = new FormData();
 		form_data.append("image", this.state.Service.img_url);
@@ -84,13 +157,15 @@ class Add_Service extends Component {
 		axios({
 			url:
 				"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
-			//"http://localhost:5000/Digital_Saloon.com/api/salonservices",
 			method: "POST",
-			headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
-			data: form_data
+			data: form_data,
+			headers: {
+				Accept: "application/json, text/plain, */*",
+				"Content-Type": "application/json",
+				"x-auth-token": localStorage.getItem("x-auth-token")
+			}
 		})
 			.then(function(response) {
-				//	console.log(req.headers);
 				console.log(response);
 			})
 			.catch(function(error) {
@@ -145,75 +220,124 @@ class Add_Service extends Component {
 		}
 	};
 	render() {
+		const { classes } = this.props;
+
 		return (
-			<div className="container">
-				<input
-					type="file"
-					onChange={this.handlefilechange}
-					//	value={this.state.Service.img_url}
-					//name="img_url"
-				></input>
-				<br></br>
-				<span className="p-float-label">
-					{/* <label htmlFor="service_name">Service name</label> */}
-					<InputText
-						id="service_name"
-						placeholder="xyz@gmail.com"
+			<Grid center container spacing={3} className={classes.root}>
+				<Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+					<Typography component="div">
+						<Box
+							fontSize={16}
+							fontWeight="fontWeightBold"
+							textAlign="center"
+							m={1}
+							color="indigo"
+						>
+							Create service
+						</Box>
+					</Typography>{" "}
+					{/* <input
+            fullWidth
+            type="file"
+            onChange={this.handlefilechange}
+            //	value={this.state.Service.img_url}
+            //name="img_url"
+          ></input> */}
+					<TextField
+						fullWidth
+						className={classes.fields}
 						value={this.state.Service.service_name}
 						onChange={this.handleChange}
 						name="service_name"
+						label="Service name"
+						variant="standard"
+						placeholder="Please enter service name"
 					/>
-					<br></br>
-					<div>{this.state.error.service_name}</div>
-				</span>
-				<span className="p-float-label">
-					{/* <label htmlFor="service_price">Service Price</label> */}
-					<InputText
-						id="service_price"
-						// placeholder="xyz@gmail.com"
+					<div className={classes.error}>{this.state.error.service_name}</div>
+					<TextField
+						className={classes.fields}
+						fullWidth
 						value={this.state.Service.price}
 						onChange={this.handleChange}
 						name="price"
+						label="Price"
+						variant="standard"
+						placeholder="Please enter price"
 					/>
-					<br></br>
-					<div>{this.state.error.price}</div>
-				</span>
-
-				<InputText
-					fullWidth
-					// placeholder="xyz@gmail.com"
-					value={this.state.Service.service_description}
-					onChange={this.handleChange}
-					name="price"
-				/>
-				<div>{this.state.error.price}</div>
-				<TextField
-					id="filled-select-currency"
-					select
-					label="Select"
-					value={this.state.Service.category_name}
-					onChange={this.click}
-					helperText="Please select your currency"
-					variant="filled"
-				>
-					{this.state.category.map(option => (
-						<MenuItem key={option} value={option}>
-							{option}
-						</MenuItem>
-					))}
-				</TextField>
-				<Button
-					//variant="contained"
-					//color="primary"
-					fullWidth
-					// disabled={this.validate()}
-					onClick={this.handleSubmit}
-					label="Add Service"
-					className="p-button-raised p-button-rounded"
-				/>
-			</div>
+					<div className={classes.error}>{this.state.error.price}</div>
+					<TextField
+						className={classes.fields}
+						fullWidth
+						value={this.state.Service.service_description}
+						onChange={this.handleChange}
+						name="description"
+						label="Description"
+						variant="standard"
+						placeholder="Please enter service description"
+					/>
+					<div className={classes.error}>{this.state.error.description}</div>
+					<TextField
+						id="filled-select-currency"
+						select
+						className={classes.fields}
+						label="Please select service category"
+						value={this.state.Service.category_name}
+						onChange={this.click}
+						//   helperText="Please select service category"
+						// variant="filled"
+						fullWidth
+					>
+						{this.state.category.map(option => (
+							<MenuItem key={option} value={option}>
+								{option}
+							</MenuItem>
+						))}
+					</TextField>
+					<Paper className={classes.paper}>
+						<Typography component="div">
+							<Box
+								fontSize={16}
+								fontWeight="fontWeightBold"
+								textAlign="center"
+								m={1}
+								color="indigo"
+							>
+								Select image
+							</Box>
+						</Typography>{" "}
+						<Button
+							onClick={this.handleOpen.bind(this)}
+							className={classes.fields}
+						>
+							Upload
+						</Button>
+						<DropzoneDialog
+							open={this.state.open}
+							onSave={this.handleSave.bind(this)}
+							acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+							showPreviews={true}
+							maxFileSize={5000000}
+							onClose={this.handleClose.bind(this)}
+						/>
+					</Paper>
+					<Button
+						variant="contained"
+						className={(classes.fields, classes.button)}
+						color="primary"
+						fullWidth
+						//   disabled={this.validate()}
+						onClick={this.handleSubmit}
+					>
+						Add service
+					</Button>
+				</Grid>
+			</Grid>
 		);
 	}
 }
 
-export default Add_Service;
+Add_Service.propTypes = {
+	classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Add_Service);

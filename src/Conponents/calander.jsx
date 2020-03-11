@@ -1,13 +1,31 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar";
 import axios from "axios";
-
+import { FullCalendar } from "primereact/fullcalendar";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import "primereact/resources/primereact.min.css";
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
 class Schedule extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			date: new Date(),
-			sechedule: []
+			sechedule: [],
+			options: {
+				plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+				defaultView: "timeGridDay",
+				defaultDate: "2020-03-09",
+				header: {
+					left: "prev,next",
+					center: "title",
+					right: "timeGridDay"
+				},
+				editable: false
+			}
 		};
 	}
 
@@ -32,30 +50,31 @@ class Schedule extends Component {
 		})
 			.then(response => {
 				console.log("the state is", this.state.sechedule);
-				if (typeof response.data === "string") {
-					console.log("response is ", response.data);
-					//	this.setState({ sechedule: response.data });
-				} else {
-					this.setState({ sechedule: response.data });
+				this.setState({ sechedule: response.data });
+				// if (typeof response.data === "string") {
+				// 	//	console.log("response is ", response.data);
+				// 	this.setState({ sechedule: response.data });
+				// } else {
+				// 	this.setState({ sechedule: response.data });
+				// }
+				// if (this.state.sechedule.length == 0) {
+				// 	this.setState({ sechedule: response.data });
+				// } else {
+				// 	console.log("schedule is ", this.state.sechedule);
+				// 	console.log("response is ", response.data);
 
-					// if (this.state.sechedule.length == 0) {
-					// 	this.setState({ sechedule: response.data });
-					// } else {
-					// 	console.log("schedule is ", this.state.sechedule);
-					// 	console.log("response is ", response.data);
+				// 	console.log(this.objectsEqual(this.state.sechedule, response.data));
+				// }
+				//console.log(this.state.sechedule);
+				// } else if (this.state.sechedule != response.data) {
+				// 	console.log("schedule is ", this.state.sechedule);
+				// 	console.log("response is ", response.data);
 
-					// 	console.log(this.objectsEqual(this.state.sechedule, response.data));
-					// }
-					//console.log(this.state.sechedule);
-					// } else if (this.state.sechedule != response.data) {
-					// 	console.log("schedule is ", this.state.sechedule);
-					// 	console.log("response is ", response.data);
+				// 	console.log("both are not equal");
+				// } else {
+				// 	console.log("NO changw");
+				// }
 
-					// 	console.log("both are not equal");
-					// } else {
-					// 	console.log("NO changw");
-					// }
-				}
 				// 	if (this.state.sechedule !== response.data)
 				// 		this.setState({ sechedule: response.data });
 				// }
@@ -82,7 +101,6 @@ class Schedule extends Component {
 		//	console.log(this.state.date);
 
 		const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
-
 		axios({
 			url: url,
 			//   "https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
@@ -90,8 +108,11 @@ class Schedule extends Component {
 			headers: { "x-auth-token": localStorage.getItem("x-auth-token") }
 		})
 			.then(response => {
+				// if (response.data) {
+				// 	this.setState({ Schedule: response.data });
+				// }
 				if (typeof response.data === "string") {
-					console.log("response is", response.data);
+					//	console.log("response is", response.data);
 					//	this.setState({ sechedule: response.data });
 				} else {
 					this.setState({ sechedule: response.data });
@@ -106,17 +127,18 @@ class Schedule extends Component {
 	}
 
 	render() {
-		if (this.state.sechedule.length == 0) {
-			return (
-				<div className="container">
-					<Calendar
-						onChange={this.handleonChange}
-						value={this.state.date}
-					></Calendar>
-					<h2>{this.state.sechedule} </h2>;
-				</div>
-			);
-		}
+		// if (this.state.sechedule.length == 0) {
+		// 	return (
+		// 		<div className="container">
+		// 			<Calendar
+		// 				onChange={this.handleonChange}
+		// 				value={this.state.date}
+		// 			></Calendar>
+		// 			<h2>No appointment today </h2>;
+		// 		</div>
+		// 	);
+		// }
+
 		return (
 			<div className="container">
 				<Calendar

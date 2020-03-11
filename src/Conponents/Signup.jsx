@@ -22,10 +22,10 @@ class Sign_Up extends Component {
 			Salon_owner_phoneNumber: "93949494949449",
 			Salon_owner_firstName: "alia",
 			Salon_owner_lastName: "rais",
-			Salon_Name: "tony and guy",
-			Salon_opening_hours: "10:00",
-			Salon_closing_hours: "23:00"
+			Salon_Name: "tony and guy"
 		},
+		Salon_opening_hours: "10:00",
+		Salon_closing_hours: "23:00",
 		error: {}
 	};
 
@@ -77,8 +77,7 @@ class Sign_Up extends Component {
 		});
 		if (!error) return null;
 		const errors = {};
-		// for(let item of error.details)
-		// )
+
 		error.details.map(item => {
 			errors[item.path[0]] = item.message;
 		});
@@ -107,7 +106,8 @@ class Sign_Up extends Component {
 		//const port=5000
 		axios
 			.post(
-				"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
+				"http://localhost:5000/Digital_Saloon.com/api/SalonSignUp",
+				//	"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
 				{
 					Salon_owner_firstName: this.state.Salon.Salon_owner_firstName,
 					Salon_owner_lastName: this.state.Salon.Salon_owner_lastName,
@@ -116,8 +116,8 @@ class Sign_Up extends Component {
 					phoneNumber: this.state.Salon.Salon_owner_phoneNumber,
 					cnic: this.state.Salon.Salon_owner_cnic,
 					salonname: this.state.Salon.Salon_Name,
-					Salon_opening_hours: this.state.Salon.Salon_opening_hours,
-					Salon_closing_hours: this.state.Salon.Salon_closing_hours
+					Salon_opening_hours: this.state.Salon_opening_hours,
+					Salon_closing_hours: this.state.Salon_closing_hours
 				}
 			)
 			.then(function(response) {
@@ -258,19 +258,21 @@ class Sign_Up extends Component {
 						/>
 
 						<div>{this.state.error.Salon_Name}</div>
-						<Button
-							variant="contained"
-							color="primary"
-							fullWidth
-							//	className="p-button-raised p-button-rounded"
-							disabled={this.validate()}
-							onClick={this.handleSubmit}
-						>
-							Signup
-						</Button>
+
 						<TimePicker
+							label="select starting time"
 							onChange={this.handle_opening_time_change}
-							value={this.state.Salon.Salon_opening_hours}
+							value={this.state.Salon_opening_hours}
+							isOpen={false}
+							clearIcon="Clear"
+							clockAriaLabel="Toggle clock"
+							clockIcon=""
+							required={true}
+						/>
+						<br></br>
+						<TimePicker
+							onChange={this.handle_closing_time_change}
+							value={this.state.Salon_closing_hours}
 							isOpen={false}
 							clearIcon="Clear"
 							clockAriaLabel="Toggle clock"
@@ -278,15 +280,16 @@ class Sign_Up extends Component {
 							required={true}
 						/>
 
-						<TimePicker
-							onChange={this.handle_closing_time_change}
-							value={this.state.Salon.Salon_closing_hours}
-							isOpen={false}
-							clearIcon="Clear"
-							clockAriaLabel="Toggle clock"
-							clockIcon=""
-							required={true}
-						/>
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							className="p-button-raised p-button-rounded"
+							disabled={this.validate()}
+							onClick={this.handleSubmit}
+						>
+							Signup
+						</Button>
 					</Paper>
 					<Grid
 						item
