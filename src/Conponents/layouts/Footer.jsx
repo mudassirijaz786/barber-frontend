@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ height: "100%" }}>
+      <AppBar position="static" style={{ top: 500, position: "relative" }}>
         <Toolbar>
           <IconButton
             edge="start"

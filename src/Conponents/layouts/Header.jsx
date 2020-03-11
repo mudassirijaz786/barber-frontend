@@ -25,43 +25,56 @@ export default function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="home"
-          >
-            <Home />
-          </IconButton>
-          <Typography
-            color="inherit"
-            component={Link}
-            to="/"
-            variant="h6"
-            className={classes.title}
-          >
-            Salon App
-          </Typography>
+      {localStorage.getItem("x-auth-token") ? null : (
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="home"
+            >
+              <Home />
+            </IconButton>
+            <Typography
+              color="inherit"
+              component={Link}
+              to="/"
+              variant="h6"
+              className={classes.title}
+            >
+              Salon App
+            </Typography>
 
-          <Button color="inherit" component={Link} to="/services">
-            Services
-          </Button>
-          <Button color="inherit" component={Link} to="/dashboard">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} to="/signup">
-            Signup
-          </Button>
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
-          <Button color="inherit" component={Link} to="/">
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
+            <Button color="inherit" component={Link} to="/services">
+              Services
+            </Button>
+            <Button color="inherit" component={Link} to="/schedule">
+              Schedule
+            </Button>
+            <Button color="inherit" component={Link} to="/viewschedule">
+              View Schedule
+            </Button>
+            <Button color="inherit" component={Link} to="/dashboard">
+              Dashboard
+            </Button>
+            <Button color="inherit" component={Link} to="/signup">
+              Signup
+            </Button>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+            <Button
+              color="inherit"
+              component={Link}
+              to="/"
+              onClick={localStorage.removeItem("x-auth-token")}
+            >
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+      )}
     </div>
   );
 }

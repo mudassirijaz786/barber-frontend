@@ -29,7 +29,7 @@ const styles = theme => ({
 });
 class CardMaterial extends React.Component {
   state = {
-    List_of_services: [123],
+    List_of_services: [],
     name: "mudassir"
   };
 
@@ -37,10 +37,15 @@ class CardMaterial extends React.Component {
     Axios({
       url:
         "https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
-      method: "GET"
+      method: "GET",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("x-auth-token")
+      }
     })
       .then(response => {
-        console.log("RESPONSE OBJECT", response.data);
+        console.log("RESPONSE OBJECT", response);
         // List_of_services = { ...this.state.List_of_services0 };
         // List_of_services = response;
         this.setState({ List_of_services: response.data });
@@ -58,10 +63,11 @@ class CardMaterial extends React.Component {
 
     // });
     const { classes } = this.props;
-    console.log(this.state.List_of_services);
+    console.log("STATE", this.state.List_of_services);
     if (this.state.List_of_services.length === 0) {
       return <h2>You have no serive to display </h2>;
     }
+
     return this.state.List_of_services.map(items => {
       return (
         <Grid center container spacing={3} className={classes.root}>

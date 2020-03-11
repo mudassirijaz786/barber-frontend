@@ -51,9 +51,12 @@ class Add_Service extends Component {
       Salon_id: "",
       price: 20,
       img_url: "",
-      service_description: "hair cut service provided by tony and guy"
+      service_description: "hair cut service provided by tony and guy",
+      service_time: ""
     },
     category: ["Hair", "Facial", "Khat"],
+    time: ["30", "45", "60", "90", "120"],
+
     value: "",
     open: false,
     files: [],
@@ -85,7 +88,7 @@ class Add_Service extends Component {
       .required()
       .min(2)
       .label("Service Price"),
-    description: Joi.string()
+    service_description: Joi.string()
       .required()
       .min(2)
       .label("Service Description"),
@@ -151,6 +154,8 @@ class Add_Service extends Component {
     form_data.append("price", this.state.Service.price);
     form_data.append("description", this.state.Service.service_description);
     form_data.append("service_category", this.state.Service.category_name);
+    form_data.append("service_time", this.state.Service.service_time);
+
     const error = this.validate();
     this.setState({ error: error || {} });
     console.log("form data is ", form_data);
@@ -172,10 +177,18 @@ class Add_Service extends Component {
         alert(error);
       });
   }
-  click = e => {
+  selectedCategory = e => {
     const Service = { ...this.state.Service };
     Service.category_name = e.target.value;
     this.setState({ Service });
+    console.log(this.state.Service.category_name);
+  };
+
+  selectedTime = e => {
+    const Service = { ...this.state.Service };
+    Service.service_time = e.target.value;
+    this.setState({ Service });
+    console.log(this.state.Service.service_time);
   };
   handleChange = e => {
     const { name, value } = e.target;
@@ -270,7 +283,7 @@ class Add_Service extends Component {
             fullWidth
             value={this.state.Service.service_description}
             onChange={this.handleChange}
-            name="description"
+            name="service_description"
             label="Description"
             variant="standard"
             placeholder="Please enter service description"
@@ -282,12 +295,27 @@ class Add_Service extends Component {
             className={classes.fields}
             label="Please select service category"
             value={this.state.Service.category_name}
-            onChange={this.click}
+            onChange={this.selectedCategory}
             //   helperText="Please select service category"
             // variant="filled"
             fullWidth
           >
             {this.state.category.map(option => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="filled-select-currency"
+            select
+            className={classes.fields}
+            label="Please select service time"
+            value={this.state.Service.service_time}
+            onChange={this.selectedTime}
+            fullWidth
+          >
+            {this.state.time.map(option => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>

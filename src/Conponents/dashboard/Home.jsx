@@ -1,30 +1,73 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-export default class Home extends Component {
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    justifyContent: "center",
+    textAlign: "center"
+  },
+
+  button: {
+    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    height: 48,
+    padding: "0 30px",
+    marginRight: 5
+  },
+  h5: {
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.up("sm")]: {
+      marginTop: theme.spacing(10)
+    }
+  },
+  more: {
+    marginTop: theme.spacing(2)
+  }
+});
+class Home extends Component {
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
-        <Typography color="inherit" variant="h2">
+      <div className={classes.root}>
+        <Typography color="inherit" variant="h2" style={{ marginTop: 50 }}>
           This is dashboard
         </Typography>
-        <Typography
-          color="inherit"
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
           component={Link}
           to="/services/add"
-          variant="h6"
+          className={classes.button}
         >
-          Add services
-        </Typography>
-        <Typography
-          color="inherit"
+          Add service
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
           component={Link}
           to="/password/change"
-          variant="h6"
+          className={classes.button}
         >
-          change password
-        </Typography>
+          Change password
+        </Button>
       </div>
     );
   }
 }
+
+Home.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Home);

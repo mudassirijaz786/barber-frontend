@@ -149,7 +149,10 @@ class Sign_Up extends Component {
         }
       )
       .then(function(response) {
-        console.log(response);
+        const token = response.headers["x-auth-token"];
+        localStorage.setItem("x-auth-token", token);
+        console.log("TOKEN", token);
+        console.log("RESPONSE", response);
       })
       .catch(error => {
         if (error.response) {

@@ -100,7 +100,6 @@ class Login extends Component {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
         console.log("TOKEN", token);
-        // this.props.history.push("/dashboard");
         console.log("RESPONSE", response);
       })
       .catch(error => {
