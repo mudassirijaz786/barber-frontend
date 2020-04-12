@@ -123,7 +123,12 @@ class CardMaterial extends React.Component {
                     <Grid item xs={6}>
                       <Card
                         items
-                        style={{ height: 450, width: 400, margin: 20 }}
+                        style={{
+                          height: 450,
+                          width: 400,
+                          margin: 20,
+                          border: "2px solid indigo",
+                        }}
                       >
                         <CardHeader
                           avatar={

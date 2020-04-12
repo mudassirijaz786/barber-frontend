@@ -194,8 +194,13 @@ class Sign_Up extends Component {
 
   render() {
     return (
-      <Grid center container spacing={3}>
-        <Grid item center xs={4} spacing={10} style={{ marginLeft: 450 }}>
+      <Grid
+        center
+        container
+        spacing={3}
+        style={{ flexGrow: 1, justifyContent: "center" }}
+      >
+        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
           {this.state.loading ? (
             <ProgressSpinner
               style={{ width: "50px", height: "50px", paddingLeft: 350 }}
@@ -221,180 +226,193 @@ class Sign_Up extends Component {
               >
                 {this.state.backendError}
               </Typography>
+
+              <TextField
+                placeholder="Please enter your email"
+                value={this.state.Salon.Salon_owner_email}
+                onChange={this.handleChange}
+                name="Salon_owner_email"
+                label="email"
+                style={{ marginTop: 15 }}
+                fullWidth
+                variant="standard"
+              />
+              <div style={{ color: "red" }}>
+                {this.state.error.Salon_owner_email}
+              </div>
+
+              <TextField
+                variant="standard"
+                placeholder="Please enter your password"
+                value={this.state.Salon.Salon_owner_password}
+                onChange={this.handleChange}
+                label="password"
+                style={{ marginTop: 15 }}
+                fullWidth
+                type="password"
+                name="Salon_owner_password"
+              />
+              <div>{this.state.error.Salon_owner_password}</div>
+              <TextField
+                variant="standard"
+                style={{ marginTop: 15 }}
+                value={this.state.Salon.Salon_owner_firstName}
+                onChange={this.handleChange}
+                label="first name"
+                fullWidth
+                name="Salon_owner_firstName"
+                placeholder="Please enter your firstname"
+              />
+              <div>{this.state.error.Salon_owner_firstName}</div>
+              <TextField
+                value={this.state.Salon.Salon_owner_lastName}
+                onChange={this.handleChange}
+                style={{ marginTop: 15 }}
+                name="Salon_owner_lastName"
+                placeholder="Please enter your lastname"
+                label="lastname"
+                fullWidth
+                variant="standard"
+              />
+              <div>{this.state.error.Salon_owner_lastName}</div>
+              <TextField
+                style={{ marginTop: 15 }}
+                value={this.state.Salon.Salon_owner_cnic}
+                onChange={this.handleChange}
+                name="Salon_owner_cnic"
+                label="cnic"
+                fullWidth
+                placeholder="Please enter your cnic"
+                variant="standard"
+              />
+              <div>{this.state.error.Salon_owner_cnic}</div>
+              <TextField
+                style={{ marginTop: 15 }}
+                value={this.state.Salon.Salon_owner_phoneNumber}
+                onChange={this.handleChange}
+                name="Salon_owner_phoneNumber"
+                placeholder="Please enter your phone number"
+                variant="standard"
+                fullWidth
+                label="phone number"
+              />
+              <div>{this.state.error.Salon_owner_phoneNumber}</div>
+
+              <PlacesAutocomplete
+                value={this.state.Salon.Salon_Name}
+                onChange={this.handleChangessalonserach}
+                onSelect={this.handleSelect}
+              >
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading,
+                }) => (
+                  <div>
+                    <TextField
+                      style={{ marginTop: 15 }}
+                      {...getInputProps({
+                        placeholder: "Search Salon...",
+                        className: "location-search-input",
+                      })}
+                      name="Salon_Name"
+                      label="salon name"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
+
+              <div>{this.state.error.Salon_Name}</div>
+
               <Paper
+                elevation={8}
                 style={{
-                  margin: "2px",
-                  textAlign: "center",
-                  color: "black",
-                  marginTop: 30,
+                  justifyContent: "center",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginTop: 15,
                 }}
               >
-                <TextField
-                  placeholder="Please enter your email"
-                  value={this.state.Salon.Salon_owner_email}
-                  onChange={this.handleChange}
-                  name="Salon_owner_email"
-                  label="email"
-                  fullWidth
-                  variant="standard"
-                />
-                <div style={{ color: "red" }}>
-                  {this.state.error.Salon_owner_email}
-                </div>
+                <span style={{ padding: 10 }}>
+                  <Typography style={{ color: "green", marginRight: 15 }}>
+                    Starting time
+                  </Typography>
+                  <TimePicker
+                    label="select starting time"
+                    onChange={this.handle_opening_time_change}
+                    value={this.state.Salon_opening_hours}
+                    isOpen={false}
+                    clearIcon="Clear"
+                    clockAriaLabel="Toggle clock"
+                    clockIcon=""
+                    required={true}
+                  />
+                </span>
 
-                <TextField
-                  variant="standard"
-                  placeholder="Please enter your password"
-                  value={this.state.Salon.Salon_owner_password}
-                  onChange={this.handleChange}
-                  label="password"
-                  fullWidth
-                  type="password"
-                  name="Salon_owner_password"
-                />
-                <div>{this.state.error.Salon_owner_password}</div>
-                <TextField
-                  variant="standard"
-                  value={this.state.Salon.Salon_owner_firstName}
-                  onChange={this.handleChange}
-                  label="first name"
-                  fullWidth
-                  name="Salon_owner_firstName"
-                  placeholder="Please enter your firstname"
-                />
-                <div>{this.state.error.Salon_owner_firstName}</div>
-                <TextField
-                  value={this.state.Salon.Salon_owner_lastName}
-                  onChange={this.handleChange}
-                  name="Salon_owner_lastName"
-                  placeholder="Please enter your lastname"
-                  label="lastname"
-                  fullWidth
-                  variant="standard"
-                />
-                <div>{this.state.error.Salon_owner_lastName}</div>
-                <TextField
-                  value={this.state.Salon.Salon_owner_cnic}
-                  onChange={this.handleChange}
-                  name="Salon_owner_cnic"
-                  label="cnic"
-                  fullWidth
-                  placeholder="Please enter your cnic"
-                  variant="standard"
-                />
-                <div>{this.state.error.Salon_owner_cnic}</div>
-                <TextField
-                  value={this.state.Salon.Salon_owner_phoneNumber}
-                  onChange={this.handleChange}
-                  name="Salon_owner_phoneNumber"
-                  placeholder="Please enter your phone number"
-                  variant="standard"
-                  fullWidth
-                  label="phone number"
-                />
-                <div>{this.state.error.Salon_owner_phoneNumber}</div>
-
-                <PlacesAutocomplete
-                  value={this.state.Salon.Salon_Name}
-                  onChange={this.handleChangessalonserach}
-                  onSelect={this.handleSelect}
-                >
-                  {({
-                    getInputProps,
-                    suggestions,
-                    getSuggestionItemProps,
-                    loading,
-                  }) => (
-                    <div>
-                      <TextField
-                        {...getInputProps({
-                          placeholder: "Search Salon ...",
-                          className: "location-search-input",
-                        })}
-                        name="Salon_Name"
-                        fullWidth
-                        variant="standard"
-                      />
-                      <div className="autocomplete-dropdown-container">
-                        {loading && <div>Loading...</div>}
-                        {suggestions.map((suggestion) => {
-                          const className = suggestion.active
-                            ? "suggestion-item--active"
-                            : "suggestion-item";
-                          // inline style for demonstration purpose
-                          const style = suggestion.active
-                            ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                            : { backgroundColor: "#ffffff", cursor: "pointer" };
-                          return (
-                            <div
-                              {...getSuggestionItemProps(suggestion, {
-                                className,
-                                style,
-                              })}
-                            >
-                              <span>{suggestion.description}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </PlacesAutocomplete>
-
-                {/* <TextField
-							value={this.state.Salon.Salon_Name}
-							placeholder="Please enter your salon name"
-							onChange={this.handleChange}
-							name="Salon_Name"
-							fullWidth
-							variant="standard"
-							label="salon name"
-						/> */}
-
-                <div>{this.state.error.Salon_Name}</div>
-
-                <TimePicker
-                  label="select starting time"
-                  onChange={this.handle_opening_time_change}
-                  value={this.state.Salon_opening_hours}
-                  isOpen={false}
-                  clearIcon="Clear"
-                  clockAriaLabel="Toggle clock"
-                  clockIcon=""
-                  required={true}
-                />
-                <br></br>
-                <TimePicker
-                  onChange={this.handle_closing_time_change}
-                  value={this.state.Salon_closing_hours}
-                  isOpen={false}
-                  clearIcon="Clear"
-                  clockAriaLabel="Toggle clock"
-                  clockIcon=""
-                  required={true}
-                />
-
-                <Button
-                  fullWidth
-                  style={{
-                    background:
-                      "linear-gradient(45deg, #020024 30%, #090979 90%)",
-                    border: 0,
-                    borderRadius: 3,
-                    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-                    color: "white",
-                    height: 48,
-                    padding: "0 30px",
-                    marginTop: 15,
-                  }}
-                  variant="contained"
-                  color="primary"
-                  // disabled={this.validate()}
-                  onClick={this.handleSubmit}
-                >
-                  Signup
-                </Button>
+                <span style={{ padding: 10 }}>
+                  <Typography style={{ color: "green", marginRight: 15 }}>
+                    Closing time
+                  </Typography>
+                  <TimePicker
+                    onChange={this.handle_closing_time_change}
+                    value={this.state.Salon_closing_hours}
+                    isOpen={false}
+                    clearIcon="Clear"
+                    clockAriaLabel="Toggle clock"
+                    clockIcon=""
+                    required={true}
+                  />
+                </span>
               </Paper>
+
+              <br></br>
+
+              <Button
+                fullWidth
+                style={{
+                  background:
+                    "linear-gradient(45deg, #020024 30%, #090979 90%)",
+                  border: 0,
+                  borderRadius: 3,
+                  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+                  color: "white",
+                  height: 48,
+                  padding: "0 30px",
+                  marginTop: 15,
+                }}
+                variant="contained"
+                color="primary"
+                // disabled={this.validate()}
+                onClick={this.handleSubmit}
+              >
+                Signup
+              </Button>
               <Grid
                 item
                 xs={2}

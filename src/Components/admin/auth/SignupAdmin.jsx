@@ -195,69 +195,66 @@ class SignupAdmin extends Component {
               <Typography className={classes.backendErrorStyle} variant="h5">
                 {this.state.backendError}
               </Typography>
-              <Paper
-                style={{
-                  margin: "2px",
-                  textAlign: "center",
-                  color: "black",
-                  marginTop: 30,
-                }}
+
+              <TextField
+                placeholder="Please enter your email"
+                value={this.state.Admin.email}
+                onChange={this.handleChange}
+                name="email"
+                label="email"
+                className={classes.fields}
+                fullWidth
+                variant="standard"
+              />
+              <div style={{ color: "red" }}>{this.state.error.email}</div>
+
+              <TextField
+                variant="standard"
+                placeholder="Please enter your password"
+                value={this.state.Admin.password}
+                onChange={this.handleChange}
+                label="password"
+                fullWidth
+                className={classes.fields}
+                name="password"
+              />
+              <div>{this.state.error.password}</div>
+              <TextField
+                variant="standard"
+                value={this.state.Admin.name}
+                onChange={this.handleChange}
+                label=" name"
+                fullWidth
+                className={classes.fields}
+                name="name"
+                placeholder="Please enter your name"
+              />
+              <div>{this.state.error.name}</div>
+
+              <TextField
+                value={this.state.Admin.phonenumber}
+                onChange={this.handleChange}
+                name="phonenumber"
+                placeholder="Please enter your phone number"
+                variant="standard"
+                className={classes.fields}
+                style={{ marginBottom: 20 }}
+                fullWidth
+                label="phone number"
+              />
+              <div>{this.state.error.phonenumber}</div>
+
+              <Button
+                variant="contained"
+                color="primary"
+                className={(classes.fields, classes.button)}
+                fullWidth
+                disabled={this.validate()}
+                style={{ marginBottom: 6 }}
+                onClick={this.handleSubmit}
               >
-                <TextField
-                  placeholder="Please enter your email"
-                  value={this.state.Admin.email}
-                  onChange={this.handleChange}
-                  name="email"
-                  label="email"
-                  fullWidth
-                  variant="standard"
-                />
-                <div style={{ color: "red" }}>{this.state.error.email}</div>
-
-                <TextField
-                  variant="standard"
-                  placeholder="Please enter your password"
-                  value={this.state.Admin.password}
-                  onChange={this.handleChange}
-                  label="password"
-                  fullWidth
-                  name="password"
-                />
-                <div>{this.state.error.password}</div>
-                <TextField
-                  variant="standard"
-                  value={this.state.Admin.name}
-                  onChange={this.handleChange}
-                  label=" name"
-                  fullWidth
-                  name="name"
-                  placeholder="Please enter your name"
-                />
-                <div>{this.state.error.name}</div>
-
-                <TextField
-                  value={this.state.Admin.phonenumber}
-                  onChange={this.handleChange}
-                  name="phonenumber"
-                  placeholder="Please enter your phone number"
-                  variant="standard"
-                  style={{ marginBottom: 20 }}
-                  fullWidth
-                  label="phone number"
-                />
-                <div>{this.state.error.phonenumber}</div>
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={(classes.fields, classes.button)}
-                  fullWidth
-                  disabled={this.validate()}
-                  onClick={this.handleSubmit}
-                >
-                  Signup
-                </Button>
-              </Paper>
+                Signup
+              </Button>
               <Grid
                 item
                 xs={2}
