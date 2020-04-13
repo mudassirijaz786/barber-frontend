@@ -96,7 +96,7 @@ class CardMaterial extends React.Component {
         // List_of_services = { ...this.state.List_of_services0 };
         // List_of_services = response;
 
-        // this.setState({ List_of_salons: response.data });
+        // this.setState({ List_of_salons: [] });
       })
 
       // console.log("IN COMPONENT DID MOUNT", this.state.name);
@@ -126,7 +126,7 @@ class CardMaterial extends React.Component {
         // List_of_services = { ...this.state.List_of_services0 };
         // List_of_services = response;
 
-        // this.setState({ List_of_salons: response.data });
+        this.setState({ List_of_salons: response.data });
       })
 
       // console.log("IN COMPONENT DID MOUNT", this.state.name);
