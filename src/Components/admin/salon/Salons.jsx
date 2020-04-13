@@ -79,10 +79,13 @@ class CardMaterial extends React.Component {
     this.setState({ loading: false });
   };
 
-  acceptSalon(id) {
+  acceptSalon = (id) => {
+    const salon = this.state.List_of_salons;
+    const filter_result = salon.filter((e) => e.id !== id);
+    this.setState({ List_of_salons: filter_result });
     Axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin/" +
+        "https://digital-salons -app.herokuapp.com/Digital_Saloon.com/api/superadmin/" +
         id,
       method: "GET",
       headers: {
@@ -93,23 +96,20 @@ class CardMaterial extends React.Component {
     })
       .then((response) => {
         console.log("RESPONSE OBJECT", response);
-        // List_of_services = { ...this.state.List_of_services0 };
-        // List_of_services = response;
-
-        // this.setState({ List_of_salons: [] });
       })
-
-      // console.log("IN COMPONENT DID MOUNT", this.state.name);
-
       .catch(function (error) {
         if (error.response) {
           alert(error.response.data);
         }
       });
     console.log("Accept salon CLICK EVENT");
-  }
+  };
 
-  rejectSalon(id) {
+  rejectSalon = (id) => {
+    const salon = this.state.List_of_salons;
+    const filter_result = salon.filter((e) => e.id !== id);
+    this.setState({ List_of_salons: filter_result });
+
     Axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin/" +
@@ -123,13 +123,7 @@ class CardMaterial extends React.Component {
     })
       .then((response) => {
         console.log("RESPONSE OBJECT", response);
-        // List_of_services = { ...this.state.List_of_services0 };
-        // List_of_services = response;
-
-        this.setState({ List_of_salons: response.data });
       })
-
-      // console.log("IN COMPONENT DID MOUNT", this.state.name);
 
       .catch(function (error) {
         if (error.response) {
@@ -137,14 +131,8 @@ class CardMaterial extends React.Component {
         }
       });
     console.log("Reject Salon CLICK EVENT");
-  }
+  };
   render() {
-    // console.log("decode", Decode(localStorage.getItem("x-auth-token")));
-
-    //   console.log("IN RENDER", this.state.List_of_services);
-    // this.state.List_of_services.map(item => {
-
-    // });
     const { classes } = this.props;
     const { List_of_salons } = this.state;
     console.log("Response in state", List_of_salons);
