@@ -68,14 +68,13 @@ class App extends React.Component {
             path="/owner/services/add"
             component={AddServicesRecommended}
           />
-
+          <Route exact path="/admin/salons" component={AuthHeader} />
           <AdminRoute exact path="/admin/salons" component={Salons} />
           <AdminRoute
             exact
             path="/admin/dashboard"
             component={AdminDashboard}
           />
-
           <ToastsContainer
             position={ToastsContainerPosition.TOP_CENTER}
             store={ToastsStore}

@@ -22,7 +22,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+import PeopleIcon from "@material-ui/icons/People";
 import decode from "jwt-decode";
 const useStyles = makeStyles({
   root: {
@@ -69,16 +69,21 @@ export default class AppDrawer extends React.Component {
       <List>
         <ListItem>
           <ListItemIcon>
-            <DashboardIcon />
+            <AddBoxIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/dashboard" variant="h6">
-            Dashboard
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/services/add"
+            variant="h6"
+          >
+            Add Services
           </Button>
         </ListItem>
 
         <ListItem>
           <ListItemIcon>
-            <DashboardIcon />
+            <PeopleIcon />
           </ListItemIcon>
           <Button color="primary" component={Link} to="/salons" variant="h6">
             Salons
@@ -87,18 +92,14 @@ export default class AppDrawer extends React.Component {
       </List>
 
       <Divider />
+
       <List>
         <ListItem>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/services/add"
-            variant="h6"
-          >
-            Admin Add Services
+          <Button color="primary" component={Link} to="/dashboard" variant="h6">
+            Dashboard
           </Button>
         </ListItem>
       </List>
