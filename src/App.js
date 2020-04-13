@@ -15,6 +15,9 @@ import Upload from "./Conponents/dashboard/Upload.jsx";
 import CardMaterial from "./Conponents/dashboard/CardMaterial";
 import CardEdit from "./Conponents/dashboard/CardEdit";
 import changePassword from "./Conponents/changePassword";
+import MapContainer from "./Conponents/map";
+
+import SwitchExample from "./Conponents/Salon_availibilty";
 function App() {
 	return (
 		<BrowserRouter>

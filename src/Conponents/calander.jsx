@@ -39,7 +39,7 @@ class Schedule extends Component {
 		//	console.log(this.state.date);
 		//console.log(this.state.sechedule);
 		//	console.log("the schedile is ", this.state.sechedule);
-		console.log("component did update is called");
+		console.log("after state is called is called");
 		const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
 		axios({
 			//	"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
@@ -127,20 +127,20 @@ class Schedule extends Component {
 	}
 
 	render() {
-		// if (this.state.sechedule.length == 0) {
-		// 	return (
-		// 		<div className="container">
-		// 			<Calendar
-		// 				onChange={this.handleonChange}
-		// 				value={this.state.date}
-		// 			></Calendar>
-		// 			<h2>No appointment today </h2>;
-		// 		</div>
-		// 	);
-		// }
+		if (this.state.sechedule.length == 0) {
+			return (
+				<div className="container">
+					<Calendar
+						onChange={this.handleonChange}
+						value={this.state.date}
+					></Calendar>
+					<h2>No appointment today </h2>;
+				</div>
+			);
+		}
 
 		return (
-			<div className="container">
+			<div>
 				<Calendar
 					onChange={this.handleonChange}
 					value={this.state.date}

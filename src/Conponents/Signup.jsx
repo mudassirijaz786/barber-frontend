@@ -11,7 +11,11 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import TimePicker from "react-time-picker";
-
+import PlacesAutocomplete, {
+	geocodeByAddress,
+	getLatLng
+} from "react-places-autocomplete";
+import { Map, GoogleApiWrapper } from "google-maps-react";
 class Sign_Up extends Component {
 	state = {
 		Salon: {
@@ -22,7 +26,11 @@ class Sign_Up extends Component {
 			Salon_owner_phoneNumber: "93949494949449",
 			Salon_owner_firstName: "alia",
 			Salon_owner_lastName: "rais",
-			Salon_Name: "tony and guy"
+			Salon_Name: ""
+		},
+		latLng: {
+			lat: "",
+			lng: ""
 		},
 		Salon_opening_hours: "10:00",
 		Salon_closing_hours: "23:00",
@@ -58,7 +66,7 @@ class Sign_Up extends Component {
 			.label("LastName"),
 		Salon_Name: Joi.string()
 			.min(3)
-			.max(30)
+			.max(100)
 			.label("SalonName")
 	};
 	constructor() {
@@ -69,6 +77,29 @@ class Sign_Up extends Component {
 		this.validate_single = this.validate_single.bind(this);
 		this.validate = this.validate.bind(this);
 	}
+	handleChangessalonserach = Salon_Name => {
+		const Salon = { ...this.state.Salon };
+
+		Salon["Salon_Name"] = Salon_Name;
+		this.setState({ Salon });
+	};
+	handleSelect = Salon_Name => {
+		const Salon = { ...this.state.Salon };
+
+		Salon["Salon_Name"] = Salon_Name;
+		this.setState({ Salon });
+
+		geocodeByAddress(Salon_Name)
+			.then(results => getLatLng(results[0]))
+			.then(latLng => {
+				console.log("Success", latLng);
+				this.setState({
+					latLng
+				});
+			})
+
+			.catch(error => console.error("Error", error));
+	};
 
 	validate() {
 		//console.log("validate funcctions is called");
@@ -101,6 +132,7 @@ class Sign_Up extends Component {
 	}
 
 	async handleSubmit(e) {
+		console.log("state is ", this.state);
 		const error = this.validate();
 		this.setState({ error: error || {} });
 		//const port=5000
@@ -116,6 +148,8 @@ class Sign_Up extends Component {
 					phoneNumber: this.state.Salon.Salon_owner_phoneNumber,
 					cnic: this.state.Salon.Salon_owner_cnic,
 					salonname: this.state.Salon.Salon_Name,
+					latitude: this.state.latLng.lat,
+					longitude: this.state.latLng.lng,
 					Salon_opening_hours: this.state.Salon_opening_hours,
 					Salon_closing_hours: this.state.Salon_closing_hours
 				}
@@ -247,7 +281,55 @@ class Sign_Up extends Component {
 							label="phone number"
 						/>
 						<div>{this.state.error.Salon_owner_phoneNumber}</div>
-						<TextField
+
+						<PlacesAutocomplete
+							value={this.state.Salon.Salon_Name}
+							onChange={this.handleChangessalonserach}
+							onSelect={this.handleSelect}
+						>
+							{({
+								getInputProps,
+								suggestions,
+								getSuggestionItemProps,
+								loading
+							}) => (
+								<div>
+									<TextField
+										{...getInputProps({
+											placeholder: "Search Salon ...",
+											className: "location-search-input"
+										})}
+										name="Salon_Name"
+										fullWidth
+										variant="standard"
+									/>
+									<div className="autocomplete-dropdown-container">
+										{loading && <div>Loading...</div>}
+										{suggestions.map(suggestion => {
+											const className = suggestion.active
+												? "suggestion-item--active"
+												: "suggestion-item";
+											// inline style for demonstration purpose
+											const style = suggestion.active
+												? { backgroundColor: "#fafafa", cursor: "pointer" }
+												: { backgroundColor: "#ffffff", cursor: "pointer" };
+											return (
+												<div
+													{...getSuggestionItemProps(suggestion, {
+														className,
+														style
+													})}
+												>
+													<span>{suggestion.description}</span>
+												</div>
+											);
+										})}
+									</div>
+								</div>
+							)}
+						</PlacesAutocomplete>
+
+						{/* <TextField
 							value={this.state.Salon.Salon_Name}
 							placeholder="Please enter your salon name"
 							onChange={this.handleChange}
@@ -255,7 +337,7 @@ class Sign_Up extends Component {
 							fullWidth
 							variant="standard"
 							label="salon name"
-						/>
+						/> */}
 
 						<div>{this.state.error.Salon_Name}</div>
 
@@ -305,5 +387,6 @@ class Sign_Up extends Component {
 		);
 	}
 }
-
-export default Sign_Up;
+export default GoogleApiWrapper({
+	apiKey: "AIzaSyARjyRyPhNoOKCNv4bS1W7zP-1reTQElFs"
+})(Sign_Up);
