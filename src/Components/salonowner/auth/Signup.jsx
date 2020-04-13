@@ -200,7 +200,7 @@ class Sign_Up extends Component {
         spacing={3}
         style={{ flexGrow: 1, justifyContent: "center" }}
       >
-        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
           {this.state.loading ? (
             <ProgressSpinner
               style={{ width: "50px", height: "50px", paddingLeft: 350 }}
