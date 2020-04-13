@@ -47,6 +47,12 @@ const styles = (theme) => ({
     color: "red",
     textAlign: "center",
   },
+  card: {
+    margin: 20,
+    border: "2px solid indigo",
+    flexGrow: 1,
+    justifyContent: "center",
+  },
   paperStyle: {
     margin: "2px",
     textAlign: "center",
@@ -60,23 +66,9 @@ class Schedule extends Component {
     this.state = {
       date: new Date(),
       sechedule: [],
-      options: {
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        defaultView: "timeGridDay",
-        defaultDate: "2020-03-09",
-        header: {
-          left: "prev,next",
-          center: "title",
-          right: "timeGridDay",
-        },
-        editable: false,
-        loading: true,
-      },
     };
   }
-  // onclickbutton=()=>{
-  // this.props.selectdate()
-  // }
+
   handleonChange = (date) => {
     this.setState({ date }, () => {
       this.afterStateupdatedfinished();
@@ -84,9 +76,6 @@ class Schedule extends Component {
   };
 
   afterStateupdatedfinished = () => {
-    //	console.log(this.state.date);
-    //console.log(this.state.sechedule);
-    //	console.log("the schedile is ", this.state.sechedule);
     console.log("after state updated is called", this.state.date);
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
     axios({
@@ -97,80 +86,27 @@ class Schedule extends Component {
       .then((response) => {
         if (typeof response.data === "string") {
           console.log("response is", response.data);
-          this.setState({ sechedule: [], loading: false });
-          //	this.setState({ sechedule: response.data });
+          this.setState({ sechedule: [] });
         } else {
           this.setState({ sechedule: response.data });
         }
-        // console.log("1");
-        // console.log("Data is " + response.data);
-        // console.log("the state is", this.state.sechedule);
-        // this.setState({ sechedule: response.data });
-        // if (typeof response.data === "string") {
-        // 	//	console.log("response is ", response.data);
-        // 	this.setState({ sechedule: response.data });
-        // } else {
-        // 	this.setState({ sechedule: response.data });
-        // }
-        // if (this.state.sechedule.length == 0) {
-        // 	this.setState({ sechedule: response.data });
-        // } else {
-        // 	console.log("schedule is ", this.state.sechedule);
-        // 	console.log("response is ", response.data);
-
-        // 	console.log(this.objectsEqual(this.state.sechedule, response.data));
-        // }
-        //console.log(this.state.sechedule);
-        // } else if (this.state.sechedule != response.data) {
-        // 	console.log("schedule is ", this.state.sechedule);
-        // 	console.log("response is ", response.data);
-
-        // 	console.log("both are not equal");
-        // } else {
-        // 	console.log("NO changw");
-        // }
-
-        // 	if (this.state.sechedule !== response.data)
-        // 		this.setState({ sechedule: response.data });
-        // }
-        // if (response.data) {
-        // 	//console.log(response.data);
-        // 	//	console.log(previousstate);
-        // 	//	console.log(response.data);
-        // 	//	console.log(previousstate.sechedule);
-        // 	//	if (this.state.sechedule !== response.data) {
-        // 	//		this.setState({ sechedule: response.data });
-        // 	//		}
-        // }
-        //	console.log(req.headers);
-        //console.log(response);
       })
       .catch(function (error) {
         alert(error);
       });
-    //this.props.history.push("/");
-    //console.log(this.state.date);
   };
   componentDidMount() {
-    //	console.log("component did mount is called");
-    //	console.log(this.state.date);
-
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
     axios({
       url: url,
-      //   "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
       method: "GET",
       headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
     })
       .then((response) => {
-        // if (response.data) {
-        // 	this.setState({ Schedule: response.data });
-        // }
         if (typeof response.data === "string") {
           console.log("response is", response.data);
-          //	this.setState({ sechedule: response.data });
         } else {
-          this.setState({ sechedule: response.data, loading: false });
+          this.setState({ sechedule: response.data });
         }
       })
 
@@ -185,14 +121,11 @@ class Schedule extends Component {
     console.log("STATE IS", this.state.sechedule);
 
     const { classes } = this.props;
-    // if (sechedule) {
-    //   return <div>Not Found</div>;
-    // }
-    // if (this.state.sechedule.length == 0) {
+
     return (
       <React.Fragment>
         <Grid center container spacing={3} className={classes.root}>
-          <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+          <Grid item center xs={8} sm={8} lg={4} md={4} spacing={10}>
             <Calendar
               onChange={this.handleonChange}
               value={this.state.date}
@@ -201,12 +134,13 @@ class Schedule extends Component {
         </Grid>
 
         {this.state.sechedule.length !== 0 && (
-          <React.Fragment>
+          <Grid center container className={classes.root}>
+            {/* <Grid item center xs={8} sm={8} lg={12} md={8} spacing={10}> */}
             <div className={classes.root}>
-              <Grid container spacing={3} maxWidth="lg">
+              <Grid container maxWidth="lg">
                 {this.state.sechedule.map((items) => {
                   return (
-                    <Grid item xs={6}>
+                    <Grid item xs={10} sm={10} lg={6} md={10}>
                       {this.state.loading ? (
                         <ProgressSpinner />
                       ) : (
@@ -257,7 +191,8 @@ class Schedule extends Component {
                 })}
               </Grid>
             </div>
-          </React.Fragment>
+            {/* </Grid> */}
+          </Grid>
         )}
         {this.state.sechedule.length === 0 && (
           <h2 style={{ textAlign: "center" }}>No appointment today </h2>
@@ -266,41 +201,6 @@ class Schedule extends Component {
     );
   }
 }
-
-// return (
-//   <div className="container">
-//     <Calendar
-//       onChange={this.handleonChange}
-//       value={this.state.date}
-//     ></Calendar>
-//     <ScheduleView schdule={this.state.sechedule} />
-//   </div>
-// );
-
-//   return <h2>You have no serive to display </h2>;
-// }
-
-// return (
-//   <div className="container">
-//     <Grid center container spacing={3} className={classes.root}>
-//       <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
-//         <Calendar
-//           onChange={this.handleonChange}
-//           value={this.state.date}
-//         ></Calendar>
-//         No appointment's today
-//       </Grid>
-//     </Grid>
-//   </div>
-// );
-
-// return (
-//   <div className="container">
-//     <Calendar
-//       onChange={this.handleonChange}
-//       value={this.state.date}
-// ></Calendar>
-// );
 
 Schedule.propTypes = {
   classes: PropTypes.object.isRequired,
