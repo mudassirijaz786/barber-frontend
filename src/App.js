@@ -19,6 +19,7 @@ import AddServiceByAdmin from "./Components/admin/services/AddServiceByAdmin";
 import AddServicesRecommended from "./Components/admin/services/AddServicesRecommended";
 import ServicesViewAdmin from "./Components/admin/services/ServicesViewAdmin";
 import Available from "./Components/salonowner/salonAvailability/Available";
+import UpdateProfile from "./Components/admin/profile/UpdateProfile";
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -70,6 +71,12 @@ class App extends React.Component {
           />
           <Route exact path="/admin/salons" component={AuthHeader} />
           <AdminRoute exact path="/admin/salons" component={Salons} />
+          <AdminRoute
+            exact
+            path="/admin/profile/edit"
+            component={UpdateProfile}
+          />
+
           <AdminRoute
             exact
             path="/admin/dashboard"

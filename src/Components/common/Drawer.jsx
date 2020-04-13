@@ -85,8 +85,27 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/salons" variant="h6">
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/salons"
+            variant="h6"
+          >
             Salons
+          </Button>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/profile/edit"
+            variant="h6"
+          >
+            Update profile
           </Button>
         </ListItem>
       </List>

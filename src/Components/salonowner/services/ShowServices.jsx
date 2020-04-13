@@ -106,11 +106,15 @@ class CardMaterial extends React.Component {
     const { classes } = this.props;
     console.log("STATE", this.state.List_of_services);
     return (
-      <div className={classes.root}>
+      <React.Fragment className={classes.root}>
+        <h2 style={{ textAlign: "center" }}>Services</h2>
+
         <Grid container spacing={3} maxWidth="lg">
           {this.state.List_of_services.length === 0 && (
             <Grid item xs={6}>
-              <h2>No recomended service available</h2>
+              <h2 style={{ textAlign: "center" }}>
+                No recomended service available
+              </h2>
             </Grid>
           )}
           {this.state.List_of_services.length !== 0 &&
@@ -207,7 +211,7 @@ class CardMaterial extends React.Component {
             </Button>
           </Grid>
         </Grid>
-      </div>
+      </React.Fragment>
     );
   }
 }

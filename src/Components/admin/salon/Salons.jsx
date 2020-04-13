@@ -23,15 +23,17 @@ import { ProgressSpinner } from "primereact/progressspinner";
 
 const styles = (theme) => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
+    // display: "flex",
+    // flexWrap: "wrap",
     flexGrow: 1,
 
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   card: {
+    height: 450,
+    width: 400,
+    margin: 20,
     border: "2px solid indigo",
-    margin: 10,
   },
   button: {
     minWidth: 200,
@@ -148,72 +150,81 @@ class CardMaterial extends React.Component {
     console.log("Response in state", List_of_salons);
     console.log("STATE", this.state.List_of_salons);
     return (
-      <React.Fragment>
-        {this.state.List_of_salons.length !== 0 && (
-          <React.Fragment>
-            <div className={classes.root}>
-              <Grid container spacing={3} maxWidth="lg">
-                {this.state.List_of_salons.map((items) => {
-                  return (
-                    <Grid item xs={6}>
-                      {this.state.loading ? (
-                        <ProgressSpinner />
-                      ) : (
-                        <Card key={items._id} className={classes.card}>
-                          <CardHeader title={items.SalonName} />
-                          <CardActionArea>
-                            <CardContent>
-                              <Typography>
-                                <span style={{ color: "indigo" }}>
-                                  Phone number:{" "}
-                                </span>{" "}
-                                {items.SalonOwnerphoneNumber}
-                              </Typography>{" "}
-                              <Typography>
-                                <span style={{ color: "indigo" }}>
-                                  Phone number:{" "}
-                                </span>{" "}
-                                {items.SalonOwnerphoneNumber}
-                              </Typography>{" "}
-                              <Typography>
-                                <span style={{ color: "indigo" }}>
-                                  Owner name:{" "}
-                                </span>{" "}
-                                {items.Salon_owner_firstName}{" "}
-                              </Typography>{" "}
-                            </CardContent>
-                          </CardActionArea>
+      <React.Fragment className={classes.root}>
+        <h2 style={{ textAlign: "center" }}>Requested salons</h2>
+        <Grid container spacing={3} maxWidth="lg">
+          {this.state.List_of_salons.length === 0 && (
+            <Grid item xs={6}>
+              <h2 style={{ textAlign: "center" }}>No salon to display</h2>
+            </Grid>
+          )}
 
-                          <CardActions disableSpacing>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              className={classes.display}
-                              onClick={() => this.acceptSalon(items._id)}
-                            >
-                              Accept
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              className={classes.display}
-                              onClick={() => this.rejectSalon(items._id)}
-                            >
-                              Reject
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      )}
+          {this.state.List_of_salons.length !== 0 &&
+            this.state.List_of_salons.map((items) => {
+              return (
+                <div>
+                  {this.state.isLoading ? (
+                    <ProgressSpinner />
+                  ) : (
+                    <Grid item xs={6}>
+                      <Card
+                        items
+                        style={{
+                          height: 320,
+                          width: 400,
+                          margin: 20,
+                          border: "2px solid indigo",
+                        }}
+                      >
+                        <CardHeader title={items.SalonName} />
+                        <CardActionArea>
+                          <CardContent>
+                            <Typography>
+                              <span style={{ color: "indigo" }}>
+                                Phone number:{" "}
+                              </span>{" "}
+                              {items.SalonOwnerphoneNumber}
+                            </Typography>{" "}
+                            <Typography>
+                              <span style={{ color: "indigo" }}>
+                                Phone number:{" "}
+                              </span>{" "}
+                              {items.SalonOwnerphoneNumber}
+                            </Typography>{" "}
+                            <Typography>
+                              <span style={{ color: "indigo" }}>
+                                Owner name:{" "}
+                              </span>{" "}
+                              {items.Salon_owner_firstName}{" "}
+                            </Typography>{" "}
+                          </CardContent>
+                        </CardActionArea>
+
+                        <CardActions disableSpacing>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.display}
+                            onClick={() => this.acceptSalon(items._id)}
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.display}
+                            onClick={() => this.rejectSalon(items._id)}
+                          >
+                            Reject
+                          </Button>
+                        </CardActions>
+                      </Card>
                     </Grid>
-                  );
-                })}
-              </Grid>
-            </div>
-          </React.Fragment>
-        )}
-        {this.state.List_of_salons.length == 0 && (
-          <h2 style={{ textAlign: "center" }}>No Salon to display </h2>
-        )}
+                  )}
+                </div>
+              );
+            })}
+        </Grid>
       </React.Fragment>
     );
   }

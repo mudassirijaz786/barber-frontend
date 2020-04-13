@@ -174,7 +174,7 @@ class Login extends Component {
                 >
                   Salon owner login here
                 </Box>
-              </Typography>{" "}
+              </Typography>
               <Typography className={classes.backendErrorStyle} variant="h5">
                 {this.state.backendError}
               </Typography>
