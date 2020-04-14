@@ -9,17 +9,22 @@ import AdminDashboard from "./Components/admin/dashboard/AdminDashboard";
 import AddServices from "./Components/salonowner/services/AddService";
 import CardMaterial from "./Components/salonowner/services/ShowServices";
 import CardEdit from "./Components/salonowner/services/EditService";
-import changePassword from "./Components/salonowner/auth/changePassword";
+import AdminCardEdit from "./Components/admin/services/EditService";
+import ChangePassword from "./Components/salonowner/auth/ChangePassword";
+import AdminChangePassword from "./Components/admin/auth/AdminChangePassword";
+
 import AuthHeader from "./Components/layouts/AuthenticationHeader";
 import calender from "./Components/salonowner/schedule/Schedule";
 import Salons from "./Components/admin/salon/Salons";
 import LoginAdmin from "./Components/admin/auth/LoginAdmin";
 import SignupAdmin from "./Components/admin/auth/SignupAdmin";
-import AddServiceByAdmin from "./Components/admin/services/AddServiceByAdmin";
+import AddServiceByAdmin from "./Components/admin/services/AddService";
 import AddServicesRecommended from "./Components/admin/services/AddServicesRecommended";
-import ServicesViewAdmin from "./Components/admin/services/ServicesViewAdmin";
+import ServicesViewAdmin from "./Components/admin/services/ShowServices";
 import Available from "./Components/salonowner/salonAvailability/Available";
-import UpdateProfile from "./Components/admin/profile/UpdateProfile";
+import AdminUpdateProfile from "./Components/admin/profile/AdminUpdateProfile";
+import UpdateProfile from "./Components/salonowner/profile/UpdateProfile";
+
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -47,7 +52,13 @@ class App extends React.Component {
           <SalonOwnerRoute
             exact
             path="/password/change"
-            component={changePassword}
+            component={ChangePassword}
+          />
+
+          <AdminRoute
+            exact
+            path="/admin/password/change"
+            component={AdminChangePassword}
           />
           <SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
           <SalonOwnerRoute exact path="/services/add" component={AddServices} />
@@ -55,6 +66,11 @@ class App extends React.Component {
             exact
             path="/services/edit"
             render={(props) => <CardEdit {...props} />}
+          />
+          <Route
+            exact
+            path="/admin/services/edit"
+            render={(props) => <AdminCardEdit {...props} />}
           />
           <Route exact path="/admin/services" component={ServicesViewAdmin} />
           <SalonOwnerRoute exact path="/available" component={Available} />
@@ -74,6 +90,11 @@ class App extends React.Component {
           <AdminRoute
             exact
             path="/admin/profile/edit"
+            component={AdminUpdateProfile}
+          />
+          <SalonOwnerRoute
+            exact
+            path="/profile/edit"
             component={UpdateProfile}
           />
 

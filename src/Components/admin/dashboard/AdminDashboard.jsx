@@ -55,7 +55,7 @@ class AdminDashboard extends Component {
           variant="contained"
           size="large"
           component={Link}
-          to="/password/change"
+          to="/admin/password/change"
           className={classes.button}
         >
           Change password

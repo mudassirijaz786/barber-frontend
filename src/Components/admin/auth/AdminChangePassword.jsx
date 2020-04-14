@@ -40,7 +40,7 @@ const styles = (theme) => ({
     marginTop: 30,
   },
 });
-class changePassword extends Component {
+class ChangePassword extends Component {
   state = {
     Password: {
       old_password: "",
@@ -126,7 +126,7 @@ class changePassword extends Component {
 
     return (
       <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
+        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
           <Typography component="div">
             <Box
               fontSize={16}
@@ -192,8 +192,8 @@ class changePassword extends Component {
   }
 }
 
-changePassword.propTypes = {
+ChangePassword.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(changePassword);
+export default withStyles(styles)(ChangePassword);

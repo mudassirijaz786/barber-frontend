@@ -102,10 +102,38 @@ export default class AppDrawer extends React.Component {
           <Button
             color="primary"
             component={Link}
+            to="/admin/services"
+            variant="h6"
+          >
+            Services
+          </Button>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
             to="/admin/profile/edit"
             variant="h6"
           >
             Update profile
+          </Button>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/password/change"
+            variant="h6"
+          >
+            Change password
           </Button>
         </ListItem>
       </List>
@@ -165,6 +193,34 @@ export default class AppDrawer extends React.Component {
             variant="h6"
           >
             Add services
+          </Button>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
+            to="/profile/edit"
+            variant="h6"
+          >
+            Update profile
+          </Button>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
+            to="/password/change"
+            variant="h6"
+          >
+            Change password
           </Button>
         </ListItem>
       </List>
