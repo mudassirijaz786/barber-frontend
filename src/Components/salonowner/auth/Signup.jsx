@@ -145,11 +145,14 @@ class Sign_Up extends Component {
       )
       .then(function (response) {
         ToastsStore.success(
-          "Your request for salon account has been submitted successfully please wait for account verification"
+          "Your request for salon account has been submitted successfully please wait for account verification",
+          10000
         );
-        // window.location = "/login";
 
         console.log(response);
+        setTimeout(() => {
+          window.location = "/login";
+        }, 10000);
       })
       .catch((error) => {
         if (error.response) {
