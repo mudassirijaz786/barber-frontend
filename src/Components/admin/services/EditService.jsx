@@ -167,7 +167,7 @@ class CardEdit extends Component {
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("x-auth-token"),
+        "x-auth-token": token,
       },
     })
       .then(function (response) {

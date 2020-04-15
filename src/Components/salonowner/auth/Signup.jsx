@@ -151,7 +151,7 @@ class Sign_Up extends Component {
 
         console.log(response);
         setTimeout(() => {
-          window.location = "/login";
+          window.location = "/";
         }, 10000);
       })
       .catch((error) => {
