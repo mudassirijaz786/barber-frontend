@@ -10,14 +10,13 @@ import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/styles";
 
 import axios from "axios";
-<<<<<<< HEAD:src/Conponents/changePassword.jsx
-const styles = theme => ({
+const styles = (theme) => ({
 	root: {
 		flexGrow: 1,
-		justifyContent: "center"
+		justifyContent: "center",
 	},
 	control: {
-		padding: 10
+		padding: 10,
 	},
 	button: {
 		background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
@@ -26,29 +25,29 @@ const styles = theme => ({
 		boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
 		color: "white",
 		height: 48,
-		padding: "0 30px"
+		padding: "0 30px",
 	},
 	fields: {
-		marginTop: 15
+		marginTop: 15,
 	},
 	error: {
-		color: "red"
+		color: "red",
 	},
 	paperStyle: {
 		margin: "2px",
 		textAlign: "center",
 		color: "black",
-		marginTop: 30
-	}
+		marginTop: 30,
+	},
 });
 class changePassword extends Component {
 	state = {
 		Password: {
 			old_password: "",
 			new_password: "",
-			confirm_new_password: ""
+			confirm_new_password: "",
 		},
-		error: {}
+		error: {},
 	};
 	constructor() {
 		super();
@@ -59,27 +58,21 @@ class changePassword extends Component {
 		this.validate_single = this.validate_single.bind(this);
 	}
 	schema = {
-		old_password: Joi.string()
-			.required()
-			.min(5)
-			.label("oldPassword"),
-		new_password: Joi.string()
-			.required()
-			.min(5)
-			.label("newPassword"),
+		old_password: Joi.string().required().min(5).label("oldPassword"),
+		new_password: Joi.string().required().min(5).label("newPassword"),
 		confirm_new_password: Joi.string()
 			.required()
 			.min(5)
-			.label("confirm_NewPassword")
+			.label("confirm_NewPassword"),
 	};
 	validate() {
 		const { error } = Joi.validate(this.state.account, this.schema, {
-			abortEarly: false
+			abortEarly: false,
 		});
 		if (!error) return null;
 		const errors = {};
 
-		error.details.map(item => {
+		error.details.map((item) => {
 			errors[item.path[0]] = item.message;
 		});
 		return errors;
@@ -98,122 +91,23 @@ class changePassword extends Component {
 		this.setState({ error: error || {} });
 		axios
 			.patch(
-				"https://digital-salon-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
+				"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
 				{
 					oldpassword: this.state.Password.old_password,
 					newpassword: this.state.Password.new_password,
-					confirm_newpassword: this.state.Password.confirm_new_password
+					confirm_newpassword: this.state.Password.confirm_new_password,
 				}
 			)
-			.then(function(response) {
+			.then((response) => {
 				console.log(response);
+				this.props.history.push("/password/change");
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				alert(error);
 			});
 	}
-	handleChange = e => {
+	handleChange = (e) => {
 		const { name, value } = e.target;
-=======
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  control: {
-    padding: 10,
-  },
-  button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    height: 48,
-    padding: "0 30px",
-  },
-  fields: {
-    marginTop: 15,
-  },
-  error: {
-    color: "red",
-  },
-  paperStyle: {
-    margin: "2px",
-    textAlign: "center",
-    color: "black",
-    marginTop: 30,
-  },
-});
-class changePassword extends Component {
-  state = {
-    Password: {
-      old_password: "",
-      new_password: "",
-      confirm_new_password: "",
-    },
-    error: {},
-  };
-  constructor() {
-    super();
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validate = this.validate.bind(this);
-    this.validate_single = this.validate_single.bind(this);
-  }
-  schema = {
-    old_password: Joi.string().required().min(5).label("oldPassword"),
-    new_password: Joi.string().required().min(5).label("newPassword"),
-    confirm_new_password: Joi.string()
-      .required()
-      .min(5)
-      .label("confirm_NewPassword"),
-  };
-  validate() {
-    const { error } = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
-    if (!error) return null;
-    const errors = {};
-
-    error.details.map((item) => {
-      errors[item.path[0]] = item.message;
-    });
-    return errors;
-  }
-  validate_single(field_name) {
-    console.log(this.state.Password[field_name]);
-    const { error } = Joi.validate(
-      this.state.Password[field_name],
-      this.schema[field_name]
-    );
-    if (!error) return null;
-    return error;
-  }
-  async handleSubmit(e) {
-    const error = this.validate();
-    this.setState({ error: error || {} });
-    axios
-      .patch(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
-        {
-          oldpassword: this.state.Password.old_password,
-          newpassword: this.state.Password.new_password,
-          confirm_newpassword: this.state.Password.confirm_new_password,
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        this.props.history.push("/password/change");
-      })
-      .catch(function (error) {
-        alert(error);
-      });
-  }
-  handleChange = (e) => {
-    const { name, value } = e.target;
->>>>>>> 4fd9c6bfe6c8b195c5771d7e0d6266681e81002f:src/Components/salonowner/auth/changePassword.jsx
 
 		const Salon = { ...this.state.Salon };
 		Salon[name] = value;
@@ -299,11 +193,7 @@ class changePassword extends Component {
 }
 
 changePassword.propTypes = {
-<<<<<<< HEAD:src/Conponents/changePassword.jsx
-	classes: PropTypes.object.isRequired
-=======
-  classes: PropTypes.object.isRequired,
->>>>>>> 4fd9c6bfe6c8b195c5771d7e0d6266681e81002f:src/Components/salonowner/auth/changePassword.jsx
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(changePassword);

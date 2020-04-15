@@ -16,10 +16,6 @@
 		"axios": "^0.19.2",
 		"classnames": "^2.2.6",
 		"formik": "^2.1.4",
-<<<<<<< HEAD
-		"google-map-react": "^1.1.7",
-=======
->>>>>>> 4fd9c6bfe6c8b195c5771d7e0d6266681e81002f
 		"google-maps-react": "^2.0.2",
 		"joi-browser": "^13.4.0",
 		"jwt-decode": "^2.2.0",
@@ -41,20 +37,13 @@
 		"react-router-dom": "^5.1.2",
 		"react-script-tag": "^1.1.2",
 		"react-scripts": "3.4.0",
-<<<<<<< HEAD
-=======
 		"react-slick": "^0.25.2",
->>>>>>> 4fd9c6bfe6c8b195c5771d7e0d6266681e81002f
 		"react-switch": "^5.0.1",
 		"react-text-mask": "^5.4.3",
 		"react-time-picker": "^3.9.0",
 		"react-toasts": "^3.0.6",
 		"react-transition-group": "^4.3.0",
-<<<<<<< HEAD
-		"typekit": "^0.1.1",
-=======
 		"slick-carousel": "^1.8.1",
->>>>>>> 4fd9c6bfe6c8b195c5771d7e0d6266681e81002f
 		"validate.js": "^0.13.1",
 		"yup": "^0.28.1"
 	},
