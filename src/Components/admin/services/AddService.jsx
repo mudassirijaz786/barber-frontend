@@ -155,7 +155,7 @@ class AddServiceByAdmin extends Component {
     console.log("form data is ", form_data);
     axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services",
       method: "POST",
       data: form_data,
       headers: {
@@ -167,7 +167,7 @@ class AddServiceByAdmin extends Component {
       .then((response) => {
         console.log("RESPONSE", response);
 
-        this.props.history.push("/dashboard");
+        this.props.history.push("/admin/services");
       })
       .catch(function (error) {
         alert(error);

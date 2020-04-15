@@ -9,17 +9,22 @@ import AdminDashboard from "./Components/admin/dashboard/AdminDashboard";
 import AddServices from "./Components/salonowner/services/AddService";
 import CardMaterial from "./Components/salonowner/services/ShowServices";
 import CardEdit from "./Components/salonowner/services/EditService";
-import changePassword from "./Components/salonowner/auth/changePassword";
+import AdminCardEdit from "./Components/admin/services/EditService";
+import ChangePassword from "./Components/salonowner/auth/ChangePassword";
+import AdminChangePassword from "./Components/admin/auth/AdminChangePassword";
+
 import AuthHeader from "./Components/layouts/AuthenticationHeader";
 import calender from "./Components/salonowner/schedule/Schedule";
 import Salons from "./Components/admin/salon/Salons";
 import LoginAdmin from "./Components/admin/auth/LoginAdmin";
 import SignupAdmin from "./Components/admin/auth/SignupAdmin";
-import AddServiceByAdmin from "./Components/admin/services/AddServiceByAdmin";
+import AddServiceByAdmin from "./Components/admin/services/AddService";
 import AddServicesRecommended from "./Components/admin/services/AddServicesRecommended";
-import ServicesViewAdmin from "./Components/admin/services/ServicesViewAdmin";
+import ServicesViewAdmin from "./Components/admin/services/ShowServices";
 import Available from "./Components/salonowner/salonAvailability/Available";
-import UpdateProfile from "./Components/admin/profile/UpdateProfile";
+import AdminUpdateProfile from "./Components/admin/profile/AdminUpdateProfile";
+import UpdateProfile from "./Components/salonowner/profile/UpdateProfile";
+
 import {
 	AdminRoute,
 	SalonOwnerRoute,
@@ -32,6 +37,7 @@ import {
 import NotFound from "../src/Components/common/NotFound";
 
 class App extends React.Component {
+<<<<<<< HEAD
 	render() {
 		return (
 			<Switch>
@@ -76,6 +82,68 @@ class App extends React.Component {
 						path="/admin/profile/edit"
 						component={UpdateProfile}
 					/>
+=======
+  render() {
+    return (
+      <Switch>
+        <Fragment>
+          <Route render={(props) => <Header {...props} />} />
+          <Route exact path="/calender" component={AuthHeader} />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/signup" component={Signup} />
+          <SalonOwnerRoute exact path="/calender" component={calender} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/admin/login" component={LoginAdmin} />
+          <Route exact path="/admin/signup" component={SignupAdmin} />
+          <SalonOwnerRoute
+            exact
+            path="/password/change"
+            component={ChangePassword}
+          />
+
+          <AdminRoute
+            exact
+            path="/admin/password/change"
+            component={AdminChangePassword}
+          />
+          <SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
+          <SalonOwnerRoute exact path="/services/add" component={AddServices} />
+          <Route
+            exact
+            path="/services/edit"
+            render={(props) => <CardEdit {...props} />}
+          />
+          <Route
+            exact
+            path="/admin/services/edit"
+            render={(props) => <AdminCardEdit {...props} />}
+          />
+          <Route exact path="/admin/services" component={ServicesViewAdmin} />
+          <SalonOwnerRoute exact path="/available" component={Available} />
+          <SalonOwnerRoute exact path="/services" component={CardMaterial} />
+          <Route
+            exact
+            path="/admin/services/add"
+            component={AddServiceByAdmin}
+          />
+          <Route
+            exact
+            path="/owner/services/add"
+            component={AddServicesRecommended}
+          />
+          <Route exact path="/admin/salons" component={AuthHeader} />
+          <AdminRoute exact path="/admin/salons" component={Salons} />
+          <AdminRoute
+            exact
+            path="/admin/profile/edit"
+            component={AdminUpdateProfile}
+          />
+          <SalonOwnerRoute
+            exact
+            path="/profile/edit"
+            component={UpdateProfile}
+          />
+>>>>>>> b1795f7601873b732a7ad7a34891089d4f6f58dc
 
 					<AdminRoute
 						exact

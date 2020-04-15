@@ -124,6 +124,7 @@ class changePassword extends Component {
 	render() {
 		const { classes } = this.props;
 
+<<<<<<< HEAD:src/Components/salonowner/auth/changePassword.jsx
 		return (
 			<Grid center container spacing={3} className={classes.root}>
 				<Grid item center xs={8} sm={4} lg={4} md={4} spacing={10}>
@@ -156,6 +157,40 @@ class changePassword extends Component {
 						fullWidth
 						onChange={this.handleChange}
 						className={classes.fields}
+=======
+    return (
+      <Grid center container spacing={3} className={classes.root}>
+        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
+          <Typography component="div">
+            <Box
+              fontSize={16}
+              fontWeight="fontWeightBold"
+              textAlign="center"
+              m={1}
+              color="indigo"
+            >
+              Forget your password? Reset now
+            </Box>
+          </Typography>{" "}
+          <TextField
+            placeholder="Please enter your old password"
+            value={this.state.Password.old_password}
+            onChange={this.handleChange}
+            // name="old_password"
+            // variant="contained"
+            // color="primary"
+            fullWidth
+            className={classes.fields}
+            label="Old password"
+          />
+          <TextField
+            value={this.state.Password.new_password}
+            placeholder="Please enter your new password"
+            label="New password"
+            fullWidth
+            onChange={this.handleChange}
+            className={classes.fields}
+>>>>>>> b1795f7601873b732a7ad7a34891089d4f6f58dc:src/Components/salonowner/auth/ChangePassword.jsx
 
 						// name="new_password"
 						// variant="contained"

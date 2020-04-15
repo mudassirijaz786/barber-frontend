@@ -144,7 +144,10 @@ class Sign_Up extends Component {
         }
       )
       .then(function (response) {
-        window.location = "/login";
+        ToastsStore.success(
+          "Your request for salon account has been submitted successfully please wait for account verification"
+        );
+        // window.location = "/login";
 
         console.log(response);
       })
