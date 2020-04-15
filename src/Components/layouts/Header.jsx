@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Authorization from "../common/Authorization";
-
+import AppDrawer from "../common/Drawer";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -36,14 +36,6 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="home"
-            >
-              <Home />
-            </IconButton>
             <Typography
               color="inherit"
               component={Link}
@@ -67,44 +59,21 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="home"
-            >
-              <Home />
-            </IconButton>
-            {Authorization.isAdmin() ? (
-              <Typography
-                color="inherit"
-                component={Link}
-                to="/admin/salons"
-                variant="h6"
-                className={classes.title}
-              >
-                Home Admin
-              </Typography>
-            ) : (
-              <Typography
-                color="inherit"
-                component={Link}
-                to="/services"
-                variant="h6"
-                className={classes.title}
-              >
-                Home Salonwoner
-              </Typography>
-            )}
+            {Authorization.isAdmin() || Authorization.isSalonOnwer() ? (
+              <AppDrawer />
+            ) : null}
 
-            <Button
-              color="inherit"
-              component={Link}
-              to="/"
-              onClick={this.logOut}
-            >
-              logout
-            </Button>
+            <Typography color="inherit" variant="h6" className={classes.title}>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/"
+                style={{ float: "right" }}
+                onClick={this.logOut}
+              >
+                logout
+              </Button>
+            </Typography>
           </Toolbar>
         </AppBar>
       </div>
