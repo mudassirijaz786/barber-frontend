@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { ToastsStore } from "react-toasts";
 
 import {
   TextField,
@@ -169,11 +170,13 @@ class Add_Service extends Component {
     })
       .then((response) => {
         console.log("RESPONSE", response);
-
-        this.props.history.push("/services");
+        ToastsStore.success("Service added successfully by salon owner", 5000);
+        setTimeout(() => {
+          this.props.history.push("/services");
+        }, 5000);
       })
       .catch(function (error) {
-        alert(error);
+        ToastsStore.error(error);
       });
   }
   selectedCategory = (e) => {

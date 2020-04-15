@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { ToastsStore } from "react-toasts";
 
 import {
   TextField,
@@ -166,11 +167,15 @@ class AddServiceByAdmin extends Component {
     })
       .then((response) => {
         console.log("RESPONSE", response);
+        ToastsStore.success("Service added successfully by admin", 5000);
 
-        this.props.history.push("/admin/services");
+        console.log(response);
+        setTimeout(() => {
+          this.props.history.push("/admin/services");
+        }, 5000);
       })
       .catch(function (error) {
-        alert(error);
+        ToastsStore.error(error);
       });
   }
   selectedCategory = (e) => {
