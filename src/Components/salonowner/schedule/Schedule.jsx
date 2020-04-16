@@ -24,6 +24,7 @@ const styles = (theme) => ({
   root: {
     flexGrow: 1,
     justifyContent: "center",
+    marginTop: 10,
   },
   control: {
     padding: 10,

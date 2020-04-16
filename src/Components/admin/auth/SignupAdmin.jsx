@@ -127,9 +127,15 @@ class SignupAdmin extends Component {
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
-        console.log("TOKEN", token);
-        console.log("RESPONSE", response);
-        this.props.history.push("/admin/login");
+        ToastsStore.success(
+          "You have registered successfully as an admin",
+          10000
+        );
+
+        console.log(response);
+        setTimeout(() => {
+          window.location = "/";
+        }, 10000);
       })
       .catch((error) => {
         if (error.response) {

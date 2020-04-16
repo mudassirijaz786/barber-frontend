@@ -9,7 +9,8 @@ import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
-
+import Authorization from "../common/Authorization";
+import AppDrawer from "../common/Drawer";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -32,41 +33,9 @@ class Header extends React.Component {
   render() {
     const { classes } = this.props;
     const guestLink = (
-      <div>
-        <Grid>
-          <Button color="inherit" component={Link} to="/signup">
-            Signup
-          </Button>
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
-        </Grid>
-      </div>
-    );
-    const authLink = (
-      <Grid>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/admin/signup"
-          onClick={this.logOut}
-        >
-          logout
-        </Button>
-      </Grid>
-    );
-    return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="home"
-            >
-              <Home />
-            </IconButton>
             <Typography
               color="inherit"
               component={Link}
@@ -74,11 +43,44 @@ class Header extends React.Component {
               variant="h6"
               className={classes.title}
             >
-              Salon App
+              Salon app
             </Typography>
-            {localStorage.getItem("x-auth-token") ? authLink : guestLink}
+            <Button color="inherit" component={Link} to="/signup">
+              Signup
+            </Button>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
+      </div>
+    );
+    const authLink = (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            {Authorization.isAdmin() || Authorization.isSalonOnwer() ? (
+              <AppDrawer />
+            ) : null}
+
+            <Typography color="inherit" variant="h6" className={classes.title}>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/"
+                style={{ float: "right" }}
+                onClick={this.logOut}
+              >
+                logout
+              </Button>
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+    return (
+      <div className={classes.root}>
+        {localStorage.getItem("x-auth-token") ? authLink : guestLink}
       </div>
     );
   }

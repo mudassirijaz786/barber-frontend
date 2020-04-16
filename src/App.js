@@ -14,7 +14,7 @@ import ChangePassword from "./Components/salonowner/auth/ChangePassword";
 import AdminChangePassword from "./Components/admin/auth/AdminChangePassword";
 
 import AuthHeader from "./Components/layouts/AuthenticationHeader";
-import calender from "./Components/salonowner/schedule/Schedule";
+import Schedule from "./Components/salonowner/schedule/Schedule";
 import Salons from "./Components/admin/salon/Salons";
 import LoginAdmin from "./Components/admin/auth/LoginAdmin";
 import SignupAdmin from "./Components/admin/auth/SignupAdmin";
@@ -42,10 +42,9 @@ class App extends React.Component {
 			<Switch>
 				<Fragment>
 					<Route render={(props) => <Header {...props} />} />
-					<Route exact path="/calender" component={AuthHeader} />
 					<Route exact path="/" component={Landing} />
 					<Route exact path="/signup" component={Signup} />
-					<SalonOwnerRoute exact path="/calender" component={calender} />
+					<SalonOwnerRoute exact path="/calender" component={Schedule} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/admin/login" component={LoginAdmin} />
 					<Route exact path="/admin/signup" component={SignupAdmin} />
@@ -85,7 +84,6 @@ class App extends React.Component {
 						path="/owner/services/add"
 						component={AddServicesRecommended}
 					/>
-					<Route exact path="/admin/salons" component={AuthHeader} />
 					<AdminRoute exact path="/admin/salons" component={Salons} />
 					<AdminRoute
 						exact
