@@ -37,7 +37,6 @@ import {
 import NotFound from "../src/Components/common/NotFound";
 
 class App extends React.Component {
-<<<<<<< HEAD
 	render() {
 		return (
 			<Switch>
@@ -53,7 +52,13 @@ class App extends React.Component {
 					<SalonOwnerRoute
 						exact
 						path="/password/change"
-						component={changePassword}
+						component={ChangePassword}
+					/>
+
+					<AdminRoute
+						exact
+						path="/admin/password/change"
+						component={AdminChangePassword}
 					/>
 					<SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
 					<SalonOwnerRoute exact path="/services/add" component={AddServices} />
@@ -61,6 +66,11 @@ class App extends React.Component {
 						exact
 						path="/services/edit"
 						render={(props) => <CardEdit {...props} />}
+					/>
+					<Route
+						exact
+						path="/admin/services/edit"
+						render={(props) => <AdminCardEdit {...props} />}
 					/>
 					<Route exact path="/admin/services" component={ServicesViewAdmin} />
 					<SalonOwnerRoute exact path="/available" component={Available} />
@@ -80,70 +90,13 @@ class App extends React.Component {
 					<AdminRoute
 						exact
 						path="/admin/profile/edit"
+						component={AdminUpdateProfile}
+					/>
+					<SalonOwnerRoute
+						exact
+						path="/profile/edit"
 						component={UpdateProfile}
 					/>
-=======
-  render() {
-    return (
-      <Switch>
-        <Fragment>
-          <Route render={(props) => <Header {...props} />} />
-          <Route exact path="/calender" component={AuthHeader} />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/signup" component={Signup} />
-          <SalonOwnerRoute exact path="/calender" component={calender} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/admin/login" component={LoginAdmin} />
-          <Route exact path="/admin/signup" component={SignupAdmin} />
-          <SalonOwnerRoute
-            exact
-            path="/password/change"
-            component={ChangePassword}
-          />
-
-          <AdminRoute
-            exact
-            path="/admin/password/change"
-            component={AdminChangePassword}
-          />
-          <SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
-          <SalonOwnerRoute exact path="/services/add" component={AddServices} />
-          <Route
-            exact
-            path="/services/edit"
-            render={(props) => <CardEdit {...props} />}
-          />
-          <Route
-            exact
-            path="/admin/services/edit"
-            render={(props) => <AdminCardEdit {...props} />}
-          />
-          <Route exact path="/admin/services" component={ServicesViewAdmin} />
-          <SalonOwnerRoute exact path="/available" component={Available} />
-          <SalonOwnerRoute exact path="/services" component={CardMaterial} />
-          <Route
-            exact
-            path="/admin/services/add"
-            component={AddServiceByAdmin}
-          />
-          <Route
-            exact
-            path="/owner/services/add"
-            component={AddServicesRecommended}
-          />
-          <Route exact path="/admin/salons" component={AuthHeader} />
-          <AdminRoute exact path="/admin/salons" component={Salons} />
-          <AdminRoute
-            exact
-            path="/admin/profile/edit"
-            component={AdminUpdateProfile}
-          />
-          <SalonOwnerRoute
-            exact
-            path="/profile/edit"
-            component={UpdateProfile}
-          />
->>>>>>> b1795f7601873b732a7ad7a34891089d4f6f58dc
 
 					<AdminRoute
 						exact
