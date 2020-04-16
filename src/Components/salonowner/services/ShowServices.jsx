@@ -76,6 +76,11 @@ class CardMaterial extends React.Component {
   }
 
   deleteService(id) {
+    const List_of_services = this.state.List_of_services.filter(
+      (e) => e._id !== id
+    );
+    console.log("list of salon after acceptance", List_of_services);
+    this.setState({ List_of_services });
     console.log(id);
     Axios({
       url:

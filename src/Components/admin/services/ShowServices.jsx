@@ -76,7 +76,12 @@ class ServicesViewAdmin extends React.Component {
   }
 
   deleteService(id) {
-    console.log(id);
+    const List_of_services = this.state.List_of_services.filter(
+      (e) => e._id !== id
+    );
+    console.log("list of salon after acceptance", List_of_services);
+    this.setState({ List_of_services });
+
     Axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
