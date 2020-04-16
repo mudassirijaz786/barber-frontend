@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { ToastsStore } from "react-toasts";
 
 import {
   TextField,
@@ -171,11 +172,15 @@ class CardEdit extends Component {
       },
     })
       .then(function (response) {
+        ToastsStore.success("Service edited successfully by salon owner", 5000);
+
         console.log(response);
-        window.location = "/services";
+        setTimeout(() => {
+          window.location = "/services";
+        }, 5000);
       })
       .catch(function (error) {
-        alert(error);
+        ToastsStore.error(error);
       });
   }
   selectedCategory = (e) => {
