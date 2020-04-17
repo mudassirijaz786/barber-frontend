@@ -145,7 +145,12 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/dashboard" variant="h6">
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/dashboard"
+            variant="h6"
+          >
             Dashboard
           </Button>
         </ListItem>

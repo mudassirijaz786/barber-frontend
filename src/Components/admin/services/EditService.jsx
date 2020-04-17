@@ -175,9 +175,9 @@ class CardEdit extends Component {
         ToastsStore.success("Service edited successfully by admin", 5000);
 
         console.log(response);
-        setTimeout(() => {
-          window.location = "/admin/services";
-        }, 5000);
+        // setTimeout(() => {
+        //   window.location = "/admin/services";
+        // }, 5000);
       })
       .catch(function (error) {
         ToastsStore.error(error);

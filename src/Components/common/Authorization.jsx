@@ -6,12 +6,16 @@ class Auth {
 
   isSalonOnwer() {
     const token = localStorage.getItem("x-auth-token");
-    if (token) {
-      let decoded = decode(token);
-      if (decoded.Salon_Owner_login) {
-        this.authenticated = true;
-        console.log("token valid");
+    try {
+      if (token) {
+        let decoded = decode(token);
+        if (decoded.Salon_Owner_login) {
+          this.authenticated = true;
+          console.log("token valid");
+        }
       }
+    } catch (error) {
+      return (this.authenticated = false);
     }
 
     return this.authenticated;
@@ -19,13 +23,17 @@ class Auth {
 
   isAdmin() {
     const token = localStorage.getItem("x-auth-token");
-    if (token) {
-      let decoded = decode(token);
-      // console.log(decoded);
-      if (decoded.SuperAdmin) {
-        this.authenticated = true;
-        console.log("token valid");
+    try {
+      if (token) {
+        let decoded = decode(token);
+        // console.log(decoded);
+        if (decoded.SuperAdmin) {
+          this.authenticated = true;
+          console.log("token valid");
+        }
       }
+    } catch (error) {
+      return (this.authenticated = false);
     }
 
     return this.authenticated;

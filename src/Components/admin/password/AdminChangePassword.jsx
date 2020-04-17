@@ -46,12 +46,12 @@ const styles = (theme) => ({
     marginTop: 30,
   },
 });
-class UpdateProfileAdmin extends Component {
+class UpdatePasswordAdmin extends Component {
   state = {
     Admin: {
-      email: "ali@gmail.com",
-      name: "dasdasd",
-      phonenumber: "93949494949449",
+      password: "password1122",
+      newPassword: "dasdasd",
+      confirmNewPassword: "dasdasds",
     },
     error: {},
     backendError: "",
@@ -60,13 +60,12 @@ class UpdateProfileAdmin extends Component {
   };
 
   schema = {
-    email: Joi.string().email().required().label("Email"),
-    phonenumber: Joi.number()
+    password: Joi.string().required().label("password"),
+    newPassword: Joi.string().min(3).max(15).required(),
+    confirmNewPassword: Joi.any()
+      .valid(Joi.ref("newPassword"))
       .required()
-      .min(11)
-      //.max(13)
-      .label("Phonenumber"),
-    name: Joi.string().min(3).max(10).label("Name"),
+      .options({ language: { any: { allowOnly: "must match password" } } }),
   };
   constructor() {
     super();
@@ -111,14 +110,13 @@ class UpdateProfileAdmin extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, loading: true });
     let form_data = new FormData();
-    form_data.append("email", this.state.Admin.email);
-    form_data.append("name", this.state.Admin.name);
-    form_data.append("phonenumber", this.state.Admin.phonenumber);
+    form_data.append("oldpassword", this.state.Admin.password);
+    form_data.append("confirmpassword", this.state.Admin.newPassword);
     var token = localStorage.getItem("x-auth-token");
 
     axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin",
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin/change/password/",
       method: "PUT",
       data: form_data,
       headers: {
@@ -128,11 +126,11 @@ class UpdateProfileAdmin extends Component {
       },
     })
       .then((response) => {
-        ToastsStore.success("You have updated your profile successfully", 5000);
+        ToastsStore.success("password has successfully changed by admin", 5000);
 
         console.log(response);
         setTimeout(() => {
-          window.location = "/admin/services";
+          window.location = "/admin/dashboard";
         }, 5000);
       })
       .catch((error) => {
@@ -193,7 +191,7 @@ class UpdateProfileAdmin extends Component {
                   m={1}
                   color="indigo"
                 >
-                  Admin signup here
+                  Update password
                 </Box>
               </Typography>
               <Typography className={classes.backendErrorStyle} variant="h5">
@@ -201,41 +199,41 @@ class UpdateProfileAdmin extends Component {
               </Typography>
 
               <TextField
-                placeholder="Please enter your email"
-                value={this.state.Admin.email}
+                placeholder="Please enter your password"
+                value={this.state.Admin.password}
                 onChange={this.handleChange}
-                name="email"
-                label="email"
+                name="password"
+                label="password"
                 className={classes.fields}
                 fullWidth
                 variant="standard"
               />
-              <div style={{ color: "red" }}>{this.state.error.email}</div>
+              <div style={{ color: "red" }}>{this.state.error.password}</div>
 
               <TextField
                 variant="standard"
-                value={this.state.Admin.name}
+                value={this.state.Admin.newPassword}
                 onChange={this.handleChange}
-                label=" name"
+                label="newPassword"
                 fullWidth
                 className={classes.fields}
-                name="name"
-                placeholder="Please enter your name"
+                name="newPassword"
+                placeholder="Please enter your newPassword"
               />
-              <div>{this.state.error.name}</div>
+              <div>{this.state.error.newPassword}</div>
 
               <TextField
-                value={this.state.Admin.phonenumber}
+                value={this.state.Admin.confirmNewPassword}
                 onChange={this.handleChange}
-                name="phonenumber"
-                placeholder="Please enter your phone number"
+                name="confirmNewPassword"
+                placeholder="Please enter your confirmNewPassword"
                 variant="standard"
                 className={classes.fields}
                 style={{ marginBottom: 20 }}
                 fullWidth
-                label="phone number"
+                label="confirmNewPassword"
               />
-              <div>{this.state.error.phonenumber}</div>
+              <div>{this.state.error.confirmNewPassword}</div>
 
               <Button
                 variant="contained"
@@ -246,7 +244,7 @@ class UpdateProfileAdmin extends Component {
                 style={{ marginBottom: 6 }}
                 onClick={this.handleSubmit}
               >
-                Signup
+                Update password
               </Button>
               <Grid
                 item
@@ -265,8 +263,8 @@ class UpdateProfileAdmin extends Component {
   }
 }
 
-UpdateProfileAdmin.propTypes = {
+UpdatePasswordAdmin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UpdateProfileAdmin);
+export default withStyles(styles)(UpdatePasswordAdmin);
