@@ -147,14 +147,14 @@ class Sign_Up extends Component {
     })
       .then(function (response) {
         ToastsStore.success(
-          "Your request for salon account has been submitted successfully please wait for account verification",
-          10000
+          "Your profile is being updated, please wait for a second",
+          5000
         );
 
         console.log(response);
         setTimeout(() => {
-          window.location = "/";
-        }, 10000);
+          window.location = "/dashboard";
+        }, 5000);
       })
       .catch((error) => {
         if (error.response) {
