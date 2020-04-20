@@ -10,6 +10,9 @@ import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/styles";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { ToastsStore } from "react-toasts";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const styles = (theme) => ({
   root: {
@@ -20,7 +23,7 @@ const styles = (theme) => ({
     padding: 10,
   },
   button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -45,11 +48,19 @@ const styles = (theme) => ({
     marginTop: 30,
   },
 });
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class Login extends Component {
   state = {
     account: {
-      email: "ali@gmail.com",
-      password: "password1122",
+      email: "newAdmin@gmail.com",
+      password: "dasdasd",
     },
     error: {},
     backendError: "",
@@ -154,54 +165,59 @@ class Login extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
-          {this.state.loading ? (
-            <ProgressSpinner
-              style={{ width: "50px", height: "50px", paddingLeft: 350 }}
-              strokeWidth="8"
-              fill="#EEEEEE"
-            />
-          ) : (
-            <div>
-              <Typography component="div">
-                <Box
-                  fontSize={16}
-                  fontWeight="fontWeightBold"
-                  textAlign="center"
-                  m={1}
-                  color="indigo"
-                >
-                  Admin login here
-                </Box>
-              </Typography>{" "}
-              <Typography className={classes.backendErrorStyle} variant="h5">
-                {this.state.backendError}
+      <React.Fragment>
+        <Container component="main" maxWidth="lg">
+          <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
+        </Container>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Container maxWidth="sm">
+            <Box color="indigo">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                gutterBottom
+              >
+                Login
               </Typography>
-              <TextField
-                label="email"
-                variant="standard"
-                placeholder="Please enter your email"
-                value={this.state.account.email}
-                className={classes.fields}
-                onChange={this.handleChange}
-                fullWidth
-                name="email"
-              />
-              <div className={classes.error}>{this.state.error.email}</div>
-              <TextField
-                fullWidth
-                value={this.state.account.password}
-                onChange={this.handleChange}
-                style={{ marginBottom: 20 }}
-                className={classes.fields}
-                name="password"
-                label="password"
-                type="password"
-                variant="standard"
-                placeholder="Please enter your password"
-              />
-              <div className={classes.error}>{this.state.error.password}</div>
+            </Box>
+            <Typography
+              variant="h5"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
+              Please login as an admin
+            </Typography>
+            <Typography className={classes.backendErrorStyle} variant="h5">
+              {this.state.backendError}
+            </Typography>
+            <TextField
+              label="email"
+              variant="outlined"
+              placeholder="Please enter your email"
+              value={this.state.account.email}
+              className={classes.fields}
+              onChange={this.handleChange}
+              fullWidth
+              name="email"
+            />
+            <div className={classes.error}>{this.state.error.email}</div>
+            <TextField
+              fullWidth
+              value={this.state.account.password}
+              onChange={this.handleChange}
+              style={{ marginBottom: 20 }}
+              className={classes.fields}
+              name="password"
+              label="password"
+              type="password"
+              variant="outlined"
+              placeholder="Please enter your password"
+            />
+            <div className={classes.error}>{this.state.error.password}</div>
+            <div>
               <Button
                 fullWidth
                 className={(classes.fields, classes.button)}
@@ -213,10 +229,11 @@ class Login extends Component {
               >
                 Login
               </Button>
+              {/* {this.state.loading && <ColorLinearProgress size={40} />} */}
             </div>
-          )}
-        </Grid>
-      </Grid>
+          </Container>
+        </Container>
+      </React.Fragment>
     );
   }
 }

@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Axios from "axios";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import EditIcon from "@material-ui/icons/Edit";
 import { withStyles } from "@material-ui/styles";
 import Decode from "jwt-decode";
@@ -20,38 +20,76 @@ import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
 import { Link } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner";
-
-const styles = (theme) => ({
-  root: {
-    // display: "flex",
-    // flexWrap: "wrap",
-    flexGrow: 1,
-
-    // justifyContent: "center",
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
   },
-  card: {
-    height: 450,
-    width: 400,
-    margin: 20,
-    border: "2px solid indigo",
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
   },
   button: {
-    minWidth: 200,
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    height: 48,
+    padding: "0 30px",
   },
-  paper: { marginTop: 40, border: "2px solid indigo" },
-  display: { display: "inline", marginLeft: 20, nested: { marginLeft: 15 } },
-});
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class CardMaterial extends React.Component {
   state = {
     List_of_salons: [123],
     name: "mudassir",
+    isLoading: false,
   };
 
   componentDidMount() {
+    this.setState({ isLoading: true });
+
     this.loadData();
   }
   loadData = () => {
-    this.setState({ loading: true });
     Axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin",
@@ -66,17 +104,16 @@ class CardMaterial extends React.Component {
         console.log("RESPONSE OBJECT", response);
         // List_of_services = { ...this.state.List_of_services0 };
         // List_of_services = response;
-        this.setState({ List_of_salons: response.data });
+        this.setState({ List_of_salons: response.data, isLoading: false });
       })
 
       // console.log("IN COMPONENT DID MOUNT", this.state.name);
 
-      .catch(function (error) {
+      .catch((error) => {
         if (error.response) {
-          alert(error.response.data);
+          this.setState({ isLoading: false });
         }
       });
-    this.setState({ loading: false });
   };
 
   acceptSalon = (id) => {
@@ -144,80 +181,88 @@ class CardMaterial extends React.Component {
     console.log("STATE", this.state.List_of_salons);
     return (
       <React.Fragment className={classes.root}>
-        <h2 style={{ textAlign: "center" }}>Requested salons</h2>
-        <Grid container spacing={3} maxWidth="lg">
-          {this.state.List_of_salons.length === 0 && (
-            <Grid item xs={12} lg={12} sm={12} md={12}>
-              <h2 style={{ textAlign: "center" }}>No salon to display</h2>
-            </Grid>
-          )}
+        <main>
+          <div className={classes.heroContent}>
+            <div>
+              {this.state.isLoading && <ColorLinearProgress size={30} />}
+            </div>
 
-          {this.state.List_of_salons.length !== 0 &&
-            this.state.List_of_salons.map((items) => {
-              return (
-                <div>
-                  {this.state.isLoading ? (
-                    <ProgressSpinner />
-                  ) : (
-                    <Grid item xs={6}>
-                      <Card
-                        items
-                        style={{
-                          height: 320,
-                          width: 400,
-                          margin: 20,
-                          border: "2px solid indigo",
-                        }}
-                      >
-                        <CardHeader title={items.SalonName} />
-                        <CardActionArea>
-                          <CardContent>
-                            <Typography>
-                              <span style={{ color: "indigo" }}>
-                                Phone number:{" "}
-                              </span>{" "}
-                              {items.SalonOwnerphoneNumber}
-                            </Typography>{" "}
-                            <Typography>
-                              <span style={{ color: "indigo" }}>
-                                Phone number:{" "}
-                              </span>{" "}
-                              {items.SalonOwnerphoneNumber}
-                            </Typography>{" "}
-                            <Typography>
-                              <span style={{ color: "indigo" }}>
-                                Owner name:{" "}
-                              </span>{" "}
-                              {items.Salon_owner_firstName}{" "}
-                            </Typography>{" "}
-                          </CardContent>
-                        </CardActionArea>
+            <Container maxWidth="sm">
+              <Box color="indigo">
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  gutterBottom
+                >
+                  All Salons
+                </Typography>
+              </Box>
 
-                        <CardActions disableSpacing>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.display}
-                            onClick={() => this.acceptSalon(items._id)}
-                          >
-                            Accept
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.display}
+              {this.state.List_of_salons.length === 0 ? (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  No Salon to display
+                </Typography>
+              ) : (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  All salons are listed below
+                </Typography>
+              )}
+            </Container>
+
+            <Container className={classes.cardGrid} maxWidth="md">
+              <Grid container spacing={4}>
+                {this.state.List_of_salons.map((items) => (
+                  <Grid item key={items} xs={12} sm={6} md={4}>
+                    <Card className={classes.card} elevation={20}>
+                      <CardHeader
+                        action={items.service_time}
+                        title={items.SalonName}
+                        subheader={items.service_category}
+                      />
+
+                      <CardContent className={classes.cardContent}>
+                        <Typography>
+                          <span style={{ color: "indigo" }}>Phone number:</span>
+                          {items.SalonOwnerphoneNumber}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {items.Salon_owner_firstName}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <IconButton
+                          size="large"
+                          color="primary"
+                          onClick={() => this.acceptSalon(items._id)}
+                        >
+                          <CheckIcon />
+                        </IconButton>
+                        <IconButton size="large" color="secondary">
+                          <CloseIcon
                             onClick={() => this.rejectSalon(items._id)}
-                          >
-                            Reject
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  )}
-                </div>
-              );
-            })}
-        </Grid>
+                          />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+
+              {/* End hero unit */}
+            </Container>
+          </div>
+        </main>
       </React.Fragment>
     );
   }
@@ -227,4 +272,4 @@ CardMaterial.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CardMaterial);
+export default withStyles(useStyles)(CardMaterial);

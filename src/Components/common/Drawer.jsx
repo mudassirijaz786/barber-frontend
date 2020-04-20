@@ -174,6 +174,14 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <EcoIcon />
           </ListItemIcon>
+          <Button color="primary" component={Link} to="/calender" variant="h6">
+            Schedule
+          </Button>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <EcoIcon />
+          </ListItemIcon>
           <Button color="primary" component={Link} to="/services" variant="h6">
             Services
           </Button>

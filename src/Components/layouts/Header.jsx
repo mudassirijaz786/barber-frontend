@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Authorization from "../common/Authorization";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AppDrawer from "../common/Drawer";
 const styles = (theme) => ({
   root: {
@@ -17,7 +18,8 @@ const styles = (theme) => ({
   },
 
   title: {
-    flexGrow: 1,
+    flexGrow: 2,
+    textAlign: "left",
   },
 });
 
@@ -34,17 +36,19 @@ class Header extends React.Component {
     const { classes } = this.props;
     const guestLink = (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="relative" color="inherit">
           <Toolbar>
             <Typography
               color="inherit"
               component={Link}
               to="/"
-              variant="h6"
+              variant="p"
+              // para
               className={classes.title}
             >
               Salon app
             </Typography>
+
             <Button color="inherit" component={Link} to="/signup">
               Signup
             </Button>
@@ -57,7 +61,7 @@ class Header extends React.Component {
     );
     const authLink = (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="relative" color="inherit">
           <Toolbar>
             {Authorization.isAdmin() || Authorization.isSalonOnwer() ? (
               <AppDrawer />
@@ -71,7 +75,7 @@ class Header extends React.Component {
                 style={{ float: "right" }}
                 onClick={this.logOut}
               >
-                logout
+                <ExitToAppIcon />
               </Button>
             </Typography>
           </Toolbar>

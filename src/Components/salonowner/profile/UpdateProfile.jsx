@@ -8,7 +8,12 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { ToastsStore } from "react-toasts";
-
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { withStyles } from "@material-ui/styles";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 import TimePicker from "react-time-picker";
@@ -18,26 +23,86 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import { GoogleApiWrapper } from "google-maps-react";
 
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  control: {
+    padding: 10,
+  },
+  button: {
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    height: 48,
+    padding: "0 30px",
+  },
+  fields: {
+    marginTop: 15,
+  },
+  paper: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  error: {
+    color: "red",
+  },
+});
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class Sign_Up extends Component {
   state = {
     Salon: {
-      Salon_owner_email: "ijazmudassir786@gmail.com",
-      Salon_owner_cnic: "949494949494",
+      Salon_owner_email: "",
+      Salon_owner_cnic: "",
 
-      Salon_owner_phoneNumber: "93949494949449",
-      Salon_owner_firstName: "alia",
-      Salon_Name: "",
+      Salon_owner_phoneNumber: "",
+      Salon_owner_firstName: "",
     },
-    latLng: {
-      lat: "",
-      lng: "",
-    },
-    loading: false,
 
-    Salon_opening_hours: "10:00",
-    Salon_closing_hours: "23:00",
+    Salon_opening_hours: "",
+    Salon_closing_hours: "",
     error: {},
+    isLoading: false,
   };
+
+  componentDidMount() {
+    const url =
+      "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/getSingle";
+    axios({
+      url: url,
+      method: "GET",
+      headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
+    })
+      .then((response) => {
+        const Salon = this.state.Salon;
+
+        Salon.Salon_owner_firstName = response.data.Salon_owner_firstName;
+        Salon.Salon_owner_email = response.data.SalonOwnerEmail;
+        Salon.Salon_owner_phoneNumber = response.data.SalonOwnerphoneNumber;
+        Salon.Salon_owner_cnic = response.data.SalonOwnerCnic;
+        this.setState({
+          Salon,
+          Salon_opening_hours: response.data.Salon_opening_hours,
+          Salon_closing_hours: response.data.Salon_closing_hours,
+        });
+      })
+
+      .catch(function (error) {
+        if (error.response) {
+          alert(error.response.data);
+        }
+      });
+  }
 
   schema = {
     Salon_owner_email: Joi.string().email().required().label("Email"),
@@ -52,7 +117,6 @@ class Sign_Up extends Component {
       //.max(13)
       .label("Phonenumber"),
     Salon_owner_firstName: Joi.string().min(3).max(10).label("FirstName"),
-    Salon_Name: Joi.string().min(3).max(200).label("SalonName"),
   };
   constructor() {
     super();
@@ -117,26 +181,26 @@ class Sign_Up extends Component {
   }
 
   async handleSubmit(e) {
-    console.log("state is ", this.state);
+    //		console.log("state is ", this.state);
     let form_data = new FormData();
     form_data.append("name", this.state.Salon.Salon_owner_firstName);
     form_data.append("email", this.state.Salon.Salon_owner_email);
     form_data.append("phoneNumber", this.state.Salon.Salon_owner_phoneNumber);
     form_data.append("cnic", this.state.Salon.Salon_owner_cnic);
-    form_data.append("salonname", this.state.Salon.Salon_Name);
-    form_data.append("latitude", this.state.latLng.lat);
-    form_data.append("longitude", this.state.latLng.lng);
 
     form_data.append("Salon_opening_hours", this.state.Salon_opening_hours);
 
     form_data.append("Salon_closing_hours", this.state.Salon_closing_hours);
-
+    console.log("form data", form_data);
     const error = this.validate();
-    this.setState({ error: error || {}, loading: true });
+    this.setState({ error: error || {}, isLoading: true });
     //const port=5000
     axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/UserSignUp",
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
+
+      // url:
+      // 	"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
       method: "PUT",
       data: form_data,
       headers: {
@@ -145,27 +209,35 @@ class Sign_Up extends Component {
         "x-auth-token": localStorage.getItem("x-auth-token"),
       },
     })
-      .then(function (response) {
-        ToastsStore.success(
-          "Your profile is being updated, please wait for a second",
-          5000
-        );
+      .then((response) => {
+        ToastsStore.success("Updated successfully", 3000);
+        this.setState({ isLoading: false });
+        // const Salon = this.state.Salon;
+        // Salon.Salon_owner_firstName = response.data.Salon_owner_firstName;
+        // Salon.Salon_owner_email = response.data.SalonOwnerEmail;
+        // Salon.Salon_owner_phoneNumber = response.data.SalonOwnerphoneNumber;
+        // Salon.Salon_owner_cnic = response.data.SalonOwnerCnic;
 
-        console.log(response);
-        setTimeout(() => {
-          window.location = "/dashboard";
-        }, 5000);
+        // this.setState({
+        // 	Salon,
+        // 	Salon_opening_hours: response.data.Salon_opening_hours,
+        // 	Salon_closing_hours: response.data.Salon_closing_hours,
+        // });
+
+        // setTimeout(() => {
+        // 	window.location = "/dashboard";
+        // }, 5000);
       })
       .catch((error) => {
         if (error.response) {
           ToastsStore.error(error.response.data);
           this.setState({
             backendError: error.response.data,
+            isLoading: false,
           });
           // alert(error.response.data);
         }
       });
-    this.setState({ loading: false });
 
     //	const result = await axios.post(url, this.state.Salon);
     //	console.log(result);
@@ -201,220 +273,150 @@ class Sign_Up extends Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <Grid
-        center
-        container
-        spacing={3}
-        style={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
-          {this.state.loading ? (
-            <ProgressSpinner
-              style={{ width: "50px", height: "50px", paddingLeft: 350 }}
-              strokeWidth="8"
-              fill="#EEEEEE"
-            />
-          ) : (
-            <div>
-              <Typography component="div">
-                <Box
-                  fontSize={16}
-                  fontWeight="fontWeightBold"
-                  textAlign="center"
-                  m={1}
-                  color="indigo"
-                >
-                  Update profile by salon owner
-                </Box>
+      <React.Fragment>
+        <Container component="main" maxWidth="lg">
+          <div>
+            {" "}
+            {this.state.isLoading && <ColorLinearProgress size={30} />}
+          </div>
+        </Container>
+
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box color="indigo">
+            <Typography component="h1" variant="h2" align="center" gutterBottom>
+              Update profile
+            </Typography>
+          </Box>
+          <Typography
+            variant="h5"
+            align="center"
+            color="textSecondary"
+            paragraph
+          >
+            Please update profile as a salon owner
+          </Typography>
+
+          <Typography
+            style={{ color: "red", textAlign: "center" }}
+            variant="h5"
+          >
+            {this.state.backendError}
+          </Typography>
+
+          <TextField
+            placeholder="Please enter your email"
+            value={this.state.Salon.Salon_owner_email}
+            onChange={this.handleChange}
+            name="Salon_owner_email"
+            label="email"
+            className={classes.fields}
+            fullWidth
+            variant="outlined"
+          />
+          <div style={{ color: "red" }}>
+            {this.state.error.Salon_owner_email}
+          </div>
+
+          <TextField
+            variant="outlined"
+            className={classes.fields}
+            value={this.state.Salon.Salon_owner_firstName}
+            onChange={this.handleChange}
+            label="first name"
+            fullWidth
+            name="Salon_owner_firstName"
+            placeholder="Please enter your firstname"
+          />
+          <div>{this.state.error.Salon_owner_firstName}</div>
+
+          <TextField
+            className={classes.fields}
+            value={this.state.Salon.Salon_owner_cnic}
+            onChange={this.handleChange}
+            name="Salon_owner_cnic"
+            label="cnic"
+            fullWidth
+            placeholder="Please enter your cnic"
+            variant="outlined"
+          />
+          <div>{this.state.error.Salon_owner_cnic}</div>
+          <TextField
+            className={classes.fields}
+            value={this.state.Salon.Salon_owner_phoneNumber}
+            onChange={this.handleChange}
+            name="Salon_owner_phoneNumber"
+            placeholder="Please enter your phone number"
+            variant="outlined"
+            fullWidth
+            label="phone number"
+          />
+          <div>{this.state.error.Salon_owner_phoneNumber}</div>
+
+          <Paper
+            elevation={8}
+            style={{
+              justifyContent: "center",
+              flexGrow: 1,
+              display: "flex",
+              flexWrap: "wrap",
+              marginTop: 15,
+            }}
+          >
+            <span style={{ padding: 10 }}>
+              <Typography style={{ color: "green", marginRight: 15 }}>
+                Starting time
               </Typography>
-              <Typography
-                style={{ color: "red", textAlign: "center" }}
-                variant="h5"
-              >
-                {this.state.backendError}
+              <TimePicker
+                label="select starting time"
+                onChange={this.handle_opening_time_change}
+                value={this.state.Salon_opening_hours}
+                isOpen={false}
+                clearIcon="Clear"
+                clockAriaLabel="Toggle clock"
+                clockIcon=""
+                required={true}
+              />
+            </span>
+
+            <span style={{ padding: 10 }}>
+              <Typography style={{ color: "green", marginRight: 15 }}>
+                Closing time
               </Typography>
-
-              <TextField
-                placeholder="Please enter your email"
-                value={this.state.Salon.Salon_owner_email}
-                onChange={this.handleChange}
-                name="Salon_owner_email"
-                label="email"
-                style={{ marginTop: 15 }}
-                fullWidth
-                variant="standard"
+              <TimePicker
+                onChange={this.handle_closing_time_change}
+                value={this.state.Salon_closing_hours}
+                isOpen={false}
+                clearIcon="Clear"
+                clockAriaLabel="Toggle clock"
+                clockIcon=""
+                required={true}
               />
-              <div style={{ color: "red" }}>
-                {this.state.error.Salon_owner_email}
-              </div>
+            </span>
+          </Paper>
 
-              <TextField
-                variant="standard"
-                style={{ marginTop: 15 }}
-                value={this.state.Salon.Salon_owner_firstName}
-                onChange={this.handleChange}
-                label="first name"
-                fullWidth
-                name="Salon_owner_firstName"
-                placeholder="Please enter your firstname"
-              />
-              <div>{this.state.error.Salon_owner_firstName}</div>
+          <br></br>
 
-              <TextField
-                style={{ marginTop: 15 }}
-                value={this.state.Salon.Salon_owner_cnic}
-                onChange={this.handleChange}
-                name="Salon_owner_cnic"
-                label="cnic"
-                fullWidth
-                placeholder="Please enter your cnic"
-                variant="standard"
-              />
-              <div>{this.state.error.Salon_owner_cnic}</div>
-              <TextField
-                style={{ marginTop: 15 }}
-                value={this.state.Salon.Salon_owner_phoneNumber}
-                onChange={this.handleChange}
-                name="Salon_owner_phoneNumber"
-                placeholder="Please enter your phone number"
-                variant="standard"
-                fullWidth
-                label="phone number"
-              />
-              <div>{this.state.error.Salon_owner_phoneNumber}</div>
-
-              <PlacesAutocomplete
-                value={this.state.Salon.Salon_Name}
-                onChange={this.handleChangessalonserach}
-                onSelect={this.handleSelect}
-              >
-                {({
-                  getInputProps,
-                  suggestions,
-                  getSuggestionItemProps,
-                  loading,
-                }) => (
-                  <div>
-                    <TextField
-                      style={{ marginTop: 15 }}
-                      {...getInputProps({
-                        placeholder: "Search Salon...",
-                        className: "location-search-input",
-                      })}
-                      name="Salon_Name"
-                      label="salon name"
-                      fullWidth
-                      variant="standard"
-                    />
-                    <div className="autocomplete-dropdown-container">
-                      {loading && <div>Loading...</div>}
-                      {suggestions.map((suggestion) => {
-                        const className = suggestion.active
-                          ? "suggestion-item--active"
-                          : "suggestion-item";
-                        // inline style for demonstration purpose
-                        const style = suggestion.active
-                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                          : { backgroundColor: "#ffffff", cursor: "pointer" };
-                        return (
-                          <div
-                            {...getSuggestionItemProps(suggestion, {
-                              className,
-                              style,
-                            })}
-                          >
-                            <span>{suggestion.description}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </PlacesAutocomplete>
-
-              <div>{this.state.error.Salon_Name}</div>
-
-              <Paper
-                elevation={8}
-                style={{
-                  justifyContent: "center",
-                  flexGrow: 1,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  marginTop: 15,
-                }}
-              >
-                <span style={{ padding: 10 }}>
-                  <Typography style={{ color: "green", marginRight: 15 }}>
-                    Starting time
-                  </Typography>
-                  <TimePicker
-                    label="select starting time"
-                    onChange={this.handle_opening_time_change}
-                    value={this.state.Salon_opening_hours}
-                    isOpen={false}
-                    clearIcon="Clear"
-                    clockAriaLabel="Toggle clock"
-                    clockIcon=""
-                    required={true}
-                  />
-                </span>
-
-                <span style={{ padding: 10 }}>
-                  <Typography style={{ color: "green", marginRight: 15 }}>
-                    Closing time
-                  </Typography>
-                  <TimePicker
-                    onChange={this.handle_closing_time_change}
-                    value={this.state.Salon_closing_hours}
-                    isOpen={false}
-                    clearIcon="Clear"
-                    clockAriaLabel="Toggle clock"
-                    clockIcon=""
-                    required={true}
-                  />
-                </span>
-              </Paper>
-
-              <br></br>
-
-              <Button
-                fullWidth
-                style={{
-                  background:
-                    "linear-gradient(45deg, #020024 30%, #090979 90%)",
-                  border: 0,
-                  borderRadius: 3,
-                  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-                  color: "white",
-                  height: 48,
-                  padding: "0 30px",
-                  marginTop: 15,
-                }}
-                variant="contained"
-                color="primary"
-                // disabled={this.validate()}
-                onClick={this.handleSubmit}
-              >
-                update profile
-              </Button>
-              <Grid
-                item
-                xs={2}
-                style={{
-                  padding: "2px",
-                  alighItem: "center",
-                  color: "black",
-                }}
-              ></Grid>
-            </div>
-          )}
-        </Grid>
-      </Grid>
+          <Button
+            fullWidth
+            className={(classes.fields, classes.button)}
+            variant="contained"
+            color="primary"
+            disabled={this.validate()}
+            onClick={this.handleSubmit}
+          >
+            update profile
+          </Button>
+        </Container>
+      </React.Fragment>
     );
   }
 }
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyARjyRyPhNoOKCNv4bS1W7zP-1reTQElFs",
-})(Sign_Up);
+Sign_Up.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Sign_Up);

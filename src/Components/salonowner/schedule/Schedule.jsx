@@ -18,49 +18,46 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { ProgressSpinner } from "primereact/progressspinner";
-
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import CardMedia from "@material-ui/core/CardMedia";
 import PropTypes from "prop-types";
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-    marginTop: 10,
+import Box from "@material-ui/core/Box";
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
   },
-  control: {
-    padding: 10,
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
   },
-  button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    height: 48,
-    padding: "0 30px",
+  heroButtons: {
+    marginTop: theme.spacing(4),
   },
-  fields: {
-    marginTop: 15,
-  },
-  error: {
-    color: "red",
-  },
-  backendErrorStyle: {
-    color: "red",
-    textAlign: "center",
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
   },
   card: {
-    margin: 20,
-    border: "2px solid indigo",
+    height: "100%",
+    display: "flex",
+
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
     flexGrow: 1,
-    justifyContent: "center",
   },
-  paperStyle: {
-    margin: "2px",
-    textAlign: "center",
-    color: "black",
-    marginTop: 30,
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
   },
-});
+}));
 class Schedule extends Component {
   constructor(props) {
     super(props);
@@ -125,79 +122,91 @@ class Schedule extends Component {
 
     return (
       <React.Fragment>
-        <Grid center container spacing={3} className={classes.root}>
-          <Grid item center xs={8} sm={8} lg={4} md={4} spacing={10}>
-            <Calendar
-              onChange={this.handleonChange}
-              value={this.state.date}
-            ></Calendar>
-          </Grid>
-        </Grid>
+        <main>
+          <div className={classes.heroContent}>
+            <Container component="main" maxWidth="xs">
+              <Box color="indigo">
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  gutterBottom
+                >
+                  Schedule
+                </Typography>
+              </Box>
+              <Calendar
+                onChange={this.handleonChange}
+                value={this.state.date}
+              ></Calendar>
+              {this.state.sechedule.length === 0 ? (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  Sorry, no schedule for today
+                </Typography>
+              ) : (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  Following is list of schedule if any
+                </Typography>
+              )}
+            </Container>
+          </div>
 
-        {this.state.sechedule.length !== 0 && (
-          <Grid center container className={classes.root}>
-            {/* <Grid item center xs={8} sm={8} lg={12} md={8} spacing={10}> */}
-            <div className={classes.root}>
-              <Grid container maxWidth="lg">
-                {this.state.sechedule.map((items) => {
-                  return (
-                    <Grid item xs={10} sm={10} lg={6} md={10}>
-                      {this.state.loading ? (
-                        <ProgressSpinner />
-                      ) : (
-                        <Card key={items._id} className={classes.card}>
-                          <CardHeader
-                            avatar={<Avatar aria-label="recipe">date</Avatar>}
-                            title={items.booking_date}
-                          />
-                          <CardActionArea>
-                            <CardContent>
-                              <Typography
-                                variant="h5"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                <span style={{ color: "indigo" }}>
-                                  Starting Time:{" "}
-                                </span>{" "}
-                                {items.stating_time}
-                              </Typography>
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Grid container spacing={4}>
+              {this.state.sechedule.map((items) => (
+                <Grid item key={items} xs={12} sm={6} md={4}>
+                  <Card key={items._id} className={classes.card}>
+                    <CardHeader
+                      avatar={<Avatar aria-label="recipe">date</Avatar>}
+                      title={items.booking_date}
+                    />
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          <span style={{ color: "indigo" }}>
+                            Starting Time:{" "}
+                          </span>{" "}
+                          {items.stating_time}
+                        </Typography>
 
-                              <Typography
-                                variant="h5"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                <span style={{ color: "indigo" }}>
-                                  Ending Time:{" "}
-                                </span>{" "}
-                                {items.ending_time}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
+                        <Typography
+                          variant="h6"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          <span style={{ color: "indigo" }}>Ending Time: </span>{" "}
+                          {items.ending_time}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
 
-                          <CardActions disableSpacing>
-                            <Typography
-                              variant="h6"
-                              component="h6"
-                              gutterBottom
-                            >
-                              Service: {items.Salon_id}
-                            </Typography>
-                          </CardActions>
-                        </Card>
-                      )}
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </div>
-            {/* </Grid> */}
-          </Grid>
-        )}
-        {this.state.sechedule.length === 0 && (
-          <h2 style={{ textAlign: "center" }}>No appointment today </h2>
-        )}
+                    <CardActions disableSpacing>
+                      <Typography variant="h6" component="h6" gutterBottom>
+                        Service: {items.Salon_id}
+                      </Typography>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+
+            {/* End hero unit */}
+          </Container>
+        </main>
       </React.Fragment>
     );
   }
@@ -207,4 +216,4 @@ Schedule.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Schedule);
+export default withStyles(useStyles)(Schedule);

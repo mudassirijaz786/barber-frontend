@@ -15,21 +15,26 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
+import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { ProgressSpinner } from "primereact/progressspinner";
+import Box from "@material-ui/core/Box";
+import decode from "jwt-decode";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import AddIcon from "@material-ui/icons/Add";
+import Authorization from "../../common/Authorization";
 
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
   },
-  card: {
-    border: "2px solid indigo",
-    margin: 10,
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
   },
   button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -37,15 +42,48 @@ const styles = (theme) => ({
     height: 48,
     padding: "0 30px",
   },
-});
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class CardMaterial extends React.Component {
   state = {
     List_of_services: [],
     name: "mudassir",
-    loading: true,
+    isLoading: false,
   };
 
   componentDidMount() {
+    this.setState({ isLoading: true });
+
     this.loadData();
   }
   loadData() {
@@ -60,17 +98,14 @@ class CardMaterial extends React.Component {
       },
     })
       .then((response) => {
-        console.log("RESPONSE OBJECT", response);
-        // List_of_services = { ...this.state.List_of_services0 };
-        // List_of_services = response;
-        this.setState({ List_of_services: response.data, loading: false });
+        this.setState((prevState) => ({
+          isLoading: false,
+          List_of_services: response.data,
+        }));
       })
-
-      // console.log("IN COMPONENT DID MOUNT", this.state.name);
-
-      .catch(function (error) {
+      .catch((error) => {
         if (error.response) {
-          alert(error.response.data);
+          this.setState({ isLoading: false });
         }
       });
   }
@@ -109,113 +144,132 @@ class CardMaterial extends React.Component {
   render() {
     console.log("decode", Decode(localStorage.getItem("x-auth-token")));
     const { classes } = this.props;
-    console.log("STATE", this.state.List_of_services);
     return (
-      <React.Fragment className={classes.root}>
-        <h2 style={{ textAlign: "center" }}>Services</h2>
+      <React.Fragment>
+        <main>
+          {/* Hero unit */}
+          <div className={classes.heroContent}>
+            {this.state.isLoading && <ColorLinearProgress size={30} />}
+            <Container maxWidth="sm">
+              <Box color="indigo">
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  gutterBottom
+                >
+                  All services
+                </Typography>
+              </Box>
+              {this.state.List_of_services.length === 0 ? (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  No service to display
+                </Typography>
+              ) : (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  All services are listed below
+                </Typography>
+              )}
+            </Container>
+          </div>
 
-        <Grid container spacing={3} maxWidth="lg">
-          {this.state.List_of_services.length === 0 && (
-            <Grid item xs={6}>
-              <h2 style={{ textAlign: "center" }}>
-                No recomended service available
-              </h2>
-            </Grid>
-          )}
-          {this.state.List_of_services.length !== 0 &&
-            this.state.List_of_services.map((items) => {
-              return (
-                <div>
-                  {this.state.isLoading ? (
-                    <ProgressSpinner />
-                  ) : (
-                    <Grid item xs={6}>
-                      <Card
-                        items
-                        style={{
-                          height: 450,
-                          width: 400,
-                          margin: 20,
-                          border: "2px solid indigo",
-                        }}
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Grid container spacing={4}>
+              {this.state.List_of_services.map((items) => (
+                <Grid item key={items} xs={12} sm={6} md={4}>
+                  <Card className={classes.card} elevation={20}>
+                    <CardHeader
+                      avatar={
+                        <Avatar
+                          aria-label={items.serviceName}
+                          className={classes.avatar}
+                          src={items.image_url}
+                        ></Avatar>
+                      }
+                      action={items.service_time}
+                      title={items.serviceName}
+                      subheader={items.service_category}
+                    />
+                    <CardMedia
+                      style={{
+                        height: 0,
+                        paddingTop: "56.25%", // 16:9,
+                        marginTop: "30",
+                      }}
+                      className={classes.cover}
+                      image={items.image_url}
+                      title={items.serviceName}
+                    />
+                    <CardContent className={classes.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {items.service_time}
+                      </Typography>
+                      <Typography>{items.serviceDescription}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small" color="primary">
+                        <DeleteIcon
+                          onClick={() => this.deleteService(items._id)}
+                        />
+                      </Button>
+                      <Button
+                        size="small"
+                        color="primary"
+                        component={Link}
+                        to={{ pathname: "/services/edit", id: items._id }}
                       >
-                        <CardHeader
-                          avatar={
-                            <Avatar
-                              aria-label={items.serviceName}
-                              className={classes.avatar}
-                              src={items.image_url}
-                            ></Avatar>
-                          }
-                          action={<IconButton>{items.service_time}</IconButton>}
-                          title={items.serviceName}
-                          subheader={items.service_category}
-                        />
-                        <CardMedia
-                          style={{
-                            height: 0,
-                            paddingTop: "56.25%", // 16:9,
-                            marginTop: "30",
-                          }}
-                          className={classes.cover}
-                          image={items.image_url}
-                          title={items.serviceName}
-                        />
+                        <EditIcon />
+                      </Button>
 
-                        <CardContent>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                          >
-                            {items.serviceDescription}
-                          </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                          <DeleteIcon
-                            onClick={() => this.deleteService(items._id)}
-                          />
-                          <Link
-                            to={{ pathname: "/services/edit", id: items._id }}
-                          >
-                            <EditIcon />
-                          </Link>
-                          <Link
-                            to={{ pathname: "/services/add", id: items._id }}
-                          >
-                            <ExpandMoreIcon />
-                          </Link>
+                      <Typography
+                        variant="h5"
+                        align="center"
+                        color="textSecondary"
+                      >
+                        {items.servicePrice} Rs
+                      </Typography>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
 
-                          <IconButton>
-                            <Typography
-                              variant="h4"
-                              color="textSecondary"
-                              style={{ textAlign: "right" }}
-                            >
-                              {items.servicePrice} Rs
-                            </Typography>
-                          </IconButton>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  )}
-                </div>
-              );
-            })}
-          <Grid item xs={6}>
-            <Button
-              style={{ marginLeft: 10 }}
-              color="primary"
-              variant="contained"
-              size="large"
-              component={Link}
-              to="/services/add"
-              className={classes.button}
-            >
-              Add service
-            </Button>
-          </Grid>
-        </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <IconButton
+                  aria-label="add"
+                  to="/services/add"
+                  component={Link}
+                  color="primary"
+                  className={classes.margin}
+                  size="large"
+                >
+                  <AddIcon fontSize="large" />
+                </IconButton>
+                {/* <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  // component={Link}
+                  to="/admin/services/add"
+                  className={classes.button}
+                >
+                  Add Service
+                </Button> */}
+              </Grid>
+            </Grid>
+
+            {/* End hero unit */}
+          </Container>
+        </main>
       </React.Fragment>
     );
   }
@@ -225,4 +279,4 @@ CardMaterial.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CardMaterial);
+export default withStyles(useStyles)(CardMaterial);

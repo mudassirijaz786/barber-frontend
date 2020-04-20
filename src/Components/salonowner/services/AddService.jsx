@@ -3,6 +3,11 @@ import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { ToastsStore } from "react-toasts";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 import {
   TextField,
@@ -24,7 +29,7 @@ const styles = (theme) => ({
     padding: 10,
   },
   button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -43,6 +48,14 @@ const styles = (theme) => ({
     color: "red",
   },
 });
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class Add_Service extends Component {
   state = {
     Service: {
@@ -60,6 +73,7 @@ class Add_Service extends Component {
 
     value: "",
     open: false,
+    isLoading: false,
     files: [],
     error: {},
   };
@@ -155,7 +169,7 @@ class Add_Service extends Component {
     form_data.append("service_time", this.state.Service.service_time);
 
     const error = this.validate();
-    this.setState({ error: error || {} });
+    this.setState({ error: error || {}, isLoading: true });
     console.log("form data is ", form_data);
     axios({
       url:
@@ -171,12 +185,16 @@ class Add_Service extends Component {
       .then((response) => {
         console.log("RESPONSE", response);
         ToastsStore.success("Service added successfully by salon owner", 5000);
+        this.setState({ isLoading: false });
         setTimeout(() => {
           this.props.history.push("/services");
         }, 5000);
       })
-      .catch(function (error) {
+      .catch((error) => {
         ToastsStore.error(error);
+        this.setState({
+          isLoading: false,
+        });
       });
   }
   selectedCategory = (e) => {
@@ -238,48 +256,60 @@ class Add_Service extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
-          <Typography component="div">
-            <Box
-              fontSize={16}
-              fontWeight="fontWeightBold"
-              textAlign="center"
-              m={1}
-              color="indigo"
-            >
-              Create service
-            </Box>
-          </Typography>{" "}
-          {/* <input
-            fullWidth
-            type="file"
-            onChange={this.handlefilechange}
-            //	value={this.state.Service.img_url}
-            //name="img_url"
-          ></input> */}
-          <TextField
-            fullWidth
-            className={classes.fields}
-            value={this.state.Service.service_name}
-            onChange={this.handleChange}
-            name="service_name"
-            label="Service name"
-            variant="standard"
-            placeholder="Please enter service name"
-          />
-          <div className={classes.error}>{this.state.error.service_name}</div>
-          <TextField
-            className={classes.fields}
-            fullWidth
-            value={this.state.Service.price}
-            onChange={this.handleChange}
-            name="price"
-            label="Price"
-            variant="standard"
-            placeholder="Please enter price"
-          />
-          <div className={classes.error}>{this.state.error.price}</div>
+      <React.Fragment>
+        <Container component="main" maxWidth="lg">
+          <div>
+            {" "}
+            {this.state.isLoading && <ColorLinearProgress size={30} />}
+          </div>
+        </Container>
+
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box color="indigo">
+            <Typography component="h1" variant="h2" align="center" gutterBottom>
+              Create Service
+            </Typography>
+          </Box>
+          <Typography
+            variant="h5"
+            align="center"
+            color="textSecondary"
+            paragraph
+          >
+            Please create service as a salon owner
+          </Typography>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                className={classes.fields}
+                value={this.state.Service.service_name}
+                onChange={this.handleChange}
+                name="service_name"
+                label="Service name"
+                variant="outlined"
+                placeholder="Please enter service name"
+              />
+              <div className={classes.error}>
+                {this.state.error.service_name}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className={classes.fields}
+                fullWidth
+                value={this.state.Service.price}
+                onChange={this.handleChange}
+                name="price"
+                label="Price"
+                variant="outlined"
+                placeholder="Please enter price"
+              />
+              <div className={classes.error}>{this.state.error.price}</div>
+            </Grid>
+          </Grid>
           <TextField
             className={classes.fields}
             fullWidth
@@ -287,7 +317,7 @@ class Add_Service extends Component {
             onChange={this.handleChange}
             name="service_description"
             label="Description"
-            variant="standard"
+            variant="outlined"
             placeholder="Please enter service description"
           />
           <div className={classes.error}>{this.state.error.description}</div>
@@ -299,7 +329,7 @@ class Add_Service extends Component {
             value={this.state.Service.category_name}
             onChange={this.selectedCategory}
             //   helperText="Please select service category"
-            // variant="filled"
+            variant="outlined"
             fullWidth
           >
             {this.state.category.map((option) => (
@@ -311,6 +341,7 @@ class Add_Service extends Component {
           <TextField
             id="filled-select-currency"
             select
+            variant="outlined"
             className={classes.fields}
             label="Please select service time"
             value={this.state.Service.service_time}
@@ -323,33 +354,41 @@ class Add_Service extends Component {
               </MenuItem>
             ))}
           </TextField>
-          <Paper className={classes.paper}>
-            <Typography component="div">
-              <Box
-                fontSize={16}
-                fontWeight="fontWeightBold"
-                textAlign="center"
-                m={1}
-                color="indigo"
+
+          <Grid container spacing={10}>
+            <Grid item xs={8} sm={8}>
+              <Typography
+                style={{ paddingTop: 8 }}
+                variant="h6"
+                align="center"
+                color="textSecondary"
+                paragraph
               >
-                Select image
-              </Box>
-            </Typography>{" "}
-            <Button
-              onClick={this.handleOpen.bind(this)}
-              className={classes.fields}
-            >
-              Upload
-            </Button>
-            <DropzoneDialog
-              open={this.state.open}
-              onSave={this.handleSave.bind(this)}
-              acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
-              showPreviews={true}
-              maxFileSize={5000000}
-              onClose={this.handleClose.bind(this)}
-            />
-          </Paper>
+                Please select image
+              </Typography>
+            </Grid>
+            <Grid item xs={4} sm={4}>
+              <IconButton
+                aria-label="add"
+                color="primary"
+                onClick={this.handleOpen.bind(this)}
+                size="medium"
+              >
+                <AddIcon fontSize="medium" />
+              </IconButton>
+
+              <DropzoneDialog
+                filesLimit={1}
+                open={this.state.open}
+                onSave={this.handleSave.bind(this)}
+                acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+                showPreviews={true}
+                maxFileSize={5000000}
+                onClose={this.handleClose.bind(this)}
+              />
+            </Grid>
+          </Grid>
+
           <Button
             variant="contained"
             className={(classes.fields, classes.button)}
@@ -360,8 +399,8 @@ class Add_Service extends Component {
           >
             Add service
           </Button>
-        </Grid>
-      </Grid>
+        </Container>
+      </React.Fragment>
     );
   }
 }

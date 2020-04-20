@@ -11,7 +11,9 @@ import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { ToastsStore } from "react-toasts";
-
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import LinearProgress from "@material-ui/core/LinearProgress";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -21,7 +23,7 @@ const styles = (theme) => ({
     padding: 10,
   },
   button: {
-    background: "linear-gradient(45deg, #020024 30%, #090979 90%)",
+    background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -46,6 +48,14 @@ const styles = (theme) => ({
     marginTop: 30,
   },
 });
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
+})(LinearProgress);
 class UpdateProfileAdmin extends Component {
   state = {
     Admin: {
@@ -129,6 +139,7 @@ class UpdateProfileAdmin extends Component {
     })
       .then((response) => {
         ToastsStore.success("You have updated your profile successfully", 5000);
+        this.setState({ loading: false });
 
         console.log(response);
         setTimeout(() => {
@@ -141,10 +152,10 @@ class UpdateProfileAdmin extends Component {
 
           this.setState({
             backendError: error.response.data,
+            loading: false,
           });
         }
       });
-    this.setState({ loading: false });
 
     //	const result = await axios.post(url, this.state.Salon);
     //	console.log(result);
@@ -175,92 +186,81 @@ class UpdateProfileAdmin extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid center container spacing={3} className={classes.root}>
-        <Grid item center xs={8} sm={8} lg={4} md={6} spacing={10}>
-          {this.state.loading ? (
-            <ProgressSpinner
-              style={{ width: "50px", height: "50px", paddingLeft: 350 }}
-              strokeWidth="8"
-              fill="#EEEEEE"
-            />
-          ) : (
-            <div>
-              <Typography component="div">
-                <Box
-                  fontSize={16}
-                  fontWeight="fontWeightBold"
-                  textAlign="center"
-                  m={1}
-                  color="indigo"
-                >
-                  Admin signup here
-                </Box>
-              </Typography>
-              <Typography className={classes.backendErrorStyle} variant="h5">
-                {this.state.backendError}
-              </Typography>
+      <React.Fragment>
+        <Container component="main" maxWidth="lg">
+          <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
+        </Container>
 
-              <TextField
-                placeholder="Please enter your email"
-                value={this.state.Admin.email}
-                onChange={this.handleChange}
-                name="email"
-                label="email"
-                className={classes.fields}
-                fullWidth
-                variant="standard"
-              />
-              <div style={{ color: "red" }}>{this.state.error.email}</div>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box color="indigo">
+            <Typography component="h1" variant="h2" align="center" gutterBottom>
+              Profile update
+            </Typography>
+          </Box>
+          <Typography
+            variant="h6"
+            align="center"
+            color="textSecondary"
+            paragraph
+          >
+            Please update your profile as an admin
+          </Typography>
 
-              <TextField
-                variant="standard"
-                value={this.state.Admin.name}
-                onChange={this.handleChange}
-                label=" name"
-                fullWidth
-                className={classes.fields}
-                name="name"
-                placeholder="Please enter your name"
-              />
-              <div>{this.state.error.name}</div>
+          <Typography className={classes.backendErrorStyle} variant="h5">
+            {this.state.backendError}
+          </Typography>
 
-              <TextField
-                value={this.state.Admin.phonenumber}
-                onChange={this.handleChange}
-                name="phonenumber"
-                placeholder="Please enter your phone number"
-                variant="standard"
-                className={classes.fields}
-                style={{ marginBottom: 20 }}
-                fullWidth
-                label="phone number"
-              />
-              <div>{this.state.error.phonenumber}</div>
+          <TextField
+            placeholder="Please enter your email"
+            value={this.state.Admin.email}
+            onChange={this.handleChange}
+            name="email"
+            label="email"
+            className={classes.fields}
+            fullWidth
+            variant="standard"
+          />
+          <div style={{ color: "red" }}>{this.state.error.email}</div>
 
-              <Button
-                variant="contained"
-                color="primary"
-                className={(classes.fields, classes.button)}
-                fullWidth
-                disabled={this.validate()}
-                style={{ marginBottom: 6 }}
-                onClick={this.handleSubmit}
-              >
-                Signup
-              </Button>
-              <Grid
-                item
-                xs={2}
-                style={{
-                  padding: "2px",
-                  alighItem: "center",
-                  color: "black",
-                }}
-              ></Grid>
-            </div>
-          )}
-        </Grid>
-      </Grid>
+          <TextField
+            variant="standard"
+            value={this.state.Admin.name}
+            onChange={this.handleChange}
+            label=" name"
+            fullWidth
+            className={classes.fields}
+            name="name"
+            placeholder="Please enter your name"
+          />
+          <div>{this.state.error.name}</div>
+
+          <TextField
+            value={this.state.Admin.phonenumber}
+            onChange={this.handleChange}
+            name="phonenumber"
+            placeholder="Please enter your phone number"
+            variant="standard"
+            className={classes.fields}
+            style={{ marginBottom: 20 }}
+            fullWidth
+            label="phone number"
+          />
+          <div>{this.state.error.phonenumber}</div>
+
+          <Button
+            variant="contained"
+            color="primary"
+            className={(classes.fields, classes.button)}
+            fullWidth
+            disabled={this.validate()}
+            style={{ marginBottom: 6 }}
+            onClick={this.handleSubmit}
+          >
+            Signup
+          </Button>
+        </Container>
+      </React.Fragment>
     );
   }
 }
