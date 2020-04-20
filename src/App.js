@@ -26,91 +26,92 @@ import AdminUpdateProfile from "./Components/admin/profile/AdminUpdateProfile";
 import UpdateProfile from "./Components/salonowner/profile/UpdateProfile";
 
 import {
-  AdminRoute,
-  SalonOwnerRoute,
+	AdminRoute,
+	SalonOwnerRoute,
 } from "./Components/common/ProtectedRoute";
 import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
+	ToastsContainer,
+	ToastsStore,
+	ToastsContainerPosition,
 } from "react-toasts";
 import NotFound from "../src/Components/common/NotFound";
+import Example from "./Components/loading/loadiing";
 
 class App extends React.Component {
-  render() {
-    return (
-      <Switch>
-        <Fragment>
-          <Route render={(props) => <Header {...props} />} />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/signup" component={Signup} />
-          <SalonOwnerRoute exact path="/calender" component={Schedule} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/admin/login" component={LoginAdmin} />
-          <Route exact path="/admin/signup" component={SignupAdmin} />
-          <SalonOwnerRoute
-            exact
-            path="/password/change"
-            component={ChangePassword}
-          />
+	render() {
+		return (
+			<Switch>
+				<Fragment>
+					<Route render={(props) => <Header {...props} />} />
+					<Route exact path="/" component={Landing} />
+					<Route exact path="/signup" component={Signup} />
+					<SalonOwnerRoute exact path="/calender" component={Schedule} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/admin/login" component={LoginAdmin} />
+					<Route exact path="/admin/signup" component={SignupAdmin} />
+					<SalonOwnerRoute
+						exact
+						path="/password/change"
+						component={ChangePassword}
+					/>
 
-          <AdminRoute
-            exact
-            path="/admin/password/change"
-            component={AdminChangePassword}
-          />
-          <SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
-          <SalonOwnerRoute exact path="/services/add" component={AddServices} />
-          <Route
-            exact
-            path="/services/edit"
-            render={(props) => <CardEdit {...props} />}
-          />
-          <Route
-            exact
-            path="/admin/services/edit"
-            render={(props) => <AdminCardEdit {...props} />}
-          />
-          <Route exact path="/admin/services" component={ServicesViewAdmin} />
-          <SalonOwnerRoute exact path="/available" component={Available} />
-          <SalonOwnerRoute exact path="/services" component={CardMaterial} />
-          <Route
-            exact
-            path="/admin/services/add"
-            component={AddServiceByAdmin}
-          />
-          <Route
-            exact
-            path="/owner/services/add"
-            component={AddServicesRecommended}
-          />
-          <AdminRoute exact path="/admin/salons" component={Salons} />
-          <AdminRoute
-            exact
-            path="/admin/profile/edit"
-            component={AdminUpdateProfile}
-          />
-          <SalonOwnerRoute
-            exact
-            path="/profile/edit"
-            component={UpdateProfile}
-          />
+					<AdminRoute
+						exact
+						path="/admin/password/change"
+						component={AdminChangePassword}
+					/>
+					<SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
+					<SalonOwnerRoute exact path="/services/add" component={AddServices} />
+					<Route
+						exact
+						path="/services/edit"
+						render={(props) => <CardEdit {...props} />}
+					/>
+					<Route
+						exact
+						path="/admin/services/edit"
+						render={(props) => <AdminCardEdit {...props} />}
+					/>
+					<Route exact path="/admin/services" component={ServicesViewAdmin} />
+					<SalonOwnerRoute exact path="/available" component={Available} />
+					<SalonOwnerRoute exact path="/services" component={CardMaterial} />
+					<Route
+						exact
+						path="/admin/services/add"
+						component={AddServiceByAdmin}
+					/>
+					<Route
+						exact
+						path="/owner/services/add"
+						component={AddServicesRecommended}
+					/>
+					<AdminRoute exact path="/admin/salons" component={Salons} />
+					<AdminRoute
+						exact
+						path="/admin/profile/edit"
+						component={AdminUpdateProfile}
+					/>
+					<SalonOwnerRoute
+						exact
+						path="/profile/edit"
+						component={UpdateProfile}
+					/>
 
-          <AdminRoute
-            exact
-            path="/admin/dashboard"
-            component={AdminDashboard}
-          />
-          <ToastsContainer
-            position={ToastsContainerPosition.TOP_CENTER}
-            store={ToastsStore}
-          />
-          {/* <Route exact path="*" component={NotFound} /> */}
-          <Footer />
-        </Fragment>
-      </Switch>
-    );
-  }
+					<AdminRoute
+						exact
+						path="/admin/dashboard"
+						component={AdminDashboard}
+					/>
+					<ToastsContainer
+						position={ToastsContainerPosition.TOP_CENTER}
+						store={ToastsStore}
+					/>
+					{/* <Route exact path="*" component={NotFound} /> */}
+					<Footer />
+				</Fragment>
+			</Switch>
+		);
+	}
 }
 
 export default App;
