@@ -199,65 +199,73 @@ class CardMaterial extends React.Component {
                 </Typography>
               </Box>
 
-              {this.state.List_of_salons.length === 0 ? (
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="textSecondary"
-                  paragraph
-                >
-                  No Salon to display
-                </Typography>
-              ) : (
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="textSecondary"
-                  paragraph
-                >
-                  All salons are listed below
-                </Typography>
+              {!this.state.isLoading && (
+                <div>
+                  {this.state.List_of_salons.length === 0 ? (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      No Salon to display
+                    </Typography>
+                  ) : (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      All salons are listed below
+                    </Typography>
+                  )}
+                </div>
               )}
             </Container>
 
             <Container className={classes.cardGrid} maxWidth="md">
-              <Grid container spacing={4}>
-                {this.state.List_of_salons.map((items) => (
-                  <Grid item key={items} xs={12} sm={6} md={4}>
-                    <Card className={classes.card} elevation={20}>
-                      <CardHeader
-                        action={items.service_time}
-                        title={items.SalonName}
-                        subheader={items.service_category}
-                      />
+              {!this.state.isLoading && (
+                <Grid container spacing={4}>
+                  {this.state.List_of_salons.map((items) => (
+                    <Grid item key={items} xs={12} sm={6} md={4}>
+                      <Card className={classes.card} elevation={20}>
+                        <CardHeader
+                          action={items.service_time}
+                          title={items.SalonName}
+                          subheader={items.service_category}
+                        />
 
-                      <CardContent className={classes.cardContent}>
-                        <Typography>
-                          <span style={{ color: "indigo" }}>Phone number:</span>
-                          {items.SalonOwnerphoneNumber}
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {items.Salon_owner_firstName}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <IconButton
-                          size="large"
-                          color="primary"
-                          onClick={() => this.acceptSalon(items._id)}
-                        >
-                          <CheckIcon />
-                        </IconButton>
-                        <IconButton size="large" color="secondary">
-                          <CloseIcon
-                            onClick={() => this.rejectSalon(items._id)}
-                          />
-                        </IconButton>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+                        <CardContent className={classes.cardContent}>
+                          <Typography>
+                            <span style={{ color: "indigo" }}>
+                              Phone number:
+                            </span>
+                            {items.SalonOwnerphoneNumber}
+                          </Typography>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {items.Salon_owner_firstName}
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <IconButton
+                            size="large"
+                            color="primary"
+                            onClick={() => this.acceptSalon(items._id)}
+                          >
+                            <CheckIcon />
+                          </IconButton>
+                          <IconButton size="large" color="secondary">
+                            <CloseIcon
+                              onClick={() => this.rejectSalon(items._id)}
+                            />
+                          </IconButton>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
 
               {/* End hero unit */}
             </Container>

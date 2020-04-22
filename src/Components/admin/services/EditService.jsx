@@ -88,8 +88,8 @@ class CardEdit extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location.id);
-    this.setState({ service_id: this.props.location.id });
+    console.log(this.props.location.items._id);
+    this.setState({ service_id: this.props.location.items._id });
     console.log("state " + this.state.service_id);
   }
   schema = {
@@ -175,7 +175,7 @@ class CardEdit extends Component {
     axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
-        this.props.location.id,
+        this.props.location.items._id,
       method: "PUT",
       data: form_data,
       headers: {
@@ -253,19 +253,14 @@ class CardEdit extends Component {
     }
   };
   render() {
-    if (!this.props.location.id) {
+    if (!this.props.location.items._id) {
       return <Redirect to="/services" />;
     }
     const { classes } = this.props;
 
     return (
       <React.Fragment>
-        <Container component="main" maxWidth="lg">
-          <div>
-            {" "}
-            {this.state.isLoading && <ColorLinearProgress size={30} />}
-          </div>
-        </Container>
+        <div>{this.state.isLoading && <ColorLinearProgress size={30} />}</div>
 
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -400,7 +395,7 @@ class CardEdit extends Component {
             //   disabled={this.validate()}
             onClick={this.handleSubmit}
           >
-            Add service
+            Edit service
           </Button>
         </Container>
       </React.Fragment>

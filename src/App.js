@@ -6,13 +6,13 @@ import { Grid } from "@material-ui/core";
 
 import { Header, Footer } from "./Components/layouts/index";
 import Landing from "./Components/common/Landing.jsx";
-
+import AddServicesRecommended from "./Components/salonowner/services/AddRecommendedService";
 import Signup from "./Components/salonowner/auth/Signup";
 import Login from "./Components/salonowner/auth/Login";
 import Dashboard from "./Components/salonowner/dashboard/Dashboard";
 import AdminDashboard from "./Components/admin/dashboard/AdminDashboard";
 import AddServices from "./Components/salonowner/services/AddService";
-import CardMaterial from "./Components/salonowner/services/ShowServices";
+import CardMaterial from "./Components/salonowner/services/ViewServices";
 import CardEdit from "./Components/salonowner/services/EditService";
 import AdminCardEdit from "./Components/admin/services/EditService";
 import ChangePassword from "./Components/salonowner/password/UpdatePassword";
@@ -22,8 +22,8 @@ import Salons from "./Components/admin/salon/Salons";
 import LoginAdmin from "./Components/admin/auth/LoginAdmin";
 import SignupAdmin from "./Components/admin/auth/SignupAdmin";
 import AddServiceByAdmin from "./Components/admin/services/AddService";
-import AddServicesRecommended from "./Components/admin/services/AddServicesRecommended";
-import ServicesViewAdmin from "./Components/admin/services/ShowServices";
+import AddServicesRecommendedAdmin from "./Components/admin/services/AddServicesRecommendedAdmin";
+import ServicesViewAdmin from "./Components/admin/services/ViewServices";
 import Available from "./Components/salonowner/salonAvailability/Available";
 import AdminUpdateProfile from "./Components/admin/profile/AdminUpdateProfile";
 import UpdateProfile from "./Components/salonowner/profile/UpdateProfile";
@@ -116,6 +116,12 @@ class App extends React.Component {
             />
             <Route exact path="/admin/services" component={ServicesViewAdmin} />
             <SalonOwnerRoute exact path="/available" component={Available} />
+            <SalonOwnerRoute
+              exact
+              path="/recommended"
+              component={AddServicesRecommended}
+            />
+
             <SalonOwnerRoute exact path="/services" component={CardMaterial} />
             <Route
               exact
@@ -125,7 +131,7 @@ class App extends React.Component {
             <Route
               exact
               path="/owner/services/add"
-              component={AddServicesRecommended}
+              component={AddServicesRecommendedAdmin}
             />
             <AdminRoute exact path="/admin/salons" component={Salons} />
             <AdminRoute

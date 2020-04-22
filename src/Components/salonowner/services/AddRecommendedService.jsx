@@ -15,6 +15,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
+
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -151,33 +153,38 @@ class CardMaterial extends React.Component {
           <div className={classes.heroContent}>
             <div>{this.state.loading && <ColorLinearProgress size={30} />}</div>
             <Container maxWidth="sm">
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                All Services
-              </Typography>
-              {this.state.List_of_services.length === 0 ? (
+              <Box color="indigo">
                 <Typography
-                  variant="h5"
+                  component="h1"
+                  variant="h2"
                   align="center"
-                  color="textSecondary"
-                  paragraph
+                  gutterBottom
                 >
-                  No service to display
+                  All services
                 </Typography>
-              ) : (
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="textSecondary"
-                  paragraph
-                >
-                  All services are listed below
-                </Typography>
+              </Box>
+              {!this.state.loading && (
+                <div>
+                  {this.state.List_of_services.length === 0 ? (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      No service to display
+                    </Typography>
+                  ) : (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      All services are listed below
+                    </Typography>
+                  )}
+                </div>
               )}
             </Container>
           </div>
@@ -213,20 +220,17 @@ class CardMaterial extends React.Component {
                       <Typography>{items.serviceDescription}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" color="primary">
-                        <DeleteIcon
-                          onClick={() => this.deleteService(items._id)}
-                        />
-                      </Button>
                       <Button
                         size="small"
                         color="primary"
                         component={Link}
-                        to={{ pathname: "/admin/services/edit", id: items._id }}
+                        to={{ pathname: "/services/edit", items: items }}
                       >
-                        <EditIcon />
+                        <span style={{ color: "black" }}>
+                          Add to your salon
+                        </span>
+                        <AddIcon fontSize="large" />
                       </Button>
-
                       <Typography
                         variant="h5"
                         align="center"
@@ -239,28 +243,28 @@ class CardMaterial extends React.Component {
                 </Grid>
               ))}
 
-              <Grid item xs={12} sm={6} md={4}>
-                <IconButton
-                  aria-label="add"
-                  to="/admin/services/add"
-                  component={Link}
-                  color="primary"
-                  className={classes.margin}
-                  size="large"
-                >
-                  <AddIcon fontSize="large" />
-                </IconButton>
-                {/* <Button
-                  color="primary"
-                  variant="contained"
-                  size="large"
-                  // component={Link}
-                  to="/admin/services/add"
-                  className={classes.button}
-                >
-                  Add Service
-                </Button> */}
-              </Grid>
+              {!this.state.loading && (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                  >
+                    Want to add another?
+                  </Typography>
+                  <IconButton
+                    aria-label="add"
+                    to="/admin/services/add"
+                    component={Link}
+                    color="primary"
+                    className={classes.margin}
+                    size="large"
+                  >
+                    <AddIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+              )}
             </Grid>
 
             {/* End hero unit */}

@@ -161,24 +161,28 @@ class CardMaterial extends React.Component {
                   All services
                 </Typography>
               </Box>
-              {this.state.List_of_services.length === 0 ? (
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="textSecondary"
-                  paragraph
-                >
-                  No service to display
-                </Typography>
-              ) : (
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="textSecondary"
-                  paragraph
-                >
-                  All services are listed below
-                </Typography>
+              {!this.state.isLoading && (
+                <div>
+                  {this.state.List_of_services.length === 0 ? (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      No service to display
+                    </Typography>
+                  ) : (
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                    >
+                      All services are listed below
+                    </Typography>
+                  )}
+                </div>
               )}
             </Container>
           </div>
@@ -226,7 +230,7 @@ class CardMaterial extends React.Component {
                         size="small"
                         color="primary"
                         component={Link}
-                        to={{ pathname: "/services/edit", id: items._id }}
+                        to={{ pathname: "/services/edit", items: items }}
                       >
                         <EditIcon />
                       </Button>
@@ -243,28 +247,28 @@ class CardMaterial extends React.Component {
                 </Grid>
               ))}
 
-              <Grid item xs={12} sm={6} md={4}>
-                <IconButton
-                  aria-label="add"
-                  to="/services/add"
-                  component={Link}
-                  color="primary"
-                  className={classes.margin}
-                  size="large"
-                >
-                  <AddIcon fontSize="large" />
-                </IconButton>
-                {/* <Button
-                  color="primary"
-                  variant="contained"
-                  size="large"
-                  // component={Link}
-                  to="/admin/services/add"
-                  className={classes.button}
-                >
-                  Add Service
-                </Button> */}
-              </Grid>
+              {!this.state.isLoading && (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                  >
+                    Want to add another?
+                  </Typography>
+                  <IconButton
+                    aria-label="add"
+                    to="/admin/services/add"
+                    component={Link}
+                    color="primary"
+                    className={classes.margin}
+                    size="large"
+                  >
+                    <AddIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+              )}
             </Grid>
 
             {/* End hero unit */}

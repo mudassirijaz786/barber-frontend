@@ -69,6 +69,19 @@ export default class AppDrawer extends React.Component {
       <List>
         <ListItem>
           <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/salons"
+            variant="h6"
+          >
+            Salons
+          </Button>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
             <AddBoxIcon />
           </ListItemIcon>
           <Button
@@ -88,24 +101,10 @@ export default class AppDrawer extends React.Component {
           <Button
             color="primary"
             component={Link}
-            to="/admin/salons"
-            variant="h6"
-          >
-            Salons
-          </Button>
-        </ListItem>
-
-        <ListItem>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
             to="/admin/services"
             variant="h6"
           >
-            Services
+            view Services
           </Button>
         </ListItem>
 
@@ -174,25 +173,8 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <EcoIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/calender" variant="h6">
-            Schedule
-          </Button>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <EcoIcon />
-          </ListItemIcon>
           <Button color="primary" component={Link} to="/services" variant="h6">
-            Services
-          </Button>
-        </ListItem>
-
-        <ListItem>
-          <ListItemIcon>
-            <WatchLaterIcon />
-          </ListItemIcon>
-          <Button color="primary" component={Link} to="/available" variant="h6">
-            Availability
+            view services
           </Button>
         </ListItem>
         <ListItem>
@@ -202,13 +184,29 @@ export default class AppDrawer extends React.Component {
           <Button
             color="primary"
             component={Link}
-            to="/services/add"
+            to="/recommended"
             variant="h6"
           >
             Add services
           </Button>
         </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <WatchLaterIcon />
+          </ListItemIcon>
+          <Button color="primary" component={Link} to="/available" variant="h6">
+            Availability
+          </Button>
+        </ListItem>
 
+        <ListItem>
+          <ListItemIcon>
+            <EcoIcon />
+          </ListItemIcon>
+          <Button color="primary" component={Link} to="/calender" variant="h6">
+            Schedule
+          </Button>
+        </ListItem>
         <ListItem>
           <ListItemIcon>
             <PeopleIcon />

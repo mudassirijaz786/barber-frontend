@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+//error is in this file
 import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -60,21 +61,14 @@ class CardEdit extends Component {
   constructor() {
     super();
     this.state = {
-      Service: {
-        service_id: "",
-        service_name: "half cut",
-        category_name: "",
-        Salon_id: "",
-        price: 20,
-        img_url: "",
-        service_description: "hair cut service provided by tony and guy",
-        service_time: "",
-      },
+      Service: {},
       service_id: null,
       category: ["Hair", "Facial", "Khat"],
       time: ["30", "45", "60", "90", "120"],
 
       value: "",
+      service_time: "",
+      price: 20,
       open: false,
       isLoading: false,
       files: [],
@@ -89,21 +83,17 @@ class CardEdit extends Component {
 
   componentDidMount() {
     console.log(this.props.location.id);
-    this.setState({ service_id: this.props.location.id });
+    this.setState({ Service: this.props.location.items });
     console.log("state " + this.state.service_id);
   }
   schema = {
     service_name: Joi.string().required().min(2).label("Service Name"),
-    // category_name: Joi.string()
-    // 	.required()
-    // 	.min(5)
-    // 	.label("Category"),
+    category_name: Joi.string().required().min(5).label("Category"),
     price: Joi.number().required().min(2).label("Service Price"),
     service_description: Joi.string()
       .required()
       .min(2)
       .label("Service Description"),
-
     img_url: Joi.required(),
   };
   handleClose() {
@@ -136,7 +126,7 @@ class CardEdit extends Component {
     });
   }
   validate() {
-    const { error } = Joi.validate(this.state.Service, this.schema, {
+    const { error } = Joi.validate(this.state, this.schema, {
       abortEarly: false,
     });
     if (!error) return null;
@@ -160,12 +150,12 @@ class CardEdit extends Component {
     console.log("state is ", this.state.Service);
 
     let form_data = new FormData();
-    form_data.append("image", this.state.Service.img_url);
-    form_data.append("servicename", this.state.Service.service_name);
-    form_data.append("price", this.state.Service.price);
-    form_data.append("description", this.state.Service.service_description);
-    form_data.append("service_category", this.state.Service.category_name);
-    form_data.append("service_time", this.state.Service.service_time);
+    form_data.append("image", this.state.Service.image_url);
+    form_data.append("servicename", this.state.Service.serviceName);
+    form_data.append("price", this.state.price);
+    form_data.append("description", this.state.Service.serviceDescription);
+    form_data.append("service_category", this.state.Service.service_category);
+    form_data.append("service_time", this.state.service_time);
 
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
@@ -175,7 +165,7 @@ class CardEdit extends Component {
     axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
-        this.props.location.id,
+        this.state.Service._id,
       method: "PUT",
       data: form_data,
       headers: {
@@ -205,9 +195,10 @@ class CardEdit extends Component {
   };
 
   selectedTime = (e) => {
-    const Service = { ...this.state.Service };
-    Service.service_time = e.target.value;
-    this.setState({ Service });
+    let time = this.state.service_time;
+    time = e.target.value;
+
+    this.setState({ service_time: time });
     console.log(this.state.Service.service_time);
   };
   handleChange = (e) => {
@@ -253,10 +244,11 @@ class CardEdit extends Component {
     }
   };
   render() {
-    if (!this.props.location.id) {
+    if (!this.props.location.items) {
       return <Redirect to="/services" />;
     }
     const { classes } = this.props;
+    console.log("item in edit file", this.state.Service);
 
     return (
       <React.Fragment>
@@ -284,22 +276,23 @@ class CardEdit extends Component {
               <TextField
                 fullWidth
                 className={classes.fields}
-                value={this.state.Service.service_name}
+                value={this.state.Service.serviceName}
                 onChange={this.handleChange}
                 name="service_name"
+                disabled={true}
                 label="Service name"
                 variant="outlined"
                 placeholder="Please enter service name"
               />
               <div className={classes.error}>
-                {this.state.error.service_name}
+                {this.state.error.serviceName}
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 className={classes.fields}
                 fullWidth
-                value={this.state.Service.price}
+                value={this.state.price}
                 onChange={this.handleChange}
                 name="price"
                 label="Price"
@@ -312,28 +305,35 @@ class CardEdit extends Component {
           <TextField
             className={classes.fields}
             fullWidth
-            value={this.state.Service.service_description}
+            value={this.state.Service.serviceDescription}
             onChange={this.handleChange}
             name="service_description"
             label="Description"
+            disabled={true}
             variant="outlined"
             placeholder="Please enter service description"
           />
-          <div className={classes.error}>{this.state.error.description}</div>
+          <div className={classes.error}>
+            {this.state.error.serviceDescription}
+          </div>
           <TextField
             id="filled-select-currency"
             select
+            disabled={true}
             className={classes.fields}
-            label="Please select service category"
-            value={this.state.Service.category_name}
+            label={this.state.Service.service_category}
+            value={this.state.Service.service_category}
             onChange={this.selectedCategory}
             //   helperText="Please select service category"
             variant="outlined"
             fullWidth
           >
             {this.state.category.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem
+                key={this.state.Service.service_category}
+                value={this.state.Service.service_category}
+              >
+                {this.state.Service.service_category}
               </MenuItem>
             ))}
           </TextField>
@@ -343,7 +343,7 @@ class CardEdit extends Component {
             variant="outlined"
             className={classes.fields}
             label="Please select service time"
-            value={this.state.Service.service_time}
+            // value={this.state.Service.service_time}
             onChange={this.selectedTime}
             fullWidth
           >
@@ -369,6 +369,7 @@ class CardEdit extends Component {
             <Grid item xs={4} sm={4}>
               <IconButton
                 aria-label="add"
+                disabled={true}
                 color="primary"
                 onClick={this.handleOpen.bind(this)}
                 size="medium"

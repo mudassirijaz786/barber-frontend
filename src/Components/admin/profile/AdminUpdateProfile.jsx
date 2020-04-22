@@ -187,9 +187,7 @@ class UpdateProfileAdmin extends Component {
 
     return (
       <React.Fragment>
-        <Container component="main" maxWidth="lg">
-          <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
-        </Container>
+        <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
 
         <Container component="main" maxWidth="xs">
           <CssBaseline />

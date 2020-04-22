@@ -217,9 +217,7 @@ class Sign_Up extends Component {
   render() {
     return (
       <React.Fragment>
-        <Container component="main" maxWidth="lg">
-          <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
-        </Container>
+        <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
@@ -436,7 +434,6 @@ class Sign_Up extends Component {
             >
               Signup
             </Button>
-            {this.state.loading && <ColorLinearProgress size={30} />}
           </div>
         </Container>
       </React.Fragment>

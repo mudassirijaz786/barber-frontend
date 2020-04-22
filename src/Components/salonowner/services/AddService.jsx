@@ -257,149 +257,153 @@ class Add_Service extends Component {
 
     return (
       <React.Fragment>
-        <Container component="main" maxWidth="lg">
-          <div>
-            {" "}
+        <main>
+          <div className={classes.heroContent}>
             {this.state.isLoading && <ColorLinearProgress size={30} />}
           </div>
-        </Container>
 
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
-              Create Service
-            </Typography>
-          </Box>
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph
-          >
-            Please create service as a salon owner
-          </Typography>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                className={classes.fields}
-                value={this.state.Service.service_name}
-                onChange={this.handleChange}
-                name="service_name"
-                label="Service name"
-                variant="outlined"
-                placeholder="Please enter service name"
-              />
-              <div className={classes.error}>
-                {this.state.error.service_name}
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                className={classes.fields}
-                fullWidth
-                value={this.state.Service.price}
-                onChange={this.handleChange}
-                name="price"
-                label="Price"
-                variant="outlined"
-                placeholder="Please enter price"
-              />
-              <div className={classes.error}>{this.state.error.price}</div>
-            </Grid>
-          </Grid>
-          <TextField
-            className={classes.fields}
-            fullWidth
-            value={this.state.Service.service_description}
-            onChange={this.handleChange}
-            name="service_description"
-            label="Description"
-            variant="outlined"
-            placeholder="Please enter service description"
-          />
-          <div className={classes.error}>{this.state.error.description}</div>
-          <TextField
-            id="filled-select-currency"
-            select
-            className={classes.fields}
-            label="Please select service category"
-            value={this.state.Service.category_name}
-            onChange={this.selectedCategory}
-            //   helperText="Please select service category"
-            variant="outlined"
-            fullWidth
-          >
-            {this.state.category.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="filled-select-currency"
-            select
-            variant="outlined"
-            className={classes.fields}
-            label="Please select service time"
-            value={this.state.Service.service_time}
-            onChange={this.selectedTime}
-            fullWidth
-          >
-            {this.state.time.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <Grid container spacing={10}>
-            <Grid item xs={8} sm={8}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box color="indigo">
               <Typography
-                style={{ paddingTop: 8 }}
-                variant="h6"
+                component="h1"
+                variant="h2"
                 align="center"
-                color="textSecondary"
-                paragraph
+                gutterBottom
               >
-                Please select image
+                Create Service
               </Typography>
-            </Grid>
-            <Grid item xs={4} sm={4}>
-              <IconButton
-                aria-label="add"
-                color="primary"
-                onClick={this.handleOpen.bind(this)}
-                size="medium"
-              >
-                <AddIcon fontSize="medium" />
-              </IconButton>
+            </Box>
+            <Typography
+              variant="h5"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
+              Please create service as a salon owner
+            </Typography>
 
-              <DropzoneDialog
-                filesLimit={1}
-                open={this.state.open}
-                onSave={this.handleSave.bind(this)}
-                acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
-                showPreviews={true}
-                maxFileSize={5000000}
-                onClose={this.handleClose.bind(this)}
-              />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  className={classes.fields}
+                  value={this.state.Service.service_name}
+                  onChange={this.handleChange}
+                  name="service_name"
+                  label="Service name"
+                  variant="outlined"
+                  placeholder="Please enter service name"
+                />
+                <div className={classes.error}>
+                  {this.state.error.service_name}
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  className={classes.fields}
+                  fullWidth
+                  value={this.state.Service.price}
+                  onChange={this.handleChange}
+                  name="price"
+                  label="Price"
+                  variant="outlined"
+                  placeholder="Please enter price"
+                />
+                <div className={classes.error}>{this.state.error.price}</div>
+              </Grid>
             </Grid>
-          </Grid>
+            <TextField
+              className={classes.fields}
+              fullWidth
+              value={this.state.Service.service_description}
+              onChange={this.handleChange}
+              name="service_description"
+              label="Description"
+              variant="outlined"
+              placeholder="Please enter service description"
+            />
+            <div className={classes.error}>{this.state.error.description}</div>
+            <TextField
+              id="filled-select-currency"
+              select
+              className={classes.fields}
+              label="Please select service category"
+              value={this.state.Service.category_name}
+              onChange={this.selectedCategory}
+              //   helperText="Please select service category"
+              variant="outlined"
+              fullWidth
+            >
+              {this.state.category.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="filled-select-currency"
+              select
+              variant="outlined"
+              className={classes.fields}
+              label="Please select service time"
+              value={this.state.Service.service_time}
+              onChange={this.selectedTime}
+              fullWidth
+            >
+              {this.state.time.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <Button
-            variant="contained"
-            className={(classes.fields, classes.button)}
-            color="primary"
-            fullWidth
-            //   disabled={this.validate()}
-            onClick={this.handleSubmit}
-          >
-            Add service
-          </Button>
-        </Container>
+            <Grid container spacing={10}>
+              <Grid item xs={8} sm={8}>
+                <Typography
+                  style={{ paddingTop: 8 }}
+                  variant="h6"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  Please select image
+                </Typography>
+              </Grid>
+              <Grid item xs={4} sm={4}>
+                <IconButton
+                  aria-label="add"
+                  color="primary"
+                  onClick={this.handleOpen.bind(this)}
+                  size="medium"
+                >
+                  <AddIcon fontSize="medium" />
+                </IconButton>
+
+                <DropzoneDialog
+                  filesLimit={1}
+                  open={this.state.open}
+                  onSave={this.handleSave.bind(this)}
+                  acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+                  showPreviews={true}
+                  maxFileSize={5000000}
+                  onClose={this.handleClose.bind(this)}
+                />
+              </Grid>
+            </Grid>
+
+            <Button
+              variant="contained"
+              className={(classes.fields, classes.button)}
+              color="primary"
+              fullWidth
+              //   disabled={this.validate()}
+              onClick={this.handleSubmit}
+            >
+              Add service
+            </Button>
+          </Container>
+        </main>
       </React.Fragment>
     );
   }
