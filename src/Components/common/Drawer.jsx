@@ -1,41 +1,27 @@
+//importing
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import LockIcon from "@material-ui/icons/Lock";
-import HowToRegIcon from "@material-ui/icons/HowToReg";
-import WatchLaterIcon from "@material-ui/icons/WatchLater";
-import EcoIcon from "@material-ui/icons/Eco";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import PeopleIcon from "@material-ui/icons/People";
 import decode from "jwt-decode";
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-  },
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: "auto",
-  },
-});
+import {
+  Menu as MenuIcon,
+  AddBox as AddBoxIcon,
+  Eco as EcoIcon,
+  Dashboard as DashboardIcon,
+  People as PeopleIcon,
+  WatchLater as WatchLaterIcon,
+} from "@material-ui/icons";
+import {
+  Divider,
+  Drawer,
+  ListItem,
+  ListItemIcon,
+  List,
+  CssBaseline,
+  Button,
+  makeStyles,
+} from "@material-ui/core";
 
+//class AppDrawer
 export default class AppDrawer extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +29,7 @@ export default class AppDrawer extends React.Component {
       left: false,
     };
   }
-  componentDidMount() {}
+
   toggleDrawer = (side, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -51,21 +37,16 @@ export default class AppDrawer extends React.Component {
     ) {
       return;
     }
-
     this.setState({ [side]: open });
   };
 
   sideListAdmin = (side) => (
     <div
-      //   className={classes.list}
-
-      // style={{ width: 300, flexShrink: 0 }}
       variant="permanent"
       onClick={this.toggleDrawer(side, false)}
       onKeyDown={this.toggleDrawer(side, false)}
     >
       <CssBaseline />
-
       <List>
         <ListItem>
           <ListItemIcon>
@@ -93,7 +74,6 @@ export default class AppDrawer extends React.Component {
             Add Services
           </Button>
         </ListItem>
-
         <ListItem>
           <ListItemIcon>
             <PeopleIcon />
@@ -107,7 +87,6 @@ export default class AppDrawer extends React.Component {
             view Services
           </Button>
         </ListItem>
-
         <ListItem>
           <ListItemIcon>
             <PeopleIcon />
@@ -121,7 +100,6 @@ export default class AppDrawer extends React.Component {
             Update profile
           </Button>
         </ListItem>
-
         <ListItem>
           <ListItemIcon>
             <PeopleIcon />
@@ -136,9 +114,7 @@ export default class AppDrawer extends React.Component {
           </Button>
         </ListItem>
       </List>
-
       <Divider />
-
       <List>
         <ListItem>
           <ListItemIcon>
@@ -159,15 +135,11 @@ export default class AppDrawer extends React.Component {
 
   sideListSalonOwner = (side) => (
     <div
-      //   className={classes.list}
-
-      style={{ width: 300, flexShrink: 0 }}
-      //   variant="permanent"
+      variant="permanent"
       onClick={this.toggleDrawer(side, false)}
       onKeyDown={this.toggleDrawer(side, false)}
     >
       <CssBaseline />
-
       <List>
         <ListItem>
           <ListItemIcon>
@@ -198,7 +170,6 @@ export default class AppDrawer extends React.Component {
             Availability
           </Button>
         </ListItem>
-
         <ListItem>
           <ListItemIcon>
             <EcoIcon />
@@ -220,7 +191,6 @@ export default class AppDrawer extends React.Component {
             Update profile
           </Button>
         </ListItem>
-
         <ListItem>
           <ListItemIcon>
             <PeopleIcon />
@@ -235,7 +205,6 @@ export default class AppDrawer extends React.Component {
           </Button>
         </ListItem>
       </List>
-
       <Divider />
       <List>
         <ListItem>
@@ -251,30 +220,20 @@ export default class AppDrawer extends React.Component {
   );
 
   render() {
-    console.log("token in drawer", localStorage.getItem("x-auth-token"));
     const decoded = decode(localStorage.getItem("x-auth-token"));
     const isAdmin = decoded.SuperAdmin;
-    console.log(isAdmin);
-
     return (
       <div>
-        {/* {localStorage.getItem("x-auth-token") ? ( */}
         <MenuIcon
           style={{ marginLeft: 20, marginTop: 10 }}
           onClick={this.toggleDrawer("left", true)}
         />
-        {/* ) : null} */}
-
-        {/* <Drawer open={state.left} onClose={toggleDrawer("left", false)}>
-        {sideList("left")}
-      </Drawer> */}
-
         <Drawer
           variant="temporary"
           open={this.state.left}
           onClose={this.toggleDrawer("left", false)}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
         >
           {isAdmin

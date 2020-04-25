@@ -1,33 +1,28 @@
+//importing
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { ToastsStore } from "react-toasts";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import AddIcon from "@material-ui/icons/Add";
-import IconButton from "@material-ui/core/IconButton";
-import {
-  TextField,
-  MenuItem,
-  Button,
-  Grid,
-  Box,
-  Typography,
-  Paper,
-} from "@material-ui/core";
 import { DropzoneDialog } from "material-ui-dropzone";
 import { withStyles } from "@material-ui/styles";
 import { Redirect } from "react-router-dom";
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  control: {
-    padding: 10,
-  },
+import {
+  TextField,
+  IconButton,
+  MenuItem,
+  Container,
+  Button,
+  CssBaseline,
+  Grid,
+  Box,
+  LinearProgress,
+  Typography,
+} from "@material-ui/core";
+
+//styling
+const styles = {
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -37,17 +32,12 @@ const styles = (theme) => ({
     height: 48,
     padding: "0 30px",
   },
+  imageField: { paddingTop: 8 },
   fields: {
     marginTop: 15,
   },
-  paper: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  error: {
-    color: "red",
-  },
-});
+};
+
 const ColorLinearProgress = withStyles({
   colorPrimary: {
     backgroundColor: "#b2dfdb",
@@ -56,7 +46,9 @@ const ColorLinearProgress = withStyles({
     backgroundColor: "#00695c",
   },
 })(LinearProgress);
-class CardEdit extends Component {
+
+//class AdminEditService
+class AdminEditService extends Component {
   constructor() {
     super();
     this.state = {
@@ -73,105 +65,80 @@ class CardEdit extends Component {
       service_id: null,
       category: ["Hair", "Facial", "Khat"],
       time: ["30", "45", "60", "90", "120"],
-
       value: "",
       open: false,
       isLoading: false,
       files: [],
       error: {},
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validate = this.validate.bind(this);
-    this.validate_single = this.validate_single.bind(this);
-    this.handlefilechange = this.handlefilechange.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props.location.items._id);
     this.setState({ service_id: this.props.location.items._id });
-    console.log("state " + this.state.service_id);
   }
+
   schema = {
     service_name: Joi.string().required().min(2).label("Service Name"),
-    // category_name: Joi.string()
-    // 	.required()
-    // 	.min(5)
-    // 	.label("Category"),
     price: Joi.number().required().min(2).label("Service Price"),
     service_description: Joi.string()
       .required()
       .min(2)
       .label("Service Description"),
-
     img_url: Joi.required(),
   };
-  handleClose() {
+
+  handleClose = () => {
     this.setState({
       open: false,
     });
-  }
+  };
 
-  handleSave(files) {
-    //Saving files to state for further use and closing Modal.
+  handleSave = (files) => {
     const Service = { ...this.state.Service };
-    //	console.log(Service);
     Service["img_url"] = files[0];
-    //	console.log();
-    //console.log("service is", Service);
-    //this.setState({ Service });
-    //clone = e.target.files[0];
-    //	console.log("clone is ", clone);
     this.setState({ Service, files: files, open: false });
-    // this.setState({
-    //   files: files,
-    //   open: false
-    // });
-    console.log(files[0].name);
-  }
+  };
 
-  handleOpen() {
+  handleOpen = () => {
     this.setState({
       open: true,
     });
-  }
-  validate() {
-    const { error } = Joi.validate(this.state.Service, this.schema, {
+  };
+
+  validate = () => {
+    const { Service } = this.state;
+    const { error } = Joi.validate(Service, this.schema, {
       abortEarly: false,
     });
     if (!error) return null;
     const errors = {};
-
     error.details.map((item) => {
       return (errors[item.path[0]] = item.message);
     });
     return errors;
-  }
-  validate_single(field_name) {
-    console.log(this.state.Service[field_name]);
+  };
+
+  validate_single = (field_name) => {
     const { error } = Joi.validate(
       this.state.Service[field_name],
       this.schema[field_name]
     );
     if (!error) return null;
     return error;
-  }
-  async handleSubmit(e) {
-    console.log("state is ", this.state.Service);
+  };
 
+  handleSubmit = async () => {
+    const { Service } = this.state;
     let form_data = new FormData();
-    form_data.append("image", this.state.Service.img_url);
-    form_data.append("servicename", this.state.Service.service_name);
-    form_data.append("price", this.state.Service.price);
-    form_data.append("description", this.state.Service.service_description);
-    form_data.append("service_category", this.state.Service.category_name);
-    form_data.append("service_time", this.state.Service.service_time);
-
+    form_data.append("image", Service.img_url);
+    form_data.append("servicename", Service.service_name);
+    form_data.append("price", Service.price);
+    form_data.append("description", Service.service_description);
+    form_data.append("service_category", Service.category_name);
+    form_data.append("service_time", Service.service_time);
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
-    console.log("form data is ", form_data);
     var token = localStorage.getItem("x-auth-token");
-    console.log("token is", token);
     axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
@@ -187,7 +154,7 @@ class CardEdit extends Component {
       .then((response) => {
         ToastsStore.success("Service edited successfully by admin", 5000);
         this.setState({ isLoading: false });
-        console.log(response);
+        console.log("Response in AdminEditService", response);
         setTimeout(() => {
           window.location = "/admin/services";
         }, 5000);
@@ -196,7 +163,8 @@ class CardEdit extends Component {
         ToastsStore.error(error);
         this.setState({ isLoading: false });
       });
-  }
+  };
+
   selectedCategory = (e) => {
     const Service = { ...this.state.Service };
     Service.category_name = e.target.value;
@@ -210,9 +178,9 @@ class CardEdit extends Component {
     this.setState({ Service });
     console.log(this.state.Service.service_time);
   };
+
   handleChange = (e) => {
     const { name, value } = e.target;
-
     const Service = { ...this.state.Service };
     Service[name] = value;
     this.setState({ Service });
@@ -221,47 +189,29 @@ class CardEdit extends Component {
     if (error) state_error[name] = error.message;
     else delete state_error[name];
     this.setState({ error: state_error });
-
     if (error) return;
   };
 
   handlefilechange = (e) => {
-    //console.log("h", e.target.files[0].name);s
-    //if (e) {
-    //	console.log("name", e.target.name);
-    //console.log("h", e.target.files[0]);
-    //console.log("event", e.target.files[0]);
     if (e.target.files[0]) {
       const size = e.target.files[0].size / 1024;
-
       if (size < 10240) {
-        //console.log("img", e.target.files[0]);
-        //	this.state.Service.service_name = "ju";
-        //	sconsole.log("sates", this.state.Service);
-        //this.setState({ Service });
         const Service = { ...this.state.Service };
-        //	console.log(Service);
         Service["img_url"] = e.target.files[0];
-        //	console.log();
-        //console.log("service is", Service);
-        //this.setState({ Service });
-        //clone = e.target.files[0];
-        //	console.log("clone is ", clone);
         this.setState({ Service });
-        //console.log("after updating statees", this.state.Service);
       }
     }
   };
+
   render() {
-    if (!this.props.location.items._id) {
-      return <Redirect to="/services" />;
+    if (!this.props.location.items) {
+      return <Redirect to="/admin/services" />;
     }
     const { classes } = this.props;
-
+    const { isLoading, Service, error, category, time } = this.state;
     return (
       <React.Fragment>
-        <div>{this.state.isLoading && <ColorLinearProgress size={30} />}</div>
-
+        <div>{isLoading && <ColorLinearProgress size={30} />}</div>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
@@ -277,60 +227,60 @@ class CardEdit extends Component {
           >
             Please edit service as an admin
           </Typography>
-
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 className={classes.fields}
-                value={this.state.Service.service_name}
+                value={Service.service_name}
                 onChange={this.handleChange}
                 name="service_name"
                 label="Service name"
                 variant="outlined"
+                error={error.service_name}
+                helperText={error.service_name}
                 placeholder="Please enter service name"
               />
-              <div className={classes.error}>
-                {this.state.error.service_name}
-              </div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 className={classes.fields}
                 fullWidth
-                value={this.state.Service.price}
+                value={Service.price}
                 onChange={this.handleChange}
                 name="price"
                 label="Price"
                 variant="outlined"
+                error={error.price}
+                helperText={error.price}
                 placeholder="Please enter price"
               />
-              <div className={classes.error}>{this.state.error.price}</div>
             </Grid>
           </Grid>
           <TextField
             className={classes.fields}
             fullWidth
-            value={this.state.Service.service_description}
+            value={Service.service_description}
             onChange={this.handleChange}
             name="service_description"
             label="Description"
             variant="outlined"
+            error={error.service_description}
+            helperText={error.service_description}
             placeholder="Please enter service description"
           />
-          <div className={classes.error}>{this.state.error.description}</div>
           <TextField
             id="filled-select-currency"
             select
             className={classes.fields}
-            label="Please select service category"
-            value={this.state.Service.category_name}
+            label="Service Category"
+            value={Service.category_name}
             onChange={this.selectedCategory}
-            //   helperText="Please select service category"
+            helperText="Please select service category"
             variant="outlined"
             fullWidth
           >
-            {this.state.category.map((option) => (
+            {category.map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -341,22 +291,22 @@ class CardEdit extends Component {
             select
             variant="outlined"
             className={classes.fields}
-            label="Please select service time"
-            value={this.state.Service.service_time}
+            label="Service Time"
+            value={Service.service_time}
+            helperText="Please select service time"
             onChange={this.selectedTime}
             fullWidth
           >
-            {this.state.time.map((option) => (
+            {time.map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
             ))}
           </TextField>
-
           <Grid container spacing={10}>
             <Grid item xs={8} sm={8}>
               <Typography
-                style={{ paddingTop: 8 }}
+                className={classes.imageField}
                 variant="h6"
                 align="center"
                 color="textSecondary"
@@ -374,7 +324,6 @@ class CardEdit extends Component {
               >
                 <AddIcon fontSize="medium" />
               </IconButton>
-
               <DropzoneDialog
                 filesLimit={1}
                 open={this.state.open}
@@ -386,13 +335,11 @@ class CardEdit extends Component {
               />
             </Grid>
           </Grid>
-
           <Button
             variant="contained"
-            className={(classes.fields, classes.button)}
+            className={[classes.fields, classes.button]}
             color="primary"
             fullWidth
-            //   disabled={this.validate()}
             onClick={this.handleSubmit}
           >
             Edit service
@@ -403,8 +350,9 @@ class CardEdit extends Component {
   }
 }
 
-CardEdit.propTypes = {
+AdminEditService.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CardEdit);
+//exporting AdminEditService
+export default withStyles(styles)(AdminEditService);

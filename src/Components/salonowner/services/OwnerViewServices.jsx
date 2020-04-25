@@ -1,33 +1,33 @@
+//importing
 import React from "react";
-
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Axios from "axios";
 import PropTypes from "prop-types";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import { withStyles } from "@material-ui/styles";
-import Decode from "jwt-decode";
 import { Link } from "react-router-dom";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+} from "@material-ui/icons";
+import {
+  LinearProgress,
+  makeStyles,
+  IconButton,
+  Box,
+  Button,
+  Typography,
+  Container,
+  Grid,
+  Avatar,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from "@material-ui/core";
 
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import AddIcon from "@material-ui/icons/Add";
-
+//styling
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
@@ -41,31 +41,8 @@ const useStyles = makeStyles((theme) => ({
     height: 48,
     padding: "0 30px",
   },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-
-    flexDirection: "column",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
 }));
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const ColorLinearProgress = withStyles({
   colorPrimary: {
     backgroundColor: "#b2dfdb",
@@ -74,21 +51,24 @@ const ColorLinearProgress = withStyles({
     backgroundColor: "#00695c",
   },
 })(LinearProgress);
-class CardMaterial extends React.Component {
+
+//class OwnerViewServices
+class OwnerViewServices extends React.Component {
   state = {
     List_of_services: [],
     name: "mudassir",
-    loading: true,
+    isLoading: false,
   };
 
   componentDidMount() {
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
     this.loadData();
   }
-  loadData() {
-    Axios({
+
+  loadData = async () => {
+    await Axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services",
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -97,31 +77,25 @@ class CardMaterial extends React.Component {
       },
     })
       .then((response) => {
-        console.log("RESPONSE OBJECT", response);
-        // List_of_services = { ...this.state.List_of_services0 };
-        // List_of_services = response;
-        this.setState({ List_of_services: response.data, loading: false });
+        this.setState({
+          isLoading: false,
+          List_of_services: response.data,
+        });
       })
-
-      // console.log("IN COMPONENT DID MOUNT", this.state.name);
-
       .catch((error) => {
         if (error.response) {
-          this.setState({ loading: false });
+          this.setState({ isLoading: false });
         }
       });
-  }
+  };
 
-  deleteService(id) {
-    const List_of_services = this.state.List_of_services.filter(
-      (e) => e._id !== id
-    );
-    console.log("list of salon after acceptance", List_of_services);
-    this.setState({ List_of_services });
-
+  deleteService = (id) => {
+    const { List_of_services } = this.state;
+    const filteredList = List_of_services.filter((e) => e._id !== id);
+    this.setState({ List_of_services: filteredList });
     Axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
         id,
       method: "DELETE",
       headers: {
@@ -136,22 +110,18 @@ class CardMaterial extends React.Component {
         this.setState({ List_of_services: result });
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
-  }
+  };
 
-  editService() {
-    console.log("EDIT SERVICE CLICK EVENT");
-  }
   render() {
-    console.log("decode", Decode(localStorage.getItem("x-auth-token")));
     const { classes } = this.props;
+    const { isLoading, List_of_services } = this.state;
     return (
       <React.Fragment>
         <main>
-          {/* Hero unit */}
           <div className={classes.heroContent}>
-            <div>{this.state.loading && <ColorLinearProgress size={30} />}</div>
+            {isLoading && <ColorLinearProgress size={30} />}
             <Container maxWidth="sm">
               <Box color="indigo">
                 <Typography
@@ -163,9 +133,9 @@ class CardMaterial extends React.Component {
                   All services
                 </Typography>
               </Box>
-              {!this.state.loading && (
+              {!isLoading && (
                 <div>
-                  {this.state.List_of_services.length === 0 ? (
+                  {List_of_services.length === 0 ? (
                     <Typography
                       variant="h5"
                       align="center"
@@ -188,10 +158,9 @@ class CardMaterial extends React.Component {
               )}
             </Container>
           </div>
-
           <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-              {this.state.List_of_services.map((items) => (
+              {List_of_services.map((items) => (
                 <Grid item key={items} xs={12} sm={6} md={4}>
                   <Card className={classes.card} elevation={20}>
                     <CardHeader
@@ -200,36 +169,40 @@ class CardMaterial extends React.Component {
                           aria-label={items.serviceName}
                           className={classes.avatar}
                           src={items.image_url}
-                        ></Avatar>
+                        />
                       }
-                      action={`timing ${items.service_time}`}
+                      action={items.service_time}
                       title={items.serviceName}
                       subheader={items.service_category}
                     />
                     <CardMedia
                       style={{
                         height: 0,
-                        paddingTop: "56.25%", // 16:9,
+                        paddingTop: "56.25%",
                         marginTop: "30",
                       }}
-                      className={classes.cover}
                       image={items.image_url}
                       title={items.serviceName}
                     />
                     <CardContent className={classes.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {items.service_time}
+                      </Typography>
                       <Typography>{items.serviceDescription}</Typography>
                     </CardContent>
                     <CardActions>
+                      <Button size="small" color="primary">
+                        <DeleteIcon
+                          onClick={() => this.deleteService(items._id)}
+                        />
+                      </Button>
                       <Button
                         size="small"
                         color="primary"
                         component={Link}
                         to={{ pathname: "/services/edit", items: items }}
                       >
-                        <span style={{ color: "black" }}>
-                          Add to your salon
-                        </span>
-                        <AddIcon fontSize="large" />
+                        <EditIcon />
                       </Button>
                       <Typography
                         variant="h5"
@@ -242,8 +215,7 @@ class CardMaterial extends React.Component {
                   </Card>
                 </Grid>
               ))}
-
-              {!this.state.loading && (
+              {!isLoading && (
                 <Grid item xs={12} sm={6} md={4}>
                   <Typography
                     variant="h5"
@@ -255,7 +227,7 @@ class CardMaterial extends React.Component {
                   </Typography>
                   <IconButton
                     aria-label="add"
-                    to="/admin/services/add"
+                    to="/services/add"
                     component={Link}
                     color="primary"
                     className={classes.margin}
@@ -266,8 +238,6 @@ class CardMaterial extends React.Component {
                 </Grid>
               )}
             </Grid>
-
-            {/* End hero unit */}
           </Container>
         </main>
       </React.Fragment>
@@ -275,8 +245,9 @@ class CardMaterial extends React.Component {
   }
 }
 
-CardMaterial.propTypes = {
+OwnerViewServices.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(useStyles)(CardMaterial);
+//exporting OwnerViewServices
+export default withStyles(useStyles)(OwnerViewServices);

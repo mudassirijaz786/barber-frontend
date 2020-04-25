@@ -1,7 +1,9 @@
+//importing
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import Authorization from "./Authorization";
 
+//exporting SalonOwnerRoute
 export const SalonOwnerRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
@@ -26,6 +28,7 @@ export const SalonOwnerRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+//exporting AdminRoute
 export const AdminRoute = ({ component: Component, ...rest }) => {
   return (
     <Route

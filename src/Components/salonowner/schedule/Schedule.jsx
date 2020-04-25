@@ -1,35 +1,25 @@
+//importing
 import React, { Component } from "react";
 import Calendar from "react-calendar";
 import axios from "axios";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import "primereact/resources/primereact.min.css";
-import "@fullcalendar/core/main.css";
-import "@fullcalendar/daygrid/main.css";
-import "@fullcalendar/timegrid/main.css";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import CardMedia from "@material-ui/core/CardMedia";
 import PropTypes from "prop-types";
-import Box from "@material-ui/core/Box";
+import {
+  Box,
+  Container,
+  makeStyles,
+  Grid,
+  Typography,
+  Avatar,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  CardActionArea,
+} from "@material-ui/core";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+//styling
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
@@ -44,26 +34,18 @@ const useStyles = makeStyles((theme) => ({
   card: {
     height: "100%",
     display: "flex",
-
     flexDirection: "column",
   },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
+  timingSpan: { color: "indigo" },
 }));
+
+//class Schedule
 class Schedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
       date: new Date(),
-      sechedule: [],
+      schedule: [],
     };
   }
 
@@ -74,8 +56,8 @@ class Schedule extends Component {
   };
 
   afterStateupdatedfinished = () => {
-    console.log("after state updated is called", this.state.date);
-    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
+    const { date } = this.state;
+    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
       url: url,
       method: "GET",
@@ -83,18 +65,20 @@ class Schedule extends Component {
     })
       .then((response) => {
         if (typeof response.data === "string") {
-          console.log("response is", response.data);
-          this.setState({ sechedule: [] });
+          console.log("Response in Schedule", response.data);
+          this.setState({ schedule: [] });
         } else {
-          this.setState({ sechedule: response.data });
+          this.setState({ schedule: response.data });
         }
       })
-      .catch(function (error) {
+      .catch((error) => {
         alert(error);
       });
   };
+
   componentDidMount() {
-    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${this.state.date}`;
+    const { date } = this.state;
+    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
       url: url,
       method: "GET",
@@ -102,13 +86,12 @@ class Schedule extends Component {
     })
       .then((response) => {
         if (typeof response.data === "string") {
-          console.log("response is", response.data);
+          console.log("Response in Schedule", response.data);
         } else {
-          this.setState({ sechedule: response.data });
+          this.setState({ schedule: response.data });
         }
       })
-
-      .catch(function (error) {
+      .catch((error) => {
         if (error.response) {
           alert(error.response.data);
         }
@@ -116,10 +99,8 @@ class Schedule extends Component {
   }
 
   render() {
-    console.log("STATE IS", this.state.sechedule);
-
     const { classes } = this.props;
-
+    const { schedule, date } = this.state;
     return (
       <React.Fragment>
         <main>
@@ -135,11 +116,8 @@ class Schedule extends Component {
                   Schedule
                 </Typography>
               </Box>
-              <Calendar
-                onChange={this.handleonChange}
-                value={this.state.date}
-              ></Calendar>
-              {this.state.sechedule.length === 0 ? (
+              <Calendar onChange={this.handleonChange} value={date}></Calendar>
+              {schedule.length === 0 ? (
                 <Typography
                   variant="h5"
                   align="center"
@@ -160,10 +138,9 @@ class Schedule extends Component {
               )}
             </Container>
           </div>
-
-          <Container className={classes.cardGrid} maxWidth="md">
+          <Container maxWidth="md">
             <Grid container spacing={4}>
-              {this.state.sechedule.map((items) => (
+              {schedule.map((items) => (
                 <Grid item key={items} xs={12} sm={6} md={4}>
                   <Card key={items._id} className={classes.card}>
                     <CardHeader
@@ -177,23 +154,23 @@ class Schedule extends Component {
                           color="textSecondary"
                           component="p"
                         >
-                          <span style={{ color: "indigo" }}>
-                            Starting Time:{" "}
-                          </span>{" "}
+                          <span className={classes.timingSpan}>
+                            Starting Time:
+                          </span>
                           {items.stating_time}
                         </Typography>
-
                         <Typography
                           variant="h6"
                           color="textSecondary"
                           component="p"
                         >
-                          <span style={{ color: "indigo" }}>Ending Time: </span>{" "}
+                          <span className={classes.timingSpan}>
+                            Ending Time:
+                          </span>
                           {items.ending_time}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-
                     <CardActions disableSpacing>
                       <Typography variant="h6" component="h6" gutterBottom>
                         Service: {items.Salon_id}
@@ -203,8 +180,6 @@ class Schedule extends Component {
                 </Grid>
               ))}
             </Grid>
-
-            {/* End hero unit */}
           </Container>
         </main>
       </React.Fragment>
@@ -216,4 +191,5 @@ Schedule.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+// exporting Schedule
 export default withStyles(useStyles)(Schedule);

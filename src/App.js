@@ -1,33 +1,30 @@
+//importing
 import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-
+import { Grid, withStyles } from "@material-ui/core";
 import { Header, Footer } from "./Components/layouts/index";
 import Landing from "./Components/common/Landing.jsx";
-import AddServicesRecommended from "./Components/salonowner/services/AddRecommendedService";
-import Signup from "./Components/salonowner/auth/Signup";
-import Login from "./Components/salonowner/auth/Login";
-import Dashboard from "./Components/salonowner/dashboard/Dashboard";
+import OwnerAddRecommendedService from "./Components/salonowner/services/OwnerAddRecommendedService";
+import OwnerSignup from "./Components/salonowner/auth/OwnerSignup";
+import OwnerLogin from "./Components/salonowner/auth/OwnerLogin";
+import OwnerDashboard from "./Components/salonowner/dashboard/OwnerDashboard";
 import AdminDashboard from "./Components/admin/dashboard/AdminDashboard";
-import AddServices from "./Components/salonowner/services/AddService";
-import CardMaterial from "./Components/salonowner/services/ViewServices";
-import CardEdit from "./Components/salonowner/services/EditService";
-import AdminCardEdit from "./Components/admin/services/EditService";
-import ChangePassword from "./Components/salonowner/password/UpdatePassword";
+import OwnerAddService from "./Components/salonowner/services/OwnerAddService";
+import OwnerViewServices from "./Components/salonowner/services/OwnerViewServices";
+import OwnerEditService from "./Components/salonowner/services/OwnerEditService";
+import AdminEditService from "./Components/admin/services/AdminEditService";
+import OwnerUpdatePassword from "./Components/salonowner/password/OwnerUpdatePassword";
 import AdminChangePassword from "./Components/admin/password/AdminChangePassword";
 import Schedule from "./Components/salonowner/schedule/Schedule";
 import Salons from "./Components/admin/salon/Salons";
-import LoginAdmin from "./Components/admin/auth/LoginAdmin";
-import SignupAdmin from "./Components/admin/auth/SignupAdmin";
-import AddServiceByAdmin from "./Components/admin/services/AddService";
-import AddServicesRecommendedAdmin from "./Components/admin/services/AddServicesRecommendedAdmin";
-import ServicesViewAdmin from "./Components/admin/services/ViewServices";
-import Available from "./Components/salonowner/salonAvailability/Available";
-import AdminUpdateProfile from "./Components/admin/profile/AdminUpdateProfile";
-import UpdateProfile from "./Components/salonowner/profile/UpdateProfile";
-
+import AdminLogin from "./Components/admin/auth/AdminLogin";
+import SignupAdmin from "./Components/admin/auth/AdminSignup";
+import AddServiceByAdmin from "./Components/admin/services/AdminAddService";
+import AdminViewServices from "./Components/admin/services/AdminViewServices";
+import SalonAvailability from "./Components/salonowner/salonAvailability/SalonAvailability";
+import AdminProfileUpdate from "./Components/admin/profile/AdminProfileUpdate";
+import OwnerUpdateProfile from "./Components/salonowner/profile/OwnerUpdateProfile";
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -39,16 +36,8 @@ import {
 } from "react-toasts";
 import NotFound from "../src/Components/common/NotFound";
 
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-    // textAlign: "center",
-    background: "linear-gradient(to right, #ffefba, #ffffff)",
-    // backgroundImage: `url(${"https://picsum.photos/seed/picsum/200/300"})`,
-    backgroundRepeat: "no-repeat",
-  },
-
+//styling
+const styles = {
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -59,70 +48,30 @@ const styles = (theme) => ({
     margin: 15,
     padding: "0 30px",
   },
-  h5: {
-    marginBottom: theme.spacing(4),
-    marginTop: theme.spacing(4),
-    [theme.breakpoints.up("sm")]: {
-      marginTop: theme.spacing(10),
-    },
+  root: {
+    background: "linear-gradient(to right, #ffefba, #ffffff)",
   },
-  more: {
-    marginTop: theme.spacing(2),
-  },
-});
+};
 
+//class App
 class App extends React.Component {
   render() {
     const { classes } = this.props;
-
     return (
       <Switch>
         <Fragment>
           <Grid className={classes.root}>
             <Route render={(props) => <Header {...props} />} />
             <Route exact path="/" component={Landing} />
-
-            <Route exact path="/signup" component={Signup} />
-            <SalonOwnerRoute exact path="/calender" component={Schedule} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/admin/login" component={LoginAdmin} />
+            <Route exact path="/signup" component={OwnerSignup} />
+            <Route exact path="/login" component={OwnerLogin} />
+            <Route exact path="/admin/login" component={AdminLogin} />
             <Route exact path="/admin/signup" component={SignupAdmin} />
-            <SalonOwnerRoute
-              exact
-              path="/password/change"
-              component={ChangePassword}
-            />
-
-            <AdminRoute
-              exact
-              path="/admin/password/change"
-              component={AdminChangePassword}
-            />
-            <SalonOwnerRoute exact path="/dashboard" component={Dashboard} />
-            <SalonOwnerRoute
-              exact
-              path="/services/add"
-              component={AddServices}
-            />
             <Route
               exact
               path="/services/edit"
-              render={(props) => <CardEdit {...props} />}
+              render={(props) => <OwnerEditService {...props} />}
             />
-            <Route
-              exact
-              path="/admin/services/edit"
-              render={(props) => <AdminCardEdit {...props} />}
-            />
-            <Route exact path="/admin/services" component={ServicesViewAdmin} />
-            <SalonOwnerRoute exact path="/available" component={Available} />
-            <SalonOwnerRoute
-              exact
-              path="/recommended"
-              component={AddServicesRecommended}
-            />
-
-            <SalonOwnerRoute exact path="/services" component={CardMaterial} />
             <Route
               exact
               path="/admin/services/add"
@@ -130,21 +79,61 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/owner/services/add"
-              component={AddServicesRecommendedAdmin}
+              path="/admin/services/edit"
+              render={(props) => <AdminEditService {...props} />}
             />
-            <AdminRoute exact path="/admin/salons" component={Salons} />
-            <AdminRoute
+            <SalonOwnerRoute exact path="/calender" component={Schedule} />
+            <SalonOwnerRoute
               exact
-              path="/admin/profile/edit"
-              component={AdminUpdateProfile}
+              path="/dashboard"
+              component={OwnerDashboard}
+            />
+            <SalonOwnerRoute
+              exact
+              path="/available"
+              component={SalonAvailability}
+            />
+            <SalonOwnerRoute
+              exact
+              path="/recommended"
+              component={OwnerAddRecommendedService}
+            />
+            <SalonOwnerRoute
+              exact
+              path="/services"
+              component={OwnerViewServices}
             />
             <SalonOwnerRoute
               exact
               path="/profile/edit"
-              component={UpdateProfile}
+              component={OwnerUpdateProfile}
             />
-
+            <SalonOwnerRoute
+              exact
+              path="/services/add"
+              component={OwnerAddService}
+            />
+            <SalonOwnerRoute
+              exact
+              path="/password/change"
+              component={OwnerUpdatePassword}
+            />
+            <AdminRoute exact path="/admin/salons" component={Salons} />
+            <AdminRoute
+              exact
+              path="/admin/password/change"
+              component={AdminChangePassword}
+            />
+            <AdminRoute
+              exact
+              path="/admin/services"
+              component={AdminViewServices}
+            />
+            <AdminRoute
+              exact
+              path="/admin/profile/edit"
+              component={AdminProfileUpdate}
+            />
             <AdminRoute
               exact
               path="/admin/dashboard"
@@ -154,7 +143,6 @@ class App extends React.Component {
               position={ToastsContainerPosition.TOP_CENTER}
               store={ToastsStore}
             />
-            {/* <Route exact path="*" component={NotFound} /> */}
             <Footer />
           </Grid>
         </Fragment>
@@ -167,4 +155,5 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+//exporting App
 export default withStyles(styles)(App);

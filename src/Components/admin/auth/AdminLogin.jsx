@@ -1,27 +1,22 @@
+//importing
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import axios from "axios";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
-import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/styles";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { ToastsStore } from "react-toasts";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Container,
+  CssBaseline,
+  LinearProgress,
+} from "@material-ui/core";
 
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  control: {
-    padding: 10,
-  },
+//styling
+const styles = {
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -34,20 +29,9 @@ const styles = (theme) => ({
   fields: {
     marginTop: 15,
   },
-  error: {
-    color: "red",
-  },
-  backendErrorStyle: {
-    color: "red",
-    textAlign: "center",
-  },
-  paperStyle: {
-    margin: "2px",
-    textAlign: "center",
-    color: "black",
-    marginTop: 30,
-  },
-});
+};
+
+//progress bar
 const ColorLinearProgress = withStyles({
   colorPrimary: {
     backgroundColor: "#b2dfdb",
@@ -56,104 +40,77 @@ const ColorLinearProgress = withStyles({
     backgroundColor: "#00695c",
   },
 })(LinearProgress);
-class Login extends Component {
+
+//class AdminLogin
+class AdminLogin extends Component {
   state = {
     account: {
       email: "newAdmin@gmail.com",
       password: "dasdasd",
     },
     error: {},
-    backendError: "",
     loading: false,
   };
-  constructor() {
-    super();
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validate = this.validate.bind(this);
-    this.validate_single = this.validate_single.bind(this);
-  }
-
-  validate() {
-    const { error } = Joi.validate(this.state.account, this.schema, {
+  validate = () => {
+    const { account } = this.state;
+    const { error } = Joi.validate(account, this.schema, {
       abortEarly: false,
     });
     if (!error) return null;
     const errors = {};
-
     error.details.map((item) => {
       errors[item.path[0]] = item.message;
     });
     return errors;
-  }
-  validate_single(field_name) {
-    //	console.log(this.state.Salon[field_name]);
+  };
+
+  validate_single = (field_name) => {
     const { error } = Joi.validate(
       this.state.account[field_name],
       this.schema[field_name]
     );
     if (!error) return null;
     return error;
-  }
-  async handleSubmit(e) {
+  };
+
+  handleSubmit = async () => {
     const error = this.validate();
+    const { account } = this.state;
     this.setState({ error: error || {}, loading: true });
-    //const port=5000
     await axios
       .post(
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/login/superadmin",
         {
-          email: this.state.account.email,
-          password: this.state.account.password,
+          email: account.email,
+          password: account.password,
         }
       )
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
-        console.log("TOKEN", token);
-        console.log("RESPONSE", response);
-        // this.props.history.push("/calender");
-
-        //sb components ur jay ge and route pr push kr deta ha bs
+        console.log("Token in AdminLogin", token);
+        console.log("Response in AdminLogin", response);
         this.props.history.push("/admin/salons");
-
-        // window.location = "/salons";
       })
       .catch((error) => {
-        //	alert(error.data);
         if (error.response) {
           ToastsStore.error(error.response.data);
-          this.setState({
-            backendError: error.response.data,
-          });
-          //   alert(error.response.data);
-          //		console.log(error.response.status);
-          //		console.log(error.response.headers);
         }
       });
-    //	const result = await axios.post(url, this.state.Salon);
-    //	console.log(result);
     this.setState({ loading: false });
-  }
+  };
+
   handleChange = (e) => {
     const { name, value } = e.target;
-    //console.log(e.type);
-    //console.log(e.currentTarget.name);
     const account = { ...this.state.account };
-    //console.log(Salon);
     account[name] = value;
     this.setState({ account });
     const error = this.validate_single(name);
-    //console.log(error);
     const state_error = { ...this.state.error };
     if (error) state_error[name] = error.message;
     else delete state_error[name];
     this.setState({ error: state_error });
-
-    //	this.setState({ error, [e.currentTarget.name]: error.message });
-    //console.log(error.Salon_owner_email);
-    //	this.setState({ onj: oj });
     if (error) return;
   };
 
@@ -161,13 +118,13 @@ class Login extends Component {
     email: Joi.string().email().required().label("Email"),
     password: Joi.string().required().min(5).label("Password"),
   };
+
   render() {
     const { classes } = this.props;
-
+    const { account, error, loading } = this.state;
     return (
       <React.Fragment>
-        <div> {this.state.loading && <ColorLinearProgress size={30} />}</div>
-
+        <div> {loading && <ColorLinearProgress size={30} />}</div>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Container maxWidth="sm">
@@ -189,47 +146,41 @@ class Login extends Component {
             >
               Please login as an admin
             </Typography>
-            <Typography className={classes.backendErrorStyle} variant="h5">
-              {this.state.backendError}
-            </Typography>
             <TextField
               label="email"
               variant="outlined"
               placeholder="Please enter your email"
-              value={this.state.account.email}
+              value={account.email}
               className={classes.fields}
               onChange={this.handleChange}
               fullWidth
+              error={error.email}
+              helperText={error.email}
               name="email"
             />
-            <div className={classes.error}>{this.state.error.email}</div>
             <TextField
               fullWidth
-              value={this.state.account.password}
+              value={account.password}
               onChange={this.handleChange}
-              style={{ marginBottom: 20 }}
               className={classes.fields}
               name="password"
               label="password"
               type="password"
               variant="outlined"
               placeholder="Please enter your password"
+              error={error.password}
+              helperText={error.password}
             />
-            <div className={classes.error}>{this.state.error.password}</div>
-            <div>
-              <Button
-                fullWidth
-                className={(classes.fields, classes.button)}
-                style={{ marginBottom: 6 }}
-                variant="contained"
-                color="primary"
-                disabled={this.validate()}
-                onClick={this.handleSubmit}
-              >
-                Login
-              </Button>
-              {/* {this.state.loading && <ColorLinearProgress size={40} />} */}
-            </div>
+            <Button
+              fullWidth
+              className={[classes.fields, classes.button]}
+              variant="contained"
+              color="primary"
+              disabled={this.validate()}
+              onClick={this.handleSubmit}
+            >
+              Admin Login
+            </Button>
           </Container>
         </Container>
       </React.Fragment>
@@ -237,8 +188,9 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+AdminLogin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+//exporting AdminLogin
+export default withStyles(styles)(AdminLogin);

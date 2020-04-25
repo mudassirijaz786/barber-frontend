@@ -1,23 +1,22 @@
+//importing
 import React, { Component } from "react";
 import Switch from "react-switch";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-
 import { ToastsStore } from "react-toasts";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import {
+  Button,
+  Grid,
+  Paper,
+  Typography,
+  LinearProgress,
+  Box,
+  Container,
+} from "@material-ui/core";
 
-import { Button, Grid, Paper, Typography } from "@material-ui/core";
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  control: {
-    padding: 10,
-  },
+//styling
+const styles = {
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -53,7 +52,8 @@ const styles = (theme) => ({
   switch: {
     paddingBottom: 5,
   },
-});
+};
+
 const ColorLinearProgress = withStyles({
   colorPrimary: {
     backgroundColor: "#b2dfdb",
@@ -62,24 +62,21 @@ const ColorLinearProgress = withStyles({
     backgroundColor: "#00695c",
   },
 })(LinearProgress);
-class Available extends Component {
+
+//class SalonAvailability
+class SalonAvailability extends Component {
   constructor() {
     super();
     this.state = { checked: false, isLoading: false };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleSubmit = async (e) => {
-    console.log(this.state.checked);
-    console.log("token in availible", localStorage.getItem("x-auth-token"));
+  handleSubmit = async () => {
+    const { checked } = this.state;
     this.setState({ isLoading: true });
-
     axios({
       url:
-        // "http://localhost:5000/Digital_Saloon.com/api/Salon/availibilty",
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Salon/availibilty",
       method: "POST",
-      Salon_availibilty: this.state.checked,
+      Salon_availibilty: checked,
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -101,29 +98,26 @@ class Available extends Component {
       .catch((error) => {
         if (error.response) {
           ToastsStore.error(error.response.data);
-
           this.setState({
-            backendError: error.response.data,
             isLoading: false,
           });
         }
       });
   };
-  handleChange(checked) {
+
+  handleChange = (checked) => {
     this.setState({ checked });
-  }
+  };
 
   render() {
     const { classes } = this.props;
+    const { checked, isLoading } = this.state;
 
-    const { checked } = this.state;
-    console.log("checked in render", checked);
     return (
       <React.Fragment>
         <main>
           <div className={classes.heroContent}>
-            {this.state.isLoading && <ColorLinearProgress size={30} />}
-
+            {isLoading && <ColorLinearProgress size={30} />}
             <Container component="main" maxWidth="xs">
               <Box color="indigo">
                 <Typography
@@ -153,10 +147,9 @@ class Available extends Component {
                   <Switch
                     className={classes.switch}
                     onChange={this.handleChange}
-                    checked={this.state.checked}
+                    checked={checked}
                   />
                 </Paper>
-
                 <Paper className={classes.paperInnerBottom}>
                   <Button
                     className={classes.button}
@@ -177,8 +170,9 @@ class Available extends Component {
   }
 }
 
-Available.propTypes = {
+SalonAvailability.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Available);
+// exporting SalonAvailability
+export default withStyles(styles)(SalonAvailability);

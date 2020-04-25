@@ -1,20 +1,19 @@
+//importing
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { Typography, Grid, Button, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "./animations/landing.json";
-const styles = (theme) => ({
+import { Typography, Grid, Button, Box, withStyles } from "@material-ui/core";
+
+//styling
+const styles = {
   root: {
     flexGrow: 1,
     justifyContent: "center",
     textAlign: "center",
-    // background: "linear-gradient(to right, #f12711, #f5af19)",
-    // backgroundImage: `url(${"https://picsum.photos/seed/picsum/200/300"})`,
     backgroundRepeat: "no-repeat",
   },
-
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -25,21 +24,14 @@ const styles = (theme) => ({
     margin: 15,
     padding: "0 30px",
   },
-  h5: {
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(1),
-    [theme.breakpoints.up("sm")]: {
-      marginTop: theme.spacing(1),
-    },
-  },
-  more: {
-    marginTop: theme.spacing(1),
-  },
-});
+};
 
+//animated Lottie
 const defaultOptions = {
   animationData,
 };
+
+//class Landing
 class Landing extends React.Component {
   render() {
     const { classes } = this.props;
@@ -76,24 +68,12 @@ class Landing extends React.Component {
         >
           Login
         </Button>
-        <Typography
-          variant="body2"
-          color="inherit"
-          align="center"
-          className={classes.more}
-        >
+        <Typography variant="body2" color="inherit" align="center">
           Discover the experience
         </Typography>
-
-        <Typography
-          variant="body2"
-          color="inherit"
-          align="center"
-          className={classes.more}
-        >
+        <Typography variant="body2" color="inherit" align="center">
           If you are admin you can login or register as below
         </Typography>
-
         <Button
           color="secondary"
           variant="contained"
@@ -125,4 +105,5 @@ Landing.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+//exporting Landing
 export default withStyles(styles)(Landing);

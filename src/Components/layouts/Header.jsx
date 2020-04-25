@@ -1,39 +1,35 @@
+//importing
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Home from "@material-ui/icons/Home";
-import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Authorization from "../common/Authorization";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AppDrawer from "../common/Drawer";
-const styles = (theme) => ({
+import { ExitToApp as ExitToAppIcon } from "@material-ui/icons";
+import { Button, Typography, Toolbar, AppBar } from "@material-ui/core";
+
+//styling
+const styles = {
   root: {
     flexGrow: 1,
   },
-
   title: {
     flexGrow: 2,
     textAlign: "left",
   },
-});
+};
 
+//class Header
 class Header extends React.Component {
   logOut = (e) => {
     e.preventDefault();
-    console.log("before logout token = ", localStorage.getItem("x-auth-token"));
     localStorage.removeItem("x-auth-token");
     this.props.history.push(`/`);
-    console.log("after logout token = ", localStorage.getItem("x-auth-token"));
   };
 
   render() {
     const { classes } = this.props;
+
     const guestLink = (
       <div className={classes.root}>
         <AppBar position="relative" color="inherit">
@@ -43,10 +39,9 @@ class Header extends React.Component {
               component={Link}
               to="/"
               variant="p"
-              // para
               className={classes.title}
             >
-              Salon app
+              Salon App
             </Typography>
 
             <Button color="inherit" component={Link} to="/signup">
@@ -59,6 +54,7 @@ class Header extends React.Component {
         </AppBar>
       </div>
     );
+
     const authLink = (
       <div className={classes.root}>
         <AppBar position="relative" color="inherit">
@@ -66,7 +62,6 @@ class Header extends React.Component {
             {Authorization.isAdmin() || Authorization.isSalonOnwer() ? (
               <AppDrawer />
             ) : null}
-
             <Typography color="inherit" variant="h6" className={classes.title}>
               <Button
                 color="inherit"

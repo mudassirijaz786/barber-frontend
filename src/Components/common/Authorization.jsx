@@ -17,7 +17,6 @@ class Auth {
     } catch (error) {
       return (this.authenticated = false);
     }
-
     return this.authenticated;
   }
 
@@ -35,7 +34,6 @@ class Auth {
     } catch (error) {
       return (this.authenticated = false);
     }
-
     return this.authenticated;
   }
 }

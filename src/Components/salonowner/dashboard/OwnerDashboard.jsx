@@ -21,8 +21,8 @@ const styles = {
   },
 };
 
-//class AdminDashboard
-class AdminDashboard extends Component {
+//class OwnerDashboard
+class OwnerDashboard extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -35,9 +35,9 @@ class AdminDashboard extends Component {
   }
 }
 
-AdminDashboard.propTypes = {
+OwnerDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-//exporting AdminDashboard
-export default withStyles(styles)(AdminDashboard);
+//exporting OwnerDashboard
+export default withStyles(styles)(OwnerDashboard);
