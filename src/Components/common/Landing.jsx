@@ -1,10 +1,11 @@
 //importing
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "./animations/landing.json";
 import { Typography, Grid, Button, Box, withStyles } from "@material-ui/core";
+import Authorization from "./Authorization";
 
 //styling
 const styles = {
@@ -35,6 +36,18 @@ const defaultOptions = {
 class Landing extends React.Component {
   render() {
     const { classes } = this.props;
+    if (
+      Authorization.isSalonOnwer().auth &&
+      Authorization.isSalonOnwer().role === "Salon_Owner_login"
+    ) {
+      return <Redirect to="/dashboard" />;
+    }
+    if (
+      Authorization.isAdmin().auth &&
+      Authorization.isAdmin().role === "SuperAdmin"
+    ) {
+      return <Redirect to="/admin/dashboard" />;
+    }
     return (
       <Grid className={classes.root}>
         <Box color="indigo">

@@ -1,18 +1,19 @@
 //importing
 import React, { Component } from "react";
+import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { ToastsStore } from "react-toasts";
-import { Add as AddIcon } from "@material-ui/icons";
+import AddIcon from "@material-ui/icons/Add";
 import { DropzoneDialog } from "material-ui-dropzone";
 import { withStyles } from "@material-ui/styles";
 import { Redirect } from "react-router-dom";
 import {
   TextField,
   MenuItem,
+  CssBaseline,
   Button,
   IconButton,
-  CssBaseline,
   LinearProgress,
   Grid,
   Box,
@@ -35,7 +36,6 @@ const styles = {
     marginTop: 15,
   },
 };
-
 const ColorLinearProgress = withStyles({
   colorPrimary: {
     backgroundColor: "#b2dfdb",
@@ -86,16 +86,20 @@ class OwnerEditService extends Component {
     });
   };
 
-  async handleSubmit(e) {
+  handleChange = (e) => {
+    let { Service } = this.state;
+    Service[e.target.name] = e.target.value;
+    this.setState({ Service });
+  };
+  handleSubmit = async (e) => {
     try {
-      const { Service, service_time, price } = this.state;
       let form_data = new FormData();
-      form_data.append("image", Service.image_url);
-      form_data.append("servicename", Service.serviceName);
-      form_data.append("price", price);
-      form_data.append("description", Service.serviceDescription);
-      form_data.append("service_category", Service.service_category);
-      form_data.append("service_time", service_time);
+      form_data.append("image", this.state.Service.img_url);
+      form_data.append("servicename", this.state.Service.serviceName);
+      form_data.append("price", this.state.price);
+      form_data.append("description", this.state.Service.serviceDescription);
+      form_data.append("service_category", this.state.Service.service_category);
+      form_data.append("service_time", this.state.service_time);
       this.setState({ isLoading: true });
       var token = localStorage.getItem("x-auth-token");
       const promise = axios({
@@ -105,12 +109,11 @@ class OwnerEditService extends Component {
         method: "PUT",
         data: form_data,
         headers: {
-          Accept: "application/json, text/plain, /",
+          Accept: "application/json, text/plain, */*",
           "Content-Type": "multipart/form-data",
           "x-auth-token": token,
         },
       });
-      console.log(promise);
       promise
         .then((response) => {
           ToastsStore.success(
@@ -130,7 +133,7 @@ class OwnerEditService extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   selectedCategory = (e) => {
     const Service = { ...this.state.Service };
@@ -143,6 +146,7 @@ class OwnerEditService extends Component {
     let time = this.state.service_time;
     time = e.target.value;
     this.setState({ service_time: time });
+    console.log(this.state.Service.service_time);
   };
 
   render() {
@@ -150,15 +154,7 @@ class OwnerEditService extends Component {
       return <Redirect to="/services" />;
     }
     const { classes } = this.props;
-    const {
-      isLoading,
-      Service,
-      error,
-      category,
-      time,
-      price,
-      service_time,
-    } = this.state;
+    const { isLoading, Service, price, category, time } = this.state;
 
     return (
       <React.Fragment>
@@ -180,6 +176,7 @@ class OwnerEditService extends Component {
           >
             Please edit service as a salon owner
           </Typography>
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -199,8 +196,7 @@ class OwnerEditService extends Component {
                 className={classes.fields}
                 fullWidth
                 value={price}
-                onChange={this.handleChange}
-                name="price"
+                onChange={(e) => this.setState({ price: e.target.value })}
                 label="Price"
                 variant="outlined"
                 placeholder="Please enter price"
@@ -219,13 +215,13 @@ class OwnerEditService extends Component {
             placeholder="Please enter service description"
           />
           <TextField
+            id="filled-select-currency"
             select
             disabled={true}
             className={classes.fields}
             label={Service.service_category}
             value={Service.service_category}
             onChange={this.selectedCategory}
-            helperText="Please select service category"
             variant="outlined"
             fullWidth
           >
@@ -237,11 +233,12 @@ class OwnerEditService extends Component {
             ))}
           </TextField>
           <TextField
+            id="filled-select-currency"
             select
             variant="outlined"
             className={classes.fields}
-            label="Service Time"
-            value={service_time}
+            label="Please select service time"
+            value={Service.service_time}
             onChange={this.selectedTime}
             fullWidth
           >
@@ -266,12 +263,12 @@ class OwnerEditService extends Component {
             <Grid item xs={4} sm={4}>
               <IconButton
                 aria-label="add"
-                disabled={true}
+                // disabled={true}
                 color="primary"
                 onClick={this.handleOpen.bind(this)}
                 size="medium"
               >
-                <AddIcon fontSize="medium" />
+                <AddIcon />
               </IconButton>
               <DropzoneDialog
                 filesLimit={1}
@@ -303,5 +300,5 @@ OwnerEditService.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-//exporting OwnerEditService
+// exporting OwnerEditService
 export default withStyles(styles)(OwnerEditService);

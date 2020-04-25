@@ -1,7 +1,11 @@
+//importing
 import decode from "jwt-decode";
+
+//class Auth
 class Auth {
   constructor() {
     this.authenticated = false;
+    this.role = "";
   }
 
   isSalonOnwer() {
@@ -11,12 +15,13 @@ class Auth {
         let decoded = decode(token);
         if (decoded.Salon_Owner_login) {
           this.authenticated = true;
+          this.role = "Salon_Owner_login";
         }
       }
     } catch (error) {
       return (this.authenticated = false);
     }
-    return this.authenticated;
+    return { auth: this.authenticated, role: this.role };
   }
 
   isAdmin() {
@@ -26,13 +31,15 @@ class Auth {
         let decoded = decode(token);
         if (decoded.SuperAdmin) {
           this.authenticated = true;
+          this.role = "SuperAdmin";
         }
       }
     } catch (error) {
       return (this.authenticated = false);
     }
-    return this.authenticated;
+    return { auth: this.authenticated, role: this.role };
   }
 }
 
+//exporting Auth
 export default new Auth();
