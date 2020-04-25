@@ -6,7 +6,6 @@ import { ToastsStore } from "react-toasts";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import TimePicker from "react-time-picker";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import {
   CssBaseline,
   Container,

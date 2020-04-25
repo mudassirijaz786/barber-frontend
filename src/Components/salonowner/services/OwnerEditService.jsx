@@ -17,7 +17,6 @@ import {
   Grid,
   Box,
   Typography,
-  Paper,
   Container,
 } from "@material-ui/core";
 

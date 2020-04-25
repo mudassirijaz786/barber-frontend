@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import decode from "jwt-decode";
 import {
   Menu as MenuIcon,
+  Edit as EditIcon,
+  VpnKey as VpnKeyIcon,
   AddBox as AddBoxIcon,
   Eco as EcoIcon,
+  ViewList as ViewListIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
   WatchLater as WatchLaterIcon,
@@ -18,7 +21,6 @@ import {
   List,
   CssBaseline,
   Button,
-  makeStyles,
 } from "@material-ui/core";
 
 //class AppDrawer
@@ -76,7 +78,7 @@ export default class AppDrawer extends React.Component {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <PeopleIcon />
+            <ViewListIcon />
           </ListItemIcon>
           <Button
             color="primary"
@@ -89,7 +91,7 @@ export default class AppDrawer extends React.Component {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <PeopleIcon />
+            <EditIcon />
           </ListItemIcon>
           <Button
             color="primary"
@@ -102,7 +104,7 @@ export default class AppDrawer extends React.Component {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <PeopleIcon />
+            <VpnKeyIcon />
           </ListItemIcon>
           <Button
             color="primary"
@@ -143,7 +145,7 @@ export default class AppDrawer extends React.Component {
       <List>
         <ListItem>
           <ListItemIcon>
-            <EcoIcon />
+            <ViewListIcon />
           </ListItemIcon>
           <Button color="primary" component={Link} to="/services" variant="h6">
             view services
@@ -180,7 +182,7 @@ export default class AppDrawer extends React.Component {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <PeopleIcon />
+            <EditIcon />
           </ListItemIcon>
           <Button
             color="primary"
@@ -193,7 +195,7 @@ export default class AppDrawer extends React.Component {
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <PeopleIcon />
+            <VpnKeyIcon />
           </ListItemIcon>
           <Button
             color="primary"

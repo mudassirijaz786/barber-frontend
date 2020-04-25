@@ -18,11 +18,10 @@ import {
   Container,
   Box,
   Typography,
-  Paper,
 } from "@material-ui/core";
 
 //styling
-const styles = (theme) => ({
+const styles = {
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
     border: 0,
@@ -36,7 +35,7 @@ const styles = (theme) => ({
   fields: {
     marginTop: 15,
   },
-});
+};
 
 const ColorLinearProgress = withStyles({
   colorPrimary: {
