@@ -295,9 +295,10 @@ class OwnerUpdateProfile extends Component {
           </Paper>
           <Button
             fullWidth
-            className={[classes.fields, classes.button]}
+            className={classes.button}
             variant="contained"
             color="primary"
+            style={{ marginTop: 15 }}
             disabled={this.validate()}
             onClick={this.handleSubmit}
           >

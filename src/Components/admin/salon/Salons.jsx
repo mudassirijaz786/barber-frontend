@@ -148,7 +148,7 @@ class Salon extends React.Component {
     const { classes } = this.props;
     const { List_of_salons, isLoading } = this.state;
     return (
-      <React.Fragment className={classes.root}>
+      <React.Fragment>
         <main>
           <div className={classes.heroContent}>
             <div>{isLoading && <ColorLinearProgress size={30} />}</div>
@@ -211,16 +211,18 @@ class Salon extends React.Component {
                         </CardContent>
                         <CardActions>
                           <IconButton
-                            size="large"
+                            size="medium"
                             color="primary"
                             onClick={() => this.acceptSalon(items._id)}
                           >
                             <CheckIcon />
                           </IconButton>
-                          <IconButton size="large" color="secondary">
-                            <CloseIcon
-                              onClick={() => this.rejectSalon(items._id)}
-                            />
+                          <IconButton
+                            size="medium"
+                            color="secondary"
+                            onClick={() => this.rejectSalon(items._id)}
+                          >
+                            <CloseIcon />
                           </IconButton>
                         </CardActions>
                       </Card>

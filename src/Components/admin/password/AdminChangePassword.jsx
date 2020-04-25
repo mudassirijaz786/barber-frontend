@@ -24,6 +24,7 @@ const styles = {
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
     height: 48,
+    marginTop: 15,
     padding: "0 30px",
   },
   fields: {
@@ -192,7 +193,7 @@ class AdminChangePassword extends Component {
           <Button
             variant="contained"
             color="primary"
-            className={[classes.fields, classes.button]}
+            className={classes.button}
             fullWidth
             disabled={this.validate()}
             onClick={this.handleSubmit}

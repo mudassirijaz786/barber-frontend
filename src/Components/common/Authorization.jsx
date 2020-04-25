@@ -11,7 +11,6 @@ class Auth {
         let decoded = decode(token);
         if (decoded.Salon_Owner_login) {
           this.authenticated = true;
-          console.log("token valid");
         }
       }
     } catch (error) {
@@ -25,10 +24,8 @@ class Auth {
     try {
       if (token) {
         let decoded = decode(token);
-        // console.log(decoded);
         if (decoded.SuperAdmin) {
           this.authenticated = true;
-          console.log("token valid");
         }
       }
     } catch (error) {

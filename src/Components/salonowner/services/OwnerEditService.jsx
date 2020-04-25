@@ -105,8 +105,8 @@ class OwnerEditService extends Component {
         method: "PUT",
         data: form_data,
         headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
+          Accept: "application/json, text/plain, /",
+          "Content-Type": "multipart/form-data",
           "x-auth-token": token,
         },
       });

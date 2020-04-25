@@ -307,7 +307,7 @@ class AdminAddService extends Component {
                 onClick={this.handleOpen.bind(this)}
                 size="medium"
               >
-                <AddIcon fontSize="medium" />
+                <AddIcon />
               </IconButton>
               <DropzoneDialog
                 filesLimit={1}
@@ -322,7 +322,7 @@ class AdminAddService extends Component {
           </Grid>
           <Button
             variant="contained"
-            className={[classes.fields, classes.button]}
+            className={classes.button}
             color="primary"
             fullWidth
             onClick={this.handleSubmit}

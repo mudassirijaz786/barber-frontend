@@ -54,12 +54,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/salons"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/salons">
             Salons
           </Button>
         </ListItem>
@@ -67,12 +62,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <AddBoxIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/services/add"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/services/add">
             Add Services
           </Button>
         </ListItem>
@@ -80,12 +70,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <ViewListIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/services"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/services">
             view Services
           </Button>
         </ListItem>
@@ -93,12 +78,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/profile/edit"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/profile/edit">
             Update profile
           </Button>
         </ListItem>
@@ -106,12 +86,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <VpnKeyIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/password/change"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/password/change">
             Change password
           </Button>
         </ListItem>
@@ -122,12 +97,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/admin/dashboard"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/admin/dashboard">
             Dashboard
           </Button>
         </ListItem>
@@ -147,7 +117,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <ViewListIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/services" variant="h6">
+          <Button component={Link} to="/services" color="inherit">
             view services
           </Button>
         </ListItem>
@@ -155,12 +125,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <AddBoxIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/recommended"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/recommended">
             Add services
           </Button>
         </ListItem>
@@ -168,7 +133,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <WatchLaterIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/available" variant="h6">
+          <Button component={Link} to="/available" color="inherit">
             Availability
           </Button>
         </ListItem>
@@ -176,7 +141,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <EcoIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/calender" variant="h6">
+          <Button component={Link} to="/calender" color="inherit">
             Schedule
           </Button>
         </ListItem>
@@ -184,12 +149,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/profile/edit"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/profile/edit">
             Update profile
           </Button>
         </ListItem>
@@ -197,12 +157,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <VpnKeyIcon />
           </ListItemIcon>
-          <Button
-            color="primary"
-            component={Link}
-            to="/password/change"
-            variant="h6"
-          >
+          <Button color="inherit" component={Link} to="/password/change">
             Change password
           </Button>
         </ListItem>
@@ -213,7 +168,7 @@ export default class AppDrawer extends React.Component {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <Button color="primary" component={Link} to="/dashboard" variant="h6">
+          <Button color="inherit" component={Link} to="/dashboard">
             Dashboard
           </Button>
         </ListItem>

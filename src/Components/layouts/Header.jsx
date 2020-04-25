@@ -38,7 +38,6 @@ class Header extends React.Component {
               color="inherit"
               component={Link}
               to="/"
-              variant="p"
               className={classes.title}
             >
               Salon App

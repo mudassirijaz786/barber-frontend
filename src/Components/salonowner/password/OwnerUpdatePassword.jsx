@@ -193,10 +193,11 @@ class OwnerUpdatePassword extends Component {
             label="confirmNewPassword"
           />
           <Button
+            fullWidth
+            className={classes.button}
             variant="contained"
             color="primary"
-            className={[classes.fields, classes.button]}
-            fullWidth
+            style={{ marginTop: 15 }}
             disabled={this.validate()}
             onClick={this.handleSubmit}
           >

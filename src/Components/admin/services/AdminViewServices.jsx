@@ -158,8 +158,8 @@ class AdminViewService extends React.Component {
 
           <Container maxWidth="md">
             <Grid container spacing={4}>
-              {List_of_services.map((items) => (
-                <Grid item key={items} xs={12} sm={6} md={4}>
+              {List_of_services.map((items, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card elevation={20}>
                     <CardHeader
                       avatar={
@@ -217,9 +217,9 @@ class AdminViewService extends React.Component {
                     component={Link}
                     color="primary"
                     className={classes.margin}
-                    size="large"
+                    size="medium"
                   >
-                    <AddIcon fontSize="large" />
+                    <AddIcon />
                   </IconButton>
                 </Grid>
               )}

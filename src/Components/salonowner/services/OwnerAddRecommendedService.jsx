@@ -153,8 +153,8 @@ class OwnerAddRecommendedService extends React.Component {
           </div>
           <Container maxWidth="md">
             <Grid container spacing={4}>
-              {List_of_services.map((items) => (
-                <Grid item key={items} xs={12} sm={6} md={4}>
+              {List_of_services.map((items, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card elevation={20}>
                     <CardHeader
                       avatar={
@@ -217,7 +217,7 @@ class OwnerAddRecommendedService extends React.Component {
                     to="/admin/services/add"
                     component={Link}
                     color="primary"
-                    size="large"
+                    size="medium"
                   >
                     <AddIcon fontSize="large" />
                   </IconButton>
