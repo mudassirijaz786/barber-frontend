@@ -68,6 +68,8 @@ class Salon extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
+    const token = localStorage.getItem("x-auth-token");
+    console.log("Token in Salon page", token);
     this.loadData();
   }
 

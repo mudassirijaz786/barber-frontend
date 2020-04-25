@@ -24,12 +24,11 @@ class Header extends React.Component {
   logOut = (e) => {
     e.preventDefault();
     localStorage.removeItem("x-auth-token");
-    this.props.history.push(`/`);
+    window.location = "/";
   };
 
   render() {
     const { classes } = this.props;
-
     const guestLink = (
       <div className={classes.root}>
         <AppBar position="relative" color="inherit">

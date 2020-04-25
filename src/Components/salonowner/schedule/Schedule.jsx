@@ -77,6 +77,8 @@ class Schedule extends Component {
   };
 
   componentDidMount() {
+    const token = localStorage.getItem("x-auth-token");
+    console.log("Token in Schedule page", token);
     const { date } = this.state;
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
