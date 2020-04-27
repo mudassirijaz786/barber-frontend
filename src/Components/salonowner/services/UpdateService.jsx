@@ -46,7 +46,7 @@ const ColorLinearProgress = withStyles({
 })(LinearProgress);
 
 //class OwnerEditService
-class OwnerEditService extends Component {
+class Update_Services extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -105,11 +105,12 @@ class OwnerEditService extends Component {
 			var token = localStorage.getItem("x-auth-token");
 			const promise = axios({
 				url:
-					"http://localhost:5000/Digital_Saloon.com/api/salonservices/recomended/service",
+					//	"http://localhost:5000/Digital_Saloon.com/api/salonservices/recomended/service",
 
-				// "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service" ,
+					"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service/:" +
+					this.state.Service._id,
 
-				method: "POST",
+				method: "PUT",
 				data: form_data,
 				headers: {
 					Accept: "application/json, text/plain, */*",
@@ -299,9 +300,9 @@ class OwnerEditService extends Component {
 	}
 }
 
-OwnerEditService.propTypes = {
+Update_Services.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
 // exporting OwnerEditService
-export default withStyles(styles)(OwnerEditService);
+export default withStyles(styles)(Update_Services);
