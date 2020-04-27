@@ -105,9 +105,9 @@ class OwnerEditService extends Component {
 			var token = localStorage.getItem("x-auth-token");
 			const promise = axios({
 				url:
-					"http://localhost:5000/Digital_Saloon.com/api/salonservices/recomended/service",
+					//"http://localhost:5000/Digital_Saloon.com/api/salonservices/recomended/service",
 
-				// "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service" ,
+					"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service",
 
 				method: "POST",
 				data: form_data,
@@ -125,9 +125,9 @@ class OwnerEditService extends Component {
 					);
 					this.setState({ isLoading: false });
 					console.log(response);
-					// setTimeout(() => {
-					// 		window.location = "/services";
-					// }, 10000);
+					setTimeout(() => {
+						window.location = "/services";
+					}, 10000);
 				})
 				.catch((error) => {
 					this.setState({ isLoading: false });
