@@ -105,7 +105,8 @@ class Update_Services extends Component {
 			var token = localStorage.getItem("x-auth-token");
 			const promise = axios({
 				url:
-					//"http://localhost:5000/Digital_Saloon.com/api/salonservices/"+this.state.Service._id,
+					// "http://localhost:5000/Digital_Saloon.com/api/salonservices/" +
+					// this.state.Service._id,
 
 					"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
 					this.state.Service._id,
