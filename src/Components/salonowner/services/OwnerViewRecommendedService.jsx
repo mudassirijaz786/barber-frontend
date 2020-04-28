@@ -4,26 +4,22 @@ import Axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from "@material-ui/icons";
+import { Add as AddIcon } from "@material-ui/icons";
 import {
   LinearProgress,
-  makeStyles,
   IconButton,
-  Box,
-  Button,
   Typography,
   Container,
-  Grid,
+  makeStyles,
+  Box,
   Avatar,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
   CardActions,
+  CardContent,
+  CardMedia,
+  CardHeader,
+  Card,
+  Grid,
+  Button,
 } from "@material-ui/core";
 
 //styling
@@ -52,23 +48,22 @@ const ColorLinearProgress = withStyles({
   },
 })(LinearProgress);
 
-//class OwnerViewServices
-class OwnerViewServices extends React.Component {
+//class OwnerViewRecommendedService
+class OwnerViewRecommendedService extends React.Component {
   state = {
     List_of_services: [],
     name: "mudassir",
-    isLoading: false,
+    loading: true,
   };
 
   componentDidMount() {
-    this.setState({ isLoading: true });
+    this.setState({ loading: true });
     this.loadData();
   }
-
   loadData = async () => {
     await Axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -77,14 +72,12 @@ class OwnerViewServices extends React.Component {
       },
     })
       .then((response) => {
-        this.setState({
-          isLoading: false,
-          List_of_services: response.data,
-        });
+        console.log("Response in OwnerAddRecommendedService", response);
+        this.setState({ List_of_services: response.data, loading: false });
       })
       .catch((error) => {
         if (error.response) {
-          this.setState({ isLoading: false });
+          this.setState({ loading: false });
         }
       });
   };
@@ -95,7 +88,7 @@ class OwnerViewServices extends React.Component {
     this.setState({ List_of_services: filteredList });
     Axios({
       url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
         id,
       method: "DELETE",
       headers: {
@@ -116,12 +109,12 @@ class OwnerViewServices extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { isLoading, List_of_services } = this.state;
+    const { loading, List_of_services } = this.state;
     return (
       <React.Fragment>
         <main>
           <div className={classes.heroContent}>
-            {isLoading && <ColorLinearProgress size={30} />}
+            <div>{loading && <ColorLinearProgress size={30} />}</div>
             <Container maxWidth="sm">
               <Box color="indigo">
                 <Typography
@@ -130,10 +123,10 @@ class OwnerViewServices extends React.Component {
                   align="center"
                   gutterBottom
                 >
-                  All services
+                  All Recommended Services
                 </Typography>
               </Box>
-              {!isLoading && (
+              {!loading && (
                 <div>
                   {List_of_services.length === 0 ? (
                     <Typography
@@ -170,7 +163,7 @@ class OwnerViewServices extends React.Component {
                           src={items.image_url}
                         />
                       }
-                      action={items.service_time}
+                      action={`Timing ${items.service_time}`}
                       title={items.serviceName}
                       subheader={items.service_category}
                     />
@@ -183,25 +176,20 @@ class OwnerViewServices extends React.Component {
                       image={items.image_url}
                       title={items.serviceName}
                     />
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {items.service_time}
-                      </Typography>
+                    <CardContent>
                       <Typography>{items.serviceDescription}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" color="primary">
-                        <DeleteIcon
-                          onClick={() => this.deleteService(items._id)}
-                        />
-                      </Button>
                       <Button
                         size="small"
                         color="primary"
                         component={Link}
-                        to={{ pathname: "/services/update", items: items }}
+                        to={{ pathname: "/services/edit", items: items }}
                       >
-                        <EditIcon />
+                        <span style={{ color: "black" }}>
+                          Add to your salon
+                        </span>
+                        <AddIcon fontSize="large" />
                       </Button>
                       <Typography
                         variant="h5"
@@ -214,6 +202,27 @@ class OwnerViewServices extends React.Component {
                   </Card>
                 </Grid>
               ))}
+              {!loading && (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                  >
+                    Want to add another?
+                  </Typography>
+                  <IconButton
+                    aria-label="add"
+                    to="/admin/services/add"
+                    component={Link}
+                    color="primary"
+                    size="medium"
+                  >
+                    <AddIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+              )}
             </Grid>
           </Container>
         </main>
@@ -222,9 +231,9 @@ class OwnerViewServices extends React.Component {
   }
 }
 
-OwnerViewServices.propTypes = {
+OwnerViewRecommendedService.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-//exporting OwnerViewServices
-export default withStyles(useStyles)(OwnerViewServices);
+//exporting OwnerViewRecommendedService
+export default withStyles(useStyles)(OwnerViewRecommendedService);

@@ -45,8 +45,8 @@ const ColorLinearProgress = withStyles({
   },
 })(LinearProgress);
 
-//class OwnerAddRecommendedService
-class OwnerAddRecommendedService extends Component {
+//class OwnerUpdateService
+class OwnerUpdateService extends Component {
   constructor() {
     super();
     this.state = {
@@ -91,7 +91,7 @@ class OwnerAddRecommendedService extends Component {
     Service[e.target.name] = e.target.value;
     this.setState({ Service });
   };
-  handleSubmit = async (e) => {
+  handleSubmit = async () => {
     try {
       console.log("state is ", this.state.Service);
       let form_data = new FormData();
@@ -105,9 +105,9 @@ class OwnerAddRecommendedService extends Component {
       var token = localStorage.getItem("x-auth-token");
       const promise = axios({
         url:
-          "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service",
-
-        method: "POST",
+          "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
+          this.state.Service._id,
+        method: "PUT",
         data: form_data,
         headers: {
           Accept: "application/json, text/plain, */*",
@@ -118,14 +118,14 @@ class OwnerAddRecommendedService extends Component {
       promise
         .then((response) => {
           ToastsStore.success(
-            "Service added successfully by salon owner",
+            "Service updated successfully by salon owner",
             5000
           );
           this.setState({ isLoading: false });
           console.log(response);
           setTimeout(() => {
             window.location = "/services";
-          }, 10000);
+          }, 5000);
         })
         .catch((error) => {
           this.setState({ isLoading: false });
@@ -166,7 +166,7 @@ class OwnerAddRecommendedService extends Component {
           <CssBaseline />
           <Box color="indigo">
             <Typography component="h1" variant="h2" align="center" gutterBottom>
-              Add Recommended Service
+              Edit Service
             </Typography>
           </Box>
           <Typography
@@ -175,7 +175,7 @@ class OwnerAddRecommendedService extends Component {
             color="textSecondary"
             paragraph
           >
-            Please add recommended service as a salon owner
+            Please edit service as a salon owner
           </Typography>
 
           <Grid container spacing={2}>
@@ -297,9 +297,9 @@ class OwnerAddRecommendedService extends Component {
   }
 }
 
-OwnerAddRecommendedService.propTypes = {
+OwnerUpdateService.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// exporting OwnerAddRecommendedService
-export default withStyles(styles)(OwnerAddRecommendedService);
+// exporting OwnerUpdateService
+export default withStyles(styles)(OwnerUpdateService);
