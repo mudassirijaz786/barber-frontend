@@ -214,7 +214,7 @@ class OwnerViewRecommendedService extends React.Component {
                   </Typography>
                   <IconButton
                     aria-label="add"
-                    to="/admin/services/add"
+                    to="/services/add"
                     component={Link}
                     color="primary"
                     size="medium"
