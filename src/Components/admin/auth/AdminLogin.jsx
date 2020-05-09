@@ -47,7 +47,7 @@ class AdminLogin extends Component {
   state = {
     account: {
       email: "newAdmin@gmail.com",
-      password: "dasdasd",
+      password: "password1122",
     },
     error: {},
     loading: false,

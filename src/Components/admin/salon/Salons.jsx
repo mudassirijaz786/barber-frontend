@@ -4,7 +4,7 @@ import Axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { ToastsStore } from "react-toasts";
-import { Close as CloseIcon, Close as CheckIcon } from "@material-ui/icons";
+import { Close as CloseIcon, Check as CheckIcon } from "@material-ui/icons";
 import {
   LinearProgress,
   makeStyles,

@@ -289,7 +289,7 @@ class OwnerAddRecommendedService extends Component {
             fullWidth
             onClick={this.handleSubmit}
           >
-            Edit service
+            Add service
           </Button>
         </Container>
       </React.Fragment>
