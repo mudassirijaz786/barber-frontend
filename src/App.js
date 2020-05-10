@@ -1,6 +1,6 @@
 //importing
 import React, { Fragment } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Grid, withStyles } from "@material-ui/core";
 import { Header, Footer } from "./Components/layouts/index";
@@ -124,7 +124,6 @@ class App extends React.Component {
               path="/password/change"
               component={OwnerUpdatePassword}
             />
-
             <AdminRoute exact path="/admin/salons" component={Salons} />
             <AdminRoute
               exact
@@ -146,6 +145,14 @@ class App extends React.Component {
               path="/admin/dashboard"
               component={AdminDashboard}
             />
+            {/*
+          
+            <Route exact path="/not-found" component={NotFound} />
+            <Redirect from="/" exact to="dashboard" />
+            <Redirect to="/not-found" />
+          
+          */}
+
             <ToastsContainer
               position={ToastsContainerPosition.TOP_CENTER}
               store={ToastsStore}

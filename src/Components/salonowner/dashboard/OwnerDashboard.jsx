@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography, withStyles } from "@material-ui/core";
+import Charts from "./Charts";
 
 //styling
 const styles = {
@@ -29,6 +30,7 @@ class OwnerDashboard extends Component {
       <div className={classes.root}>
         <Box color="indigo">
           <Typography variant="h2">This is dashboard for Admin</Typography>
+          <Charts />
         </Box>
       </div>
     );
