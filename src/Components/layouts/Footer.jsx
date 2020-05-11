@@ -5,7 +5,7 @@ import { Typography, Toolbar, AppBar, makeStyles } from "@material-ui/core";
 //styling
 const useStyles = makeStyles(() => ({
   root: {
-    flexGrow: 1,
+    flex: 1,
   },
   title: {
     flexGrow: 1,
@@ -19,12 +19,18 @@ export default function Footer() {
     <div className={classes.root}>
       <AppBar
         position="relative"
-        style={{ marginTop: 15, position: "absolute" }}
+        style={{ marginTop: 10, position: "absolute" }}
         color="inherit"
       >
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            &copy; All right reserved
+            Mudassir Ijaz
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Fazal Ur Rehman
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Moazzam
           </Typography>
         </Toolbar>
       </AppBar>

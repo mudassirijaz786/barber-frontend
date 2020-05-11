@@ -93,6 +93,7 @@ class OwnerViewServices extends React.Component {
     const { List_of_services } = this.state;
     const filteredList = List_of_services.filter((e) => e._id !== id);
     this.setState({ List_of_services: filteredList });
+    console.log(id);
     Axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +

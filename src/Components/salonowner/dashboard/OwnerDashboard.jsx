@@ -29,7 +29,9 @@ class OwnerDashboard extends Component {
     return (
       <div className={classes.root}>
         <Box color="indigo">
-          <Typography variant="h2">This is dashboard for Admin</Typography>
+          <Typography variant="h2">
+            This is dashboard for Salon owner
+          </Typography>
           <Charts />
         </Box>
       </div>

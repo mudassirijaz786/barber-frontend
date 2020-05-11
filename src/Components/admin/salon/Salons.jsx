@@ -162,7 +162,7 @@ class Salon extends React.Component {
                   align="center"
                   gutterBottom
                 >
-                  All Salons
+                  Salons Request
                 </Typography>
               </Box>
               {!isLoading && (
@@ -183,7 +183,7 @@ class Salon extends React.Component {
                       color="textSecondary"
                       paragraph
                     >
-                      All salons are listed below
+                      salons requests are listed below
                     </Typography>
                   )}
                 </div>
