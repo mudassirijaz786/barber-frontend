@@ -66,10 +66,6 @@ class Charts extends React.Component {
       .then((response) => {
         this.setState({ isLoading: false, data: "" });
         this.getData(response, "Appiontments", this.state.days);
-        console.log(
-          "date in state after selection and backend pr bhaijy ky bad",
-          this.state.data
-        );
       })
       .catch((error) => {
         this.setState({ isLoading: false });
@@ -119,7 +115,6 @@ class Charts extends React.Component {
   //rendering
   render() {
     const { classes } = this.props;
-    console.log("days in state", this.state.days);
     return (
       <div className={classes.formControl}>
         <div> {this.state.isLoading && <ColorLinearProgress size={30} />}</div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { ToastsStore } from "react-toasts";
+import { Link } from "react-router-dom";
 import {
   CssBaseline,
   Container,
@@ -185,6 +186,9 @@ class OwnerLogin extends Component {
               Login
             </Button>
           </Container>
+          <Button color="inherit" component={Link} to="/forget/password">
+            Forget password?
+          </Button>
         </Container>
       </React.Fragment>
     );

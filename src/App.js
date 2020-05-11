@@ -26,6 +26,9 @@ import AdminViewServices from "./Components/admin/services/AdminViewServices";
 import SalonAvailability from "./Components/salonowner/salonAvailability/SalonAvailability";
 import AdminProfileUpdate from "./Components/admin/profile/AdminProfileUpdate";
 import OwnerUpdateProfile from "./Components/salonowner/profile/OwnerUpdateProfile";
+import OwnerForgetPasswordToken from "./Components/salonowner/password/OwnerForgetPasswordToken";
+import OwnerResetPassword from "./Components/salonowner/password/OwnerResetPassword";
+
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -80,6 +83,16 @@ class App extends React.Component {
             />
             <Route
               exact
+              path="/forget/password"
+              component={OwnerForgetPasswordToken}
+            />
+            <Route
+              exact
+              path="/reset/password"
+              component={OwnerResetPassword}
+            />
+            <Route
+              exact
               path="/admin/services/add"
               component={AddServiceByAdmin}
             />
@@ -119,11 +132,13 @@ class App extends React.Component {
               path="/services/add"
               component={OwnerAddService}
             />
+
             <SalonOwnerRoute
               exact
               path="/password/change"
               component={OwnerUpdatePassword}
             />
+
             <AdminRoute exact path="/admin/salons" component={Salons} />
             <AdminRoute
               exact
