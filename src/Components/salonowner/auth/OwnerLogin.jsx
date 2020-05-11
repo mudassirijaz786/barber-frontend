@@ -186,7 +186,12 @@ class OwnerLogin extends Component {
               Login
             </Button>
           </Container>
-          <Button color="inherit" component={Link} to="/forget/password">
+          <Button
+            color="inherit"
+            component={Link}
+            style={{ marginLeft: 18 }}
+            to="/forget/password"
+          >
             Forget password?
           </Button>
         </Container>
