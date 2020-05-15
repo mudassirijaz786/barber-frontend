@@ -51,7 +51,7 @@ class OwnerAddService extends Component {
   state = {
     Service: {
       service_id: "",
-      service_name: "half cut",
+      service_name: "",
       category_name: "",
       Salon_id: "",
       price: 20,
