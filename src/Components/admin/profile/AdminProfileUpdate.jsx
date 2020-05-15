@@ -45,9 +45,9 @@ const ColorLinearProgress = withStyles({
 class AdminProfileUpdate extends Component {
   state = {
     Admin: {
-      email: "ali@gmail.com",
-      name: "dasdasd",
-      phonenumber: "93949494949449",
+      email: "",
+      name: "",
+      phonenumber: "",
     },
     error: {},
     loading: false,

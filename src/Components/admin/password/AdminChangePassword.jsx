@@ -45,9 +45,9 @@ const ColorLinearProgress = withStyles({
 class AdminChangePassword extends Component {
   state = {
     Admin: {
-      password: "password1122",
-      newPassword: "dasdasd",
-      confirmNewPassword: "dasdasds",
+      password: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
     error: {},
     loading: false,
