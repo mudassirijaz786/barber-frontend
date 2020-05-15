@@ -61,9 +61,9 @@ class Schedule extends Component {
 		//	console.log("state  date", this.state.date);
 
 		console.log("is date", date);
-		const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
+		//const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
 
-		//const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
+		const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
 		axios({
 			url: url,
 			method: "GET",
@@ -91,8 +91,8 @@ class Schedule extends Component {
 		//const { date } = this.state;
 		console.log("date is ", date);
 		console.log("state is ", this.state.schedule);
-		const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
-		//const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
+		//const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
+		const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
 		axios({
 			url: url,
 			method: "GET",
