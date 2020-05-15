@@ -68,7 +68,7 @@ class Header extends React.Component {
                 style={{ float: "right" }}
                 onClick={this.logOut}
               >
-                <ExitToAppIcon />
+                Logout <ExitToAppIcon />
               </Button>
             </Typography>
           </Toolbar>

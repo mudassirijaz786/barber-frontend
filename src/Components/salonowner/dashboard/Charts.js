@@ -36,25 +36,35 @@ class Charts extends React.Component {
 		super(props);
 		this.state = {
 			data: [],
-			days: "",
+			days: 7,
 			isLoading: false,
 		};
 	}
 
-	//handling chart
-	handleChange = (event) => {
-		this.setState({ days: event.target.value });
+	//showing default chart of 7 days
+	componentDidMount() {
+		this.loadData();
+	}
+
+	//handling days
+	handleChange = async (event) => {
+		await this.setState({ days: event.target.value });
+		this.loadData();
+	};
+
+	//loading data from backend
+	loadData = async () => {
 		this.setState({ isLoading: true });
 		const url =
 			"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/reports";
 
-		axios({
+		await axios({
 			url: url,
 			method: "GET",
 			headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
 		})
 			.then((response) => {
-				this.setState({ isLoading: false });
+				this.setState({ isLoading: false, data: "" });
 				this.getData(response, "Appiontments", this.state.days);
 			})
 			.catch((error) => {
@@ -77,21 +87,21 @@ class Charts extends React.Component {
 			datasets: [
 				{
 					fill: false,
-					backgroundColor: "rgba(75,192,192,0.4)",
-					borderColor: "rgba(75,192,192,1)",
+					backgroundColor: "#d9e0ab",
+					borderColor: "indigo",
 					borderCapStyle: "butt",
 					borderDash: [],
 					borderDashOffset: 0.0,
 					borderJoinStyle: "miter",
-					pointBorderColor: "rgba(75,192,192,1)",
+					pointBorderColor: "indigo",
 					pointBackgroundColor: "#fff",
-					pointBorderWidth: 1,
+					pointBorderWidth: 3,
 					pointHoverRadius: 5,
-					pointHoverBackgroundColor: "rgba(75,192,192,1)",
-					pointHoverBorderColor: "rgba(220,220,220,1)",
-					pointHoverBorderWidth: 2,
-					pointRadius: 1,
-					pointHitRadius: 10,
+					pointHoverBackgroundColor: "green",
+					pointHoverBorderColor: "orange",
+					pointHoverBorderWidth: 40,
+					pointRadius: 5,
+					pointHitRadius: 20,
 					label: graphLabel,
 					data: data,
 				},
@@ -109,24 +119,32 @@ class Charts extends React.Component {
 			<div className={classes.formControl}>
 				<div> {this.state.isLoading && <ColorLinearProgress size={30} />}</div>
 				<InputLabel id="demo-simple-select-label">
-					{this.state.days === 7 || this.state.days === 29 ? (
+					{this.state.days === 7 ||
+					this.state.days === 30 ||
+					this.state.days === 3 ? (
 						<Typography> Showing {this.state.days} days report</Typography>
 					) : (
 						<Typography> Select to see reports</Typography>
 					)}
 				</InputLabel>
 				<Select
+					style={{ width: 300 }}
+					variant="outlined"
 					labelId="demo-simple-select-label"
 					id="demo-simple-select"
 					value={this.state.days}
 					onChange={this.handleChange}
 				>
-					<MenuItem value={7}>weekly</MenuItem>
-					<MenuItem value={29}>monthly</MenuItem>
+					<MenuItem value={3}>3 days</MenuItem>
+					<MenuItem value={7}>Weekly</MenuItem>
+					<MenuItem value={30}>Monthly</MenuItem>
 				</Select>
-
-				<Line data={this.state.data} height={100} />
-				<Pie data={this.state.data} height={100} />
+				{this.state.data && (
+					<React.Fragment>
+						<Line data={this.state.data} height={90} />
+						<Pie data={this.state.data} height={100} />
+					</React.Fragment>
+				)}
 			</div>
 		);
 	}

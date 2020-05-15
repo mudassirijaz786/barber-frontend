@@ -189,7 +189,7 @@ class Schedule extends Component {
 										</CardActionArea>
 										<CardActions disableSpacing>
 											<Typography variant="h6" component="h6" gutterBottom>
-												Service: {items.Salon_id}
+												Service: {items.service_id}
 											</Typography>
 										</CardActions>
 									</Card>

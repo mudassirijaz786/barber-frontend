@@ -71,7 +71,7 @@ class Landing extends React.Component {
           to="/signup"
           className={classes.button}
         >
-          Register
+          Salon owner Register
         </Button>
         <Button
           size="large"
@@ -79,7 +79,7 @@ class Landing extends React.Component {
           to="/login"
           className={classes.button}
         >
-          Login
+          Salon owner Login
         </Button>
         <Typography variant="body2" color="inherit" align="center">
           Discover the experience

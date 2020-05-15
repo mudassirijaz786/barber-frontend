@@ -40,25 +40,18 @@ const ColorLinearProgress = withStyles({
 	},
 })(LinearProgress);
 
-//class OwnerUpdatePassword
-class OwnerUpdatePassword extends Component {
+//class OwnerForgetPasswordToken
+class OwnerForgetPasswordToken extends Component {
 	state = {
 		SalonOwner: {
-			password: "",
-			newPassword: "",
-			confirmNewPassword: "",
+			email: "",
 		},
 		error: {},
 		loading: false,
 	};
 
 	schema = {
-		password: Joi.string().required().min(4).label("password"),
-		newPassword: Joi.string().min(3).max(15).required(),
-		confirmNewPassword: Joi.any()
-			.valid(Joi.ref("newPassword"))
-			.required()
-			.options({ language: { any: { allowOnly: "must match password" } } }),
+		email: Joi.string().email().required().label("email"),
 	};
 
 	validate = () => {
@@ -85,32 +78,31 @@ class OwnerUpdatePassword extends Component {
 
 	handleSubmit = async () => {
 		const { SalonOwner } = this.state;
+		console.log("email", SalonOwner.email);
 		const error = this.validate();
 		this.setState({ error: error || {}, loading: true });
-		let form_data = new FormData();
-		form_data.append("oldpassword", SalonOwner.password);
-		form_data.append("confirmpassword", SalonOwner.newPassword);
-		var token = localStorage.getItem("x-auth-token");
-		axios({
-			url:
-				"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/change/password",
-			method: "PUT",
-			data: form_data,
-			headers: {
-				Accept: "application/json, text/plain, */*",
-				"Content-Type": "application/json",
-				"x-auth-token": token,
-			},
-		})
+		let obj = {};
+		obj["email"] = SalonOwner.email;
+
+		console.log("obj", obj.email);
+		await axios
+			.post(
+				"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/forgot/password",
+				{
+					email: obj.email,
+				}
+			)
 			.then((response) => {
-				ToastsStore.success(
-					"Password has successfully changed by salon owner",
-					5000
-				);
-				this.setState({ loading: false });
-				setTimeout(() => {
-					window.location = "/services";
-				}, 5000);
+				if (response.status === 200) {
+					ToastsStore.error("Check your email for token");
+					this.setState({
+						loading: false,
+					});
+				}
+				window.location = "/reset/password";
+				this.setState({
+					loading: false,
+				});
 			})
 			.catch((error) => {
 				if (error.response) {
@@ -145,7 +137,7 @@ class OwnerUpdatePassword extends Component {
 					<CssBaseline />
 					<Box color="indigo">
 						<Typography component="h1" variant="h2" align="center" gutterBottom>
-							Password update
+							Forget your password?
 						</Typography>
 					</Box>
 					<Typography
@@ -154,44 +146,21 @@ class OwnerUpdatePassword extends Component {
 						color="textSecondary"
 						paragraph
 					>
-						Please update your password as a salon owner
+						Please reset your password as a salon owner
 					</Typography>
 					<TextField
-						placeholder="Please enter your password"
-						value={SalonOwner.password}
-						onChange={this.handleChange}
-						name="password"
-						error={error.password}
-						helperText={error.password}
-						label="password"
-						className={classes.fields}
-						fullWidth
+						label="email"
 						variant="outlined"
-					/>
-					<TextField
-						variant="outlined"
-						value={SalonOwner.newPassword}
-						onChange={this.handleChange}
-						label="newPassword"
-						fullWidth
+						placeholder="Please enter your email"
+						value={SalonOwner.email}
 						className={classes.fields}
-						error={error.newPassword}
-						helperText={error.newPassword}
-						name="newPassword"
-						placeholder="Please enter your newPassword"
-					/>
-					<TextField
-						value={SalonOwner.confirmNewPassword}
 						onChange={this.handleChange}
-						name="confirmNewPassword"
-						placeholder="Please enter your confirmNewPassword"
-						variant="outlined"
-						error={error.confirmNewPassword}
-						helperText={error.confirmNewPassword}
-						className={classes.fields}
 						fullWidth
-						label="confirmNewPassword"
+						error={error.email}
+						helperText={error.email}
+						name="email"
 					/>
+
 					<Button
 						fullWidth
 						className={classes.button}
@@ -201,7 +170,7 @@ class OwnerUpdatePassword extends Component {
 						disabled={this.validate()}
 						onClick={this.handleSubmit}
 					>
-						Update password
+						Get token
 					</Button>
 				</Container>
 			</React.Fragment>
@@ -209,9 +178,9 @@ class OwnerUpdatePassword extends Component {
 	}
 }
 
-OwnerUpdatePassword.propTypes = {
+OwnerForgetPasswordToken.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
 //exporting OwnerUpdatePassword
-export default withStyles(styles)(OwnerUpdatePassword);
+export default withStyles(styles)(OwnerForgetPasswordToken);

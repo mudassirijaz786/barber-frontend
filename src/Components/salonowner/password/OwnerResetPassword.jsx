@@ -40,11 +40,11 @@ const ColorLinearProgress = withStyles({
 	},
 })(LinearProgress);
 
-//class OwnerUpdatePassword
-class OwnerUpdatePassword extends Component {
+//class OwnerResetPassword
+class OwnerResetPassword extends Component {
 	state = {
 		SalonOwner: {
-			password: "",
+			token: "",
 			newPassword: "",
 			confirmNewPassword: "",
 		},
@@ -53,8 +53,8 @@ class OwnerUpdatePassword extends Component {
 	};
 
 	schema = {
-		password: Joi.string().required().min(4).label("password"),
-		newPassword: Joi.string().min(3).max(15).required(),
+		token: Joi.string().required().label("token"),
+		newPassword: Joi.string().min(7).max(15).required(),
 		confirmNewPassword: Joi.any()
 			.valid(Joi.ref("newPassword"))
 			.required()
@@ -87,34 +87,32 @@ class OwnerUpdatePassword extends Component {
 		const { SalonOwner } = this.state;
 		const error = this.validate();
 		this.setState({ error: error || {}, loading: true });
-		let form_data = new FormData();
-		form_data.append("oldpassword", SalonOwner.password);
-		form_data.append("confirmpassword", SalonOwner.newPassword);
-		var token = localStorage.getItem("x-auth-token");
-		axios({
-			url:
-				"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/change/password",
-			method: "PUT",
-			data: form_data,
-			headers: {
-				Accept: "application/json, text/plain, */*",
-				"Content-Type": "application/json",
-				"x-auth-token": token,
-			},
-		})
+		let obj = {};
+		obj["token"] = SalonOwner.token;
+		obj["confirmpassword"] = SalonOwner.newPassword;
+		console.log(obj.token);
+		console.log(obj.confirmpassword);
+		await axios
+			.post(
+				"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/verify_code/and/update_password",
+				{
+					token: obj.token,
+					confirmpassword: obj.confirmpassword,
+				}
+			)
 			.then((response) => {
-				ToastsStore.success(
-					"Password has successfully changed by salon owner",
-					5000
-				);
-				this.setState({ loading: false });
-				setTimeout(() => {
-					window.location = "/services";
-				}, 5000);
+				this.setState({
+					loading: false,
+				});
+				ToastsStore.success("password is updated successfully");
+				this.setState({
+					loading: false,
+				});
+				window.location = "/login";
 			})
 			.catch((error) => {
 				if (error.response) {
-					ToastsStore.error(error.response.data);
+					ToastsStore.error("Invalid token");
 					this.setState({
 						loading: false,
 					});
@@ -145,7 +143,7 @@ class OwnerUpdatePassword extends Component {
 					<CssBaseline />
 					<Box color="indigo">
 						<Typography component="h1" variant="h2" align="center" gutterBottom>
-							Password update
+							Reset your password
 						</Typography>
 					</Box>
 					<Typography
@@ -154,16 +152,16 @@ class OwnerUpdatePassword extends Component {
 						color="textSecondary"
 						paragraph
 					>
-						Please update your password as a salon owner
+						Please Reset your password as a salon owner
 					</Typography>
 					<TextField
-						placeholder="Please enter your password"
-						value={SalonOwner.password}
+						placeholder="Enter the token emailed to u"
+						value={SalonOwner.token}
 						onChange={this.handleChange}
-						name="password"
-						error={error.password}
-						helperText={error.password}
-						label="password"
+						name="token"
+						error={error.token}
+						helperText={error.token}
+						label="token"
 						className={classes.fields}
 						fullWidth
 						variant="outlined"
@@ -201,7 +199,7 @@ class OwnerUpdatePassword extends Component {
 						disabled={this.validate()}
 						onClick={this.handleSubmit}
 					>
-						Update password
+						Reset password
 					</Button>
 				</Container>
 			</React.Fragment>
@@ -209,9 +207,9 @@ class OwnerUpdatePassword extends Component {
 	}
 }
 
-OwnerUpdatePassword.propTypes = {
+OwnerResetPassword.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-//exporting OwnerUpdatePassword
-export default withStyles(styles)(OwnerUpdatePassword);
+//exporting OwnerResetPassword
+export default withStyles(styles)(OwnerResetPassword);

@@ -119,13 +119,13 @@ class OwnerAddRecommendedService extends Component {
 				.then((response) => {
 					ToastsStore.success(
 						"Service added successfully by salon owner",
-						5000
+						4000
 					);
 					this.setState({ isLoading: false });
 					console.log(response);
 					setTimeout(() => {
 						window.location = "/services";
-					}, 10000);
+					}, 5000);
 				})
 				.catch((error) => {
 					this.setState({ isLoading: false });
