@@ -56,11 +56,34 @@ class OwnerSignup extends Component {
 
   schema = {
     Salon_owner_email: Joi.string().required().email().label("Email"),
-    Salon_owner_password: Joi.string().required().min(5).label("Password"),
-    Salon_owner_cnic: Joi.number().required().min(10).label("Cnic"),
-    Salon_owner_phoneNumber: Joi.number()
+    Salon_owner_password: Joi.string()
       .required()
-      .min(11)
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("Password"),
+    Salon_owner_cnic: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must be a valid cnic e.g. XXXXX-XXXXXXX-X or without hyphon",
+        };
+      })
+      .regex(/^[0-9+]{5}-[0-9+]{7}-[0-9]{1}$/)
+      .label("Cnic"),
+    Salon_owner_phoneNumber: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message: "Must be a valid phone number",
+        };
+      })
+      .regex(/^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/)
       .label("Phonenumber"),
     Salon_owner_firstName: Joi.string()
       .required()
@@ -147,8 +170,8 @@ class OwnerSignup extends Component {
       )
       .then((response) => {
         ToastsStore.success(
-          "Request submitted successfully.We will inform your account verification viva email",
-          4000
+          "Request submitted successfully. We will inform your account verification viva email",
+          3000
         );
         this.setState({
           loading: false,
@@ -156,11 +179,11 @@ class OwnerSignup extends Component {
         console.log("Response in OwnerSignup", response);
         setTimeout(() => {
           window.location = "/";
-        }, 4000);
+        }, 3000);
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("Error occured while registration");
           this.setState({
             loading: false,
           });

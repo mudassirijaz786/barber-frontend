@@ -57,8 +57,25 @@ class SignupAdmin extends Component {
 
   schema = {
     email: Joi.string().required().email().label("Email"),
-    password: Joi.string().required().min(8).max(20).label("Password"),
-    phonenumber: Joi.number().required().min(11).label("Phonenumber"),
+    password: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("Password"),
+    phonenumber: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message: "Must be a valid phone number",
+        };
+      })
+      .regex(/^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/)
+      .label("Phonenumber"),
     name: Joi.string().required().min(3).max(10).label("Name"),
   };
 
@@ -104,17 +121,16 @@ class SignupAdmin extends Component {
         localStorage.setItem("x-auth-token", token);
         ToastsStore.success(
           "You have registered successfully as an admin",
-          50000
+          30000
         );
         this.setState({ loading: false });
-        console.log(response);
         setTimeout(() => {
-          window.location = "/";
-        }, 50000);
+          window.location = "/admin/login";
+        }, 30000);
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("Error occured while registration");
           this.setState({
             loading: false,
           });
@@ -180,6 +196,7 @@ class SignupAdmin extends Component {
               helperText={error.password}
               placeholder="Please enter your password"
               value={Admin.password}
+              type="password"
               onChange={this.handleChange}
               label="password"
               fullWidth

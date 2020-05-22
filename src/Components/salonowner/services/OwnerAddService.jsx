@@ -54,9 +54,9 @@ class OwnerAddService extends Component {
       service_name: "",
       category_name: "",
       Salon_id: "",
-      price: 20,
+      price: "",
       img_url: "",
-      service_description: "hair cut service provided by tony and guy",
+      service_description: "",
       service_time: "",
     },
     category: ["Hair", "Facial", "Khat"],
@@ -153,7 +153,7 @@ class OwnerAddService extends Component {
         }, 5000);
       })
       .catch((error) => {
-        ToastsStore.error(error);
+        ToastsStore.error("There occured an error while adding service");
         this.setState({
           isLoading: false,
         });

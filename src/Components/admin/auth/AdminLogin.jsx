@@ -47,7 +47,7 @@ class AdminLogin extends Component {
   state = {
     account: {
       email: "newAdmin@gmail.com",
-      password: "password1122",
+      password: "heLLo$1122",
     },
     error: {},
     loading: false,
@@ -117,7 +117,16 @@ class AdminLogin extends Component {
 
   schema = {
     email: Joi.string().email().required().label("Email"),
-    password: Joi.string().required().min(5).label("Password"),
+    password: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("Password"),
   };
 
   render() {

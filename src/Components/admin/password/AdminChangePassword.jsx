@@ -54,12 +54,34 @@ class AdminChangePassword extends Component {
   };
 
   schema = {
-    password: Joi.string().required().min(8).max(15).label("password"),
-    newPassword: Joi.string().required().min(8).max(15).label("newPassword"),
+    password: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("password"),
+    newPassword: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("newPassword"),
     confirmNewPassword: Joi.any()
       .required()
       .valid(Joi.ref("newPassword"))
-      .options({ language: { any: { allowOnly: "passwords must match" } } }),
+      .error(() => {
+        return {
+          message: "Passwords must match",
+        };
+      }),
   };
 
   validate = () => {
@@ -161,6 +183,7 @@ class AdminChangePassword extends Component {
             onChange={this.handleChange}
             name="password"
             label="password"
+            type="password"
             className={classes.fields}
             fullWidth
             variant="outlined"
@@ -172,6 +195,7 @@ class AdminChangePassword extends Component {
             value={Admin.newPassword}
             onChange={this.handleChange}
             label="newPassword"
+            type="password"
             fullWidth
             className={classes.fields}
             name="newPassword"
@@ -185,6 +209,7 @@ class AdminChangePassword extends Component {
             name="confirmNewPassword"
             placeholder="Please enter your confirm new password"
             variant="outlined"
+            type="password"
             className={classes.fields}
             fullWidth
             label="confirmNewPassword"

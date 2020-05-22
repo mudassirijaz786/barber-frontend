@@ -2,16 +2,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
-import Lottie from "react-lottie";
-import animationData from "./animations/landing.json";
 import { Typography, Grid, Button, Box, withStyles } from "@material-ui/core";
-import Authorization from "./Authorization";
+import Authorization from "../../common/Authorization";
 
 //styling
 const styles = {
   root: {
     flexGrow: 1,
-    flex: 1,
     justifyContent: "center",
     textAlign: "center",
     backgroundRepeat: "no-repeat",
@@ -28,15 +25,19 @@ const styles = {
   },
 };
 
-//animated Lottie
-const defaultOptions = {
-  animationData,
-};
+//class AdminLanding
+class AdminLanding extends React.Component {
+  componentDidMount() {}
 
-//class Landing
-class Landing extends React.Component {
   render() {
     const { classes } = this.props;
+    const secret = "secret";
+    let message = prompt("Type secret here");
+    if (message === secret) {
+      console.log("You are admin");
+    } else {
+      return <Redirect to="/" />;
+    }
     if (
       Authorization.isSalonOnwer().auth &&
       Authorization.isSalonOnwer().role === "Salon_Owner_login"
@@ -53,49 +54,39 @@ class Landing extends React.Component {
       <Grid className={classes.root}>
         <Box color="indigo">
           <Typography component="h1" variant="h2" align="center" gutterBottom>
-            Upgrade your Salons
+            Page for admin use
           </Typography>
         </Box>
-        <Lottie width={200} height={200} speed={4} options={defaultOptions} />
-        <Typography
-          color="inherit"
-          align="center"
-          variant="h5"
-          className={classes.h5}
-        >
-          Enjoy secret offers up to -50% off the best luxury salon services
-          every Sunday.
-        </Typography>
         <Button
+          color="secondary"
+          variant="contained"
           size="large"
           component={Link}
-          to="/signup"
+          to="/admin/signup"
+          style={{ marginTop: 10 }}
           className={classes.button}
         >
-          Salon owner Register
+          Admin Register
         </Button>
         <Button
+          color="secondary"
+          variant="contained"
           size="large"
           component={Link}
-          to="/login"
+          style={{ marginTop: 10 }}
+          to="/admin/login"
           className={classes.button}
         >
-          Salon owner Login
+          Admin Login
         </Button>
-        <Typography variant="body2" color="inherit" align="center">
-          Discover the experience
-        </Typography>
-        <Typography variant="body2" color="inherit" align="center">
-          If you are admin you can login or register as below
-        </Typography>
       </Grid>
     );
   }
 }
 
-Landing.propTypes = {
+AdminLanding.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-//exporting Landing
-export default withStyles(styles)(Landing);
+//exporting AdminLanding
+export default withStyles(styles)(AdminLanding);

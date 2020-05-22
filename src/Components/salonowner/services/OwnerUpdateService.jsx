@@ -12,6 +12,7 @@ import {
   TextField,
   MenuItem,
   CssBaseline,
+  TextareaAutosize,
   Button,
   IconButton,
   LinearProgress,
@@ -51,12 +52,14 @@ class OwnerUpdateService extends Component {
     super();
     this.state = {
       Service: {},
+
       service_id: null,
       category: ["Hair", "Facial", "Khat"],
       time: ["30", "45", "60", "90", "120"],
       value: "",
       service_time: "",
-      price: 20,
+      price: "",
+      description: "",
       open: false,
       isLoading: false,
       files: [],
@@ -66,6 +69,10 @@ class OwnerUpdateService extends Component {
 
   componentDidMount() {
     this.setState({ Service: this.props.location.items });
+    this.setState({ price: this.props.location.items.servicePrice });
+    this.setState({
+      description: this.props.location.items.serviceDescription,
+    });
   }
 
   handleClose = () => {
@@ -98,7 +105,7 @@ class OwnerUpdateService extends Component {
       form_data.append("image", this.state.Service.image_url);
       form_data.append("servicename", this.state.Service.serviceName);
       form_data.append("price", this.state.price);
-      form_data.append("description", this.state.Service.serviceDescription);
+      form_data.append("description", this.state.description);
       form_data.append("service_category", this.state.Service.service_category);
       form_data.append("service_time", this.state.service_time);
       this.setState({ isLoading: true });
@@ -119,16 +126,17 @@ class OwnerUpdateService extends Component {
         .then((response) => {
           ToastsStore.success(
             "Service updated successfully by salon owner",
-            5000
+            2000
           );
           this.setState({ isLoading: false });
           console.log(response);
           setTimeout(() => {
             window.location = "/services";
-          }, 5000);
+          }, 2000);
         })
         .catch((error) => {
           this.setState({ isLoading: false });
+          ToastsStore.error("Error in updation", 5000);
           console.log("error", error);
         });
     } catch (error) {
@@ -204,14 +212,13 @@ class OwnerUpdateService extends Component {
               />
             </Grid>
           </Grid>
-          <TextField
+          <TextareaAutosize
             className={classes.fields}
             fullWidth
-            value={Service.serviceDescription}
-            onChange={this.handleChange}
+            value={this.state.description}
+            onChange={(e) => this.setState({ description: e.target.value })}
             name="service_description"
             label="Description"
-            disabled={true}
             variant="outlined"
             placeholder="Please enter service description"
           />

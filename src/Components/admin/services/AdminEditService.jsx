@@ -54,12 +54,12 @@ class AdminEditService extends Component {
     this.state = {
       Service: {
         service_id: "",
-        service_name: "half cut",
+        service_name: "",
         category_name: "",
         Salon_id: "",
-        price: 20,
+        price: "",
         img_url: "",
-        service_description: "hair cut service provided by tony and guy",
+        service_description: "",
         service_time: "",
       },
       service_id: null,
@@ -75,6 +75,11 @@ class AdminEditService extends Component {
 
   componentDidMount() {
     this.setState({ service_id: this.props.location.items._id });
+    this.setState({ Service: this.props.location.items });
+    this.setState({ price: this.props.location.items.servicePrice });
+    this.setState({
+      description: this.props.location.items.serviceDescription,
+    });
   }
 
   schema = {
@@ -132,10 +137,10 @@ class AdminEditService extends Component {
     let form_data = new FormData();
     form_data.append("image", Service.img_url);
     form_data.append("servicename", Service.service_name);
-    form_data.append("price", Service.price);
+    form_data.append("price", this.state.price);
     form_data.append("description", Service.service_description);
     form_data.append("service_category", Service.category_name);
-    form_data.append("service_time", Service.service_time);
+    form_data.append("service_time", this.state.service_time);
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     var token = localStorage.getItem("x-auth-token");
@@ -208,7 +213,7 @@ class AdminEditService extends Component {
       return <Redirect to="/admin/services" />;
     }
     const { classes } = this.props;
-    const { isLoading, Service, error, category, time } = this.state;
+    const { isLoading, Service, error, category, time, price } = this.state;
     return (
       <React.Fragment>
         <div>{isLoading && <ColorLinearProgress size={30} />}</div>

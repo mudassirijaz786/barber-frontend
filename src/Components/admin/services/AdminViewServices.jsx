@@ -9,6 +9,9 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
 } from "@material-ui/icons";
+import { ToastsStore } from "react-toasts";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import {
   LinearProgress,
   makeStyles,
@@ -85,6 +88,23 @@ class AdminViewService extends React.Component {
           this.setState({ loading: false });
         }
       });
+  };
+
+  confirmBeforeDeletion = (id) => {
+    confirmAlert({
+      title: `You have clicked Not availed it `,
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.deleteService(id),
+        },
+        {
+          label: "No",
+          onClick: () => ToastsStore.error("operation cancelled"),
+        },
+      ],
+    });
   };
 
   deleteService = (id) => {
@@ -185,14 +205,14 @@ class AdminViewService extends React.Component {
                       <Typography>{items.serviceDescription}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" color="primary">
+                      <Button size="small" style={{ color: "red" }}>
                         <DeleteIcon
-                          onClick={() => this.deleteService(items._id)}
+                          onClick={() => this.confirmBeforeDeletion(items._id)}
                         />
                       </Button>
                       <Button
                         size="small"
-                        color="primary"
+                        style={{ color: "green" }}
                         component={Link}
                         to={{ pathname: "/admin/services/edit", items: items }}
                       >

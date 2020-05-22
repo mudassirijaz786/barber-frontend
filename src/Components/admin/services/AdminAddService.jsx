@@ -51,12 +51,12 @@ class AdminAddService extends Component {
   state = {
     Service: {
       service_id: "",
-      service_name: "half cut",
+      service_name: "",
       category_name: "",
       Salon_id: "",
-      price: 20,
+      price: "",
       img_url: "",
-      service_description: "hair cut service provided by tony and guy",
+      service_description: "",
       service_time: "",
     },
     category: ["Hair", "Facial", "Khat"],

@@ -5,12 +5,14 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { ToastsStore } from "react-toasts";
 import { Close as CloseIcon, Check as CheckIcon } from "@material-ui/icons";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import {
   LinearProgress,
   makeStyles,
   Box,
   Grid,
-  IconButton,
+  Button,
   Container,
   Typography,
   CardContent,
@@ -111,7 +113,7 @@ class Salon extends React.Component {
       },
     })
       .then((response) => {
-        console.log("Response acceptSalon in Salon", response);
+        ToastsStore.success("salon got accepted");
       })
       .catch((error) => {
         if (error.response) {
@@ -136,7 +138,7 @@ class Salon extends React.Component {
       },
     })
       .then((response) => {
-        console.log("Response rejectSalon in Salon", response);
+        ToastsStore.error("salon got rejected");
       })
 
       .catch((error) => {
@@ -144,6 +146,40 @@ class Salon extends React.Component {
           ToastsStore.error(error.response.data);
         }
       });
+  };
+
+  submitAccept = (id) => {
+    confirmAlert({
+      title: `You have clicked on accept salon`,
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.acceptSalon(id),
+        },
+        {
+          label: "No",
+          onClick: () => ToastsStore.error("operation cancelled"),
+        },
+      ],
+    });
+  };
+
+  submitReject = (id) => {
+    confirmAlert({
+      title: `You have clicked on reject`,
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.rejectSalon(id),
+        },
+        {
+          label: "No",
+          onClick: () => ToastsStore.error("operation cancelled"),
+        },
+      ],
+    });
   };
 
   render() {
@@ -211,21 +247,28 @@ class Salon extends React.Component {
                             {items.Salon_owner_firstName}
                           </Typography>
                         </CardContent>
+
                         <CardActions>
-                          <IconButton
+                          <Button
                             size="medium"
-                            color="primary"
-                            onClick={() => this.acceptSalon(items._id)}
+                            variant="contained"
+                            style={{
+                              marginRight: 80,
+                              color: "white",
+                              backgroundColor: "green",
+                            }}
+                            onClick={() => this.submitAccept(items._id)}
                           >
-                            <CheckIcon />
-                          </IconButton>
-                          <IconButton
+                            Accept
+                          </Button>
+                          <Button
                             size="medium"
-                            color="secondary"
-                            onClick={() => this.rejectSalon(items._id)}
+                            variant="contained"
+                            style={{ backgroundColor: "red", color: "white" }}
+                            onClick={() => this.submitReject(items._id)}
                           >
-                            <CloseIcon />
-                          </IconButton>
+                            Reject
+                          </Button>
                         </CardActions>
                       </Card>
                     </Grid>

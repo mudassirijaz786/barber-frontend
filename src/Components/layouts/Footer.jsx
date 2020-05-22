@@ -56,14 +56,6 @@ export default function Footer() {
               +923314068055
             </Typography>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4} spacing={2}>
-            <Typography variant="h6" className={classes.title}>
-              Moazzam
-            </Typography>
-            <Typography variant="h6" className={classes.link}>
-              +923144355315
-            </Typography>
-          </Grid>
         </Toolbar>
       </AppBar>
     </React.Fragment>

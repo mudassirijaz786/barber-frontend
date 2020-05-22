@@ -5,6 +5,15 @@ import axios from "axios";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import {
+  Close as CloseIcon,
+  Check as CheckIcon,
+  ThreeSixty,
+} from "@material-ui/icons";
+import Axios from "axios";
+import { ToastsStore } from "react-toasts";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import {
   Box,
   Container,
   makeStyles,
@@ -15,7 +24,7 @@ import {
   CardHeader,
   CardContent,
   CardActions,
-  CardActionArea,
+  Button,
 } from "@material-ui/core";
 
 //styling
@@ -47,6 +56,7 @@ class Schedule extends Component {
   state = {
     date: new Date(),
     schedule: [],
+    service_status: false,
   };
 
   handleonChange = (date) => {
@@ -85,13 +95,8 @@ class Schedule extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("x-auth-token");
-    console.log("Token in Schedule page", token);
-    //	console.log("date is ", this.state.date);
+    console.log(token);
     const date = new Date();
-    //const { date } = this.state;
-    console.log("date is ", date);
-    console.log("state is ", this.state.schedule);
-    //const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
       url: url,
@@ -102,7 +107,6 @@ class Schedule extends Component {
         console.log("Response in Schedule", response.data);
 
         if (typeof response.data === "string") {
-          //		console.log("Response in Schedule", response.data);
         } else {
           this.setState({ schedule: response.data });
         }
@@ -113,6 +117,96 @@ class Schedule extends Component {
         }
       });
   }
+
+  availed = async (id) => {
+    await this.setState({ service_status: true });
+    let form_data = new FormData();
+    form_data.append("service_status", this.state.service_status);
+    await axios({
+      url:
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/book/appointment/service/status/" +
+        id,
+      method: "POST",
+      data: form_data,
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("x-auth-token"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          ToastsStore.success("Appointment status set to availed");
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          ToastsStore.error("Error occured");
+        }
+      });
+  };
+
+  notAvailed = async (id) => {
+    await axios({
+      url:
+        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/book/appointment/customer/unavailed/service/" +
+        id,
+      method: "DELETE",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("x-auth-token"),
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          ToastsStore.success("appointment is not Availed yet");
+          const { schedule } = this.state;
+          const filteredList = schedule.filter((e) => e._id !== id);
+          this.setState({ schedule: filteredList });
+        }
+      })
+
+      .catch((error) => {
+        if (error.response) {
+          ToastsStore.error(error.response.data);
+        }
+      });
+  };
+
+  submitNotAvailed = (id) => {
+    confirmAlert({
+      title: `You have clicked Not availed it `,
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.notAvailed(id),
+        },
+        {
+          label: "No",
+          onClick: () => ToastsStore.error("operation cancelled"),
+        },
+      ],
+    });
+  };
+
+  submitAvailed = (id) => {
+    confirmAlert({
+      title: `You have clicked availed it`,
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.availed(id),
+        },
+        {
+          label: "No",
+          onClick: () => ToastsStore.error("operation cancelled"),
+        },
+      ],
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -149,7 +243,7 @@ class Schedule extends Component {
                   color="textSecondary"
                   paragraph
                 >
-                  Following is list of schedule if any
+                  Following is list of schedule
                 </Typography>
               )}
             </Container>
@@ -163,34 +257,39 @@ class Schedule extends Component {
                       avatar={<Avatar aria-label="recipe">date</Avatar>}
                       title={items.booking_date}
                     />
-                    <CardActionArea>
-                      <CardContent>
-                        <Typography
-                          variant="h6"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          <span className={classes.timingSpan}>
-                            Starting Time:
-                          </span>
-                          {items.stating_time}
-                        </Typography>
-                        <Typography
-                          variant="h6"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          <span className={classes.timingSpan}>
-                            Ending Time:
-                          </span>
-                          {items.ending_time}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions disableSpacing>
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {items.stating_time} to {items.ending_time}
+                      </Typography>
                       <Typography variant="h6" component="h6" gutterBottom>
                         Service: {items.service_id}
                       </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="medium"
+                        variant="contained"
+                        style={{
+                          marginRight: 80,
+                          color: "white",
+                          backgroundColor: "green",
+                        }}
+                        onClick={() => this.submitAvailed(items._id)}
+                      >
+                        Avail
+                      </Button>
+                      <Button
+                        size="medium"
+                        variant="contained"
+                        style={{ backgroundColor: "red", color: "white" }}
+                        onClick={() => this.submitNotAvailed(items._id)}
+                      >
+                        Not Avail
+                      </Button>
                     </CardActions>
                   </Card>
                 </Grid>

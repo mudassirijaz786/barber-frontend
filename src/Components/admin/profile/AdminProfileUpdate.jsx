@@ -55,7 +55,15 @@ class AdminProfileUpdate extends Component {
 
   schema = {
     email: Joi.string().email().required().label("Email"),
-    phonenumber: Joi.number().required().label("Phonenumber"),
+    phonenumber: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message: "Must be a valid phone number",
+        };
+      })
+      .regex(/^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/)
+      .label("Phonenumber"),
     name: Joi.string().min(3).max(10).label("Name"),
   };
 

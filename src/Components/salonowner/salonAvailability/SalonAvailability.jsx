@@ -85,18 +85,18 @@ class SalonAvailability extends Component {
       .then((response) => {
         ToastsStore.success(
           "Your availability has been changed successfully",
-          3000
+          2000
         );
         this.setState({
           isLoading: false,
         });
         setTimeout(() => {
           window.location = "/calender";
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("There occured an error");
           this.setState({
             isLoading: false,
           });

@@ -46,8 +46,8 @@ const ColorLinearProgress = withStyles({
 class OwnerLogin extends Component {
   state = {
     account: {
-      email: "",
-      password: "",
+      email: "ijazmudassir536@outlook.com",
+      password: "heLLo$1122",
     },
     error: {},
     loading: false,
@@ -121,7 +121,16 @@ class OwnerLogin extends Component {
 
   schema = {
     email: Joi.string().email().required().label("Email"),
-    password: Joi.string().required().min(7).label("Password"),
+    password: Joi.string()
+      .required()
+      .error(() => {
+        return {
+          message:
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character",
+        };
+      })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+      .label("Password"),
   };
 
   render() {
