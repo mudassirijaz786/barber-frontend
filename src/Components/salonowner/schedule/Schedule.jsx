@@ -95,7 +95,6 @@ class Schedule extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("x-auth-token");
-    console.log(token);
     const date = new Date();
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
@@ -113,7 +112,9 @@ class Schedule extends Component {
       })
       .catch((error) => {
         if (error.response) {
-          alert(error.response.data);
+          ToastsStore.error(
+            "There occured an error while getting data from backend"
+          );
         }
       });
   }

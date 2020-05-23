@@ -95,7 +95,7 @@ class OwnerViewServices extends React.Component {
 
   confirmBeforeDeletion = (id) => {
     confirmAlert({
-      title: `You have clicked Not availed it `,
+      title: `You have clicked on deletion of service`,
       message: "Are you sure to do this.",
       buttons: [
         {
