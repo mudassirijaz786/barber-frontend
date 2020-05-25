@@ -60,9 +60,7 @@ class OwnerLogin extends Component {
     });
     if (!error) return null;
     const errors = {};
-    error.details.map((item) => {
-      errors[item.path[0]] = item.message;
-    });
+    error.details.map((item) => (errors[item.path[0]] = item.message));
     return errors;
   };
 
@@ -90,7 +88,6 @@ class OwnerLogin extends Component {
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
-        console.log("Token in OwnerLogin", token);
         this.setState({
           loading: false,
         });
@@ -98,7 +95,7 @@ class OwnerLogin extends Component {
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("Error while logging in");
           this.setState({
             loading: false,
           });
@@ -143,12 +140,7 @@ class OwnerLogin extends Component {
           <CssBaseline />
           <Container maxWidth="sm">
             <Box color="indigo">
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                gutterBottom
-              >
+              <Typography variant="h3" align="center">
                 Login
               </Typography>
             </Box>

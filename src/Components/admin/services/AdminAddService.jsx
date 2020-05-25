@@ -141,7 +141,6 @@ class AdminAddService extends Component {
       },
     })
       .then((response) => {
-        console.log("Response in AdminAddService", response);
         ToastsStore.success("Service added successfully by admin", 5000);
         this.setState({ isLoading: false });
         setTimeout(() => {
@@ -158,14 +157,12 @@ class AdminAddService extends Component {
     const Service = { ...this.state.Service };
     Service.category_name = e.target.value;
     this.setState({ Service });
-    console.log(this.state.Service.category_name);
   };
 
   selectedTime = (e) => {
     const Service = { ...this.state.Service };
     Service.service_time = e.target.value;
     this.setState({ Service });
-    console.log(this.state.Service.service_time);
   };
 
   handleChange = (e) => {
@@ -202,7 +199,7 @@ class AdminAddService extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h3" align="center">
               Create Service
             </Typography>
           </Box>
@@ -247,6 +244,9 @@ class AdminAddService extends Component {
           <TextField
             className={classes.fields}
             fullWidth
+            multiline
+            rows={2}
+            rowsMax={3}
             value={Service.service_description}
             onChange={this.handleChange}
             error={error.service_description}

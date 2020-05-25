@@ -52,7 +52,7 @@ class Landing extends React.Component {
     return (
       <Grid className={classes.root}>
         <Box color="indigo">
-          <Typography component="h1" variant="h2" align="center" gutterBottom>
+          <Typography variant="h3" align="center">
             Upgrade your Salons
           </Typography>
         </Box>
@@ -64,7 +64,7 @@ class Landing extends React.Component {
           className={classes.h5}
         >
           Enjoy secret offers up to -50% off the best luxury salon services
-          every Sunday.
+          every Sunday. One month free trial
         </Typography>
         <Button
           size="large"

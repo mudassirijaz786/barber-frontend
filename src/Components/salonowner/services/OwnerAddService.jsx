@@ -145,7 +145,6 @@ class OwnerAddService extends Component {
       },
     })
       .then((response) => {
-        console.log("Response in OwnerAddService", response);
         ToastsStore.success("Service added successfully by salon owner", 5000);
         this.setState({ isLoading: false });
         setTimeout(() => {
@@ -260,6 +259,9 @@ class OwnerAddService extends Component {
               fullWidth
               value={Service.service_description}
               onChange={this.handleChange}
+              multiline
+              rows={2}
+              rowsMax={3}
               name="service_description"
               label="Description"
               variant="outlined"

@@ -78,13 +78,10 @@ class OwnerForgetPasswordToken extends Component {
 
   handleSubmit = async () => {
     const { SalonOwner } = this.state;
-    console.log("email", SalonOwner.email);
     const error = this.validate();
     this.setState({ error: error || {}, loading: true });
     let obj = {};
     obj["email"] = SalonOwner.email;
-
-    console.log("obj", obj.email);
     await axios
       .post(
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/forgot/password",
@@ -136,7 +133,7 @@ class OwnerForgetPasswordToken extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h3" align="center">
               Forget your password?
             </Typography>
           </Box>

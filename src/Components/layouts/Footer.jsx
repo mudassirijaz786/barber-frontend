@@ -1,18 +1,12 @@
 //importing
 import React from "react";
-import {
-  Typography,
-  Toolbar,
-  AppBar,
-  makeStyles,
-  Grid,
-} from "@material-ui/core";
+import { Typography, makeStyles, Grid } from "@material-ui/core";
+import { BottomNavigation } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/styles";
 
 //styling
 const useStyles = makeStyles(() => ({
-  root: {
-    flex: 1,
-  },
   title: {
     flexGrow: 1,
   },
@@ -22,42 +16,48 @@ const useStyles = makeStyles(() => ({
 }));
 
 //function Footer
-export default function Footer() {
+const Footer = () => {
   const classes = useStyles();
   return (
-    <React.Fragment className={classes.root}>
-      <AppBar
-        position="relative"
-        style={{ marginTop: 10, position: "relative" }}
-        color="inherit"
-      >
-        <Toolbar>
-          <Grid item xs={12} lg={12} md={12} sm={12} spacing={12}>
+    <React.Fragment>
+      <BottomNavigation style={{ marginTop: 10 }}>
+        <Grid container>
+          <Grid item sm={12} lg={4} xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6" className={classes.title}>
-              Have any question?
+              Send any query at
             </Typography>
+            <br />
             <Typography variant="h6" className={classes.link}>
               fa16-bcs-331@cuilahore.edu.pk
             </Typography>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4} spacing={10}>
+          <Grid item sm={12} lg={4} xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6" className={classes.title}>
               Fazal ur rehman
             </Typography>
+            <br />
             <Typography variant="h6" className={classes.link}>
               +923014174017
             </Typography>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4} spacing={2}>
+          <Grid item sm={12} lg={4} xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6" className={classes.title}>
               Mudassir Ijaz
             </Typography>
+            <br />
             <Typography variant="h6" className={classes.link}>
               +923314068055
             </Typography>
           </Grid>
-        </Toolbar>
-      </AppBar>
+        </Grid>
+      </BottomNavigation>
     </React.Fragment>
   );
-}
+};
+
+Footer.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+//exporting Footer
+export default withStyles(useStyles)(Footer);

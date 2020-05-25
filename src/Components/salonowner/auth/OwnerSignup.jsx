@@ -112,7 +112,6 @@ class OwnerSignup extends Component {
     geocodeByAddress(Salon_Name)
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
-        console.log("Success", latLng);
         this.setState({
           latLng,
         });
@@ -176,7 +175,6 @@ class OwnerSignup extends Component {
         this.setState({
           loading: false,
         });
-        console.log("Response in OwnerSignup", response);
         setTimeout(() => {
           window.location = "/";
         }, 3000);
@@ -226,7 +224,7 @@ class OwnerSignup extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h3" align="center">
               Signup
             </Typography>
           </Box>

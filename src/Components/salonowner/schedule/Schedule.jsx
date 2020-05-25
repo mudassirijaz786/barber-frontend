@@ -4,12 +4,6 @@ import Calendar from "react-calendar";
 import axios from "axios";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
-import {
-  Close as CloseIcon,
-  Check as CheckIcon,
-  ThreeSixty,
-} from "@material-ui/icons";
-import Axios from "axios";
 import { ToastsStore } from "react-toasts";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
@@ -50,9 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 //class Schedule
 class Schedule extends Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     date: new Date(),
     schedule: [],
@@ -60,19 +51,10 @@ class Schedule extends Component {
   };
 
   handleonChange = (date) => {
-    // this.setState({ date }, () => {
-    // 	this.afterStateupdatedfinished();
-    // });
     this.afterStateupdatedfinished(date);
   };
 
   afterStateupdatedfinished = (date) => {
-    //const { date } = this.state;
-    //	console.log("state  date", this.state.date);
-
-    console.log("is date", date);
-    //const url = `http://localhost:5000/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
-
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
       url: url,
@@ -81,20 +63,17 @@ class Schedule extends Component {
     })
       .then((response) => {
         if (typeof response.data === "string") {
-          //console.log("Response in Schedule", response.data);
           this.setState({ schedule: [] });
         } else {
-          console.log("data sis ", response.data);
           this.setState({ schedule: response.data });
         }
       })
       .catch((error) => {
-        alert(error);
+        ToastsStore.error("Error in getting schedule");
       });
   };
 
   componentDidMount() {
-    const token = localStorage.getItem("x-auth-token");
     const date = new Date();
     const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
@@ -103,8 +82,6 @@ class Schedule extends Component {
       headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
     })
       .then((response) => {
-        console.log("Response in Schedule", response.data);
-
         if (typeof response.data === "string") {
         } else {
           this.setState({ schedule: response.data });
@@ -161,7 +138,7 @@ class Schedule extends Component {
     })
       .then((response) => {
         if (response.status === 200) {
-          ToastsStore.success("appointment is not Availed yet");
+          ToastsStore.success("Appointment is not Availed yet");
           const { schedule } = this.state;
           const filteredList = schedule.filter((e) => e._id !== id);
           this.setState({ schedule: filteredList });
@@ -170,14 +147,14 @@ class Schedule extends Component {
 
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("");
         }
       });
   };
 
   submitNotAvailed = (id) => {
     confirmAlert({
-      title: `You have clicked Not availed it `,
+      title: `You have clicked Not availed `,
       message: "Are you sure to do this.",
       buttons: [
         {
@@ -194,7 +171,7 @@ class Schedule extends Component {
 
   submitAvailed = (id) => {
     confirmAlert({
-      title: `You have clicked availed it`,
+      title: `You have clicked availed`,
       message: "Are you sure to do this.",
       buttons: [
         {
@@ -218,12 +195,7 @@ class Schedule extends Component {
           <div className={classes.heroContent}>
             <Container component="main" maxWidth="xs">
               <Box color="indigo">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography variant="h3" align="center">
                   Schedule
                 </Typography>
               </Box>

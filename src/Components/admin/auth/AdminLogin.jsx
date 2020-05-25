@@ -60,9 +60,7 @@ class AdminLogin extends Component {
     });
     if (!error) return null;
     const errors = {};
-    error.details.map((item) => {
-      errors[item.path[0]] = item.message;
-    });
+    error.details.map((item) => (errors[item.path[0]] = item.message));
     return errors;
   };
 
@@ -90,13 +88,11 @@ class AdminLogin extends Component {
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
-        console.log("Token in AdminLogin", token);
-        console.log("Response in AdminLogin", response);
         this.props.history.push("/admin/salons");
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("Error while logging in");
         }
       });
     this.setState({ loading: false });

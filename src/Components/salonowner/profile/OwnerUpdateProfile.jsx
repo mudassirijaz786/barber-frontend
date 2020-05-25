@@ -153,7 +153,6 @@ class OwnerUpdateProfile extends Component {
     form_data.append("cnic", Salon.Salon_owner_cnic);
     form_data.append("Salon_opening_hours", Salon_opening_hours);
     form_data.append("Salon_closing_hours", Salon_closing_hours);
-    console.log("form data", form_data);
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     axios({
@@ -220,7 +219,7 @@ class OwnerUpdateProfile extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h3" align="center">
               Update profile
             </Typography>
           </Box>

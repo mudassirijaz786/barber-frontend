@@ -33,9 +33,7 @@ class AdminLanding extends React.Component {
     const { classes } = this.props;
     const secret = "secret";
     let message = prompt("Type secret here");
-    if (message === secret) {
-      console.log("You are admin");
-    } else {
+    if (message !== secret) {
       return <Redirect to="/" />;
     }
     if (

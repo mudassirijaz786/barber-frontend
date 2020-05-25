@@ -4,7 +4,6 @@ import Axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { ToastsStore } from "react-toasts";
-import { Close as CloseIcon, Check as CheckIcon } from "@material-ui/icons";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import {
@@ -64,14 +63,11 @@ const ColorLinearProgress = withStyles({
 class Salon extends React.Component {
   state = {
     List_of_salons: [123],
-    name: "mudassir",
     isLoading: false,
   };
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    const token = localStorage.getItem("x-auth-token");
-    console.log("Token in Salon page", token);
     this.loadData();
   }
 
@@ -87,7 +83,6 @@ class Salon extends React.Component {
       },
     })
       .then((response) => {
-        console.log("Response in Salon", response);
         this.setState({ List_of_salons: response.data, isLoading: false });
       })
       .catch((error) => {
@@ -117,7 +112,7 @@ class Salon extends React.Component {
       })
       .catch((error) => {
         if (error.response) {
-          ToastsStore.error(error.response.data);
+          ToastsStore.error("Error in getting salons from backend");
         }
       });
   };
@@ -192,12 +187,7 @@ class Salon extends React.Component {
             <div>{isLoading && <ColorLinearProgress size={30} />}</div>
             <Container maxWidth="sm">
               <Box color="indigo">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography variant="h3" align="center">
                   Salons Request
                 </Typography>
               </Box>

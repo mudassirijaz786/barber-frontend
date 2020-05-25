@@ -119,12 +119,7 @@ class SalonAvailability extends Component {
             {isLoading && <ColorLinearProgress size={30} />}
             <Container component="main" maxWidth="xs">
               <Box color="indigo">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography variant="h3" align="center">
                   Availability
                 </Typography>
               </Box>

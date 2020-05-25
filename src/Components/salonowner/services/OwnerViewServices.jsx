@@ -4,18 +4,13 @@ import Axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from "@material-ui/icons";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { ToastsStore } from "react-toasts";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import {
   LinearProgress,
   makeStyles,
-  IconButton,
   Box,
   Button,
   Typography,
@@ -84,7 +79,6 @@ class OwnerViewServices extends React.Component {
           isLoading: false,
           List_of_services: response.data,
         });
-        console.log(this.state.List_of_services);
       })
       .catch((error) => {
         if (error.response) {
@@ -114,7 +108,6 @@ class OwnerViewServices extends React.Component {
     const { List_of_services } = this.state;
     const filteredList = List_of_services.filter((e) => e._id !== id);
     this.setState({ List_of_services: filteredList });
-    console.log(id);
     Axios({
       url:
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
@@ -132,7 +125,7 @@ class OwnerViewServices extends React.Component {
         this.setState({ List_of_services: result });
       })
       .catch((err) => {
-        alert(err);
+        ToastsStore.error("Error in deletion");
       });
   };
 
@@ -146,12 +139,7 @@ class OwnerViewServices extends React.Component {
             {isLoading && <ColorLinearProgress size={30} />}
             <Container maxWidth="sm">
               <Box color="indigo">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography variant="h3" align="center">
                   All services
                 </Typography>
               </Box>

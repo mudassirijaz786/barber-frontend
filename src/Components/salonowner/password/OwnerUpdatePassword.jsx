@@ -166,7 +166,7 @@ class OwnerUpdatePassword extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h3" align="center">
               Password update
             </Typography>
           </Box>

@@ -157,15 +157,14 @@ class AdminEditService extends Component {
       },
     })
       .then((response) => {
-        ToastsStore.success("Service edited successfully by admin", 5000);
+        ToastsStore.success("Service edited successfully by admin", 2000);
         this.setState({ isLoading: false });
-        console.log("Response in AdminEditService", response);
         setTimeout(() => {
           window.location = "/admin/services";
-        }, 5000);
+        }, 2000);
       })
       .catch((error) => {
-        ToastsStore.error(error);
+        ToastsStore.error("Error in updation");
         this.setState({ isLoading: false });
       });
   };
@@ -174,14 +173,12 @@ class AdminEditService extends Component {
     const Service = { ...this.state.Service };
     Service.category_name = e.target.value;
     this.setState({ Service });
-    console.log(this.state.Service.category_name);
   };
 
   selectedTime = (e) => {
     const Service = { ...this.state.Service };
     Service.service_time = e.target.value;
     this.setState({ Service });
-    console.log(this.state.Service.service_time);
   };
 
   handleChange = (e) => {
@@ -213,7 +210,7 @@ class AdminEditService extends Component {
       return <Redirect to="/admin/services" />;
     }
     const { classes } = this.props;
-    const { isLoading, Service, error, category, time, price } = this.state;
+    const { isLoading, Service, error, category, time } = this.state;
     return (
       <React.Fragment>
         <div>{isLoading && <ColorLinearProgress size={30} />}</div>

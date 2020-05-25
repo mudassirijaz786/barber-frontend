@@ -148,7 +148,7 @@ class AdminProfileUpdate extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
+            <Typography variant="h2" align="center">
               Profile update
             </Typography>
           </Box>

@@ -110,8 +110,6 @@ class OwnerResetPassword extends Component {
     let obj = {};
     obj["token"] = SalonOwner.token;
     obj["confirmpassword"] = SalonOwner.newPassword;
-    console.log(obj.token);
-    console.log(obj.confirmpassword);
     await axios
       .post(
         "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/verify_code/and/update_password",

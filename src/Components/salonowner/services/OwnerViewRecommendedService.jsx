@@ -26,7 +26,6 @@ import {
 const useStyles = makeStyles((theme) => ({
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
   },
   button: {
     background: "linear-gradient(to right,#311b92, #5c6bc0, #b39ddb)",
@@ -72,7 +71,6 @@ class OwnerViewRecommendedService extends React.Component {
       },
     })
       .then((response) => {
-        console.log("Response in OwnerAddRecommendedService", response);
         this.setState({ List_of_services: response.data, loading: false });
       })
       .catch((error) => {
@@ -117,12 +115,7 @@ class OwnerViewRecommendedService extends React.Component {
             <div>{loading && <ColorLinearProgress size={30} />}</div>
             <Container maxWidth="sm">
               <Box color="indigo">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  gutterBottom
-                >
+                <Typography variant="h3" align="center">
                   All Recommended Services
                 </Typography>
               </Box>

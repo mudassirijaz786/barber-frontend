@@ -1,8 +1,8 @@
 //importing
-import React, { Fragment } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Container, Grid, withStyles } from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import { Header, Footer } from "./Components/layouts/index";
 import Landing from "./Components/common/Landing.jsx";
 import OwnerUpdateService from "./Components/salonowner/services/OwnerUpdateService";
@@ -38,7 +38,6 @@ import {
   ToastsStore,
   ToastsContainerPosition,
 } from "react-toasts";
-import NotFound from "../src/Components/common/NotFound";
 
 //styling
 const styles = {
@@ -125,13 +124,11 @@ class App extends React.Component {
             path="/services/add"
             component={OwnerAddService}
           />
-
           <SalonOwnerRoute
             exact
             path="/password/change"
             component={OwnerUpdatePassword}
           />
-
           <AdminRoute exact path="/admin/salons" component={Salons} />
           <AdminRoute
             exact
@@ -153,14 +150,6 @@ class App extends React.Component {
             path="/admin/dashboard"
             component={AdminDashboard}
           />
-          {/*
-          
-            <Route exact path="/not-found" component={NotFound} />
-            <Redirect from="/" exact to="dashboard" />
-            <Redirect to="/not-found" />
-          
-          */}
-
           <ToastsContainer
             position={ToastsContainerPosition.TOP_CENTER}
             store={ToastsStore}

@@ -1,6 +1,5 @@
 //importing
 import React, { Component } from "react";
-import Joi from "joi-browser";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { ToastsStore } from "react-toasts";
@@ -17,7 +16,6 @@ import {
   LinearProgress,
   Grid,
   Box,
-  TextareaAutosize,
   Typography,
   Container,
 } from "@material-ui/core";
@@ -97,9 +95,9 @@ class OwnerAddRecommendedService extends Component {
     Service[e.target.name] = e.target.value;
     this.setState({ Service });
   };
+
   handleSubmit = async (e) => {
     try {
-      console.log("state is ", this.state.Service);
       let form_data = new FormData();
       form_data.append("image", this.state.Service.image_url);
       form_data.append("servicename", this.state.Service.serviceName);
@@ -128,7 +126,6 @@ class OwnerAddRecommendedService extends Component {
             2000
           );
           this.setState({ isLoading: false });
-          console.log(response);
           setTimeout(() => {
             window.location = "/services";
           }, 2000);
@@ -136,10 +133,9 @@ class OwnerAddRecommendedService extends Component {
         .catch((error) => {
           this.setState({ isLoading: false });
           ToastsStore.error("Service cannot be added by salon owner");
-          console.log("error", error);
         });
     } catch (error) {
-      console.log(error);
+      ToastsStore.error("Error in getting promise");
     }
   };
 
@@ -147,14 +143,12 @@ class OwnerAddRecommendedService extends Component {
     const Service = { ...this.state.Service };
     Service.category_name = e.target.value;
     this.setState({ Service });
-    console.log(this.state.Service.category_name);
   };
 
   selectedTime = (e) => {
     let time = this.state.service_time;
     time = e.target.value;
     this.setState({ service_time: time });
-    console.log(this.state.Service.service_time);
   };
 
   render() {
@@ -166,139 +160,146 @@ class OwnerAddRecommendedService extends Component {
 
     return (
       <React.Fragment>
-        <Container component="main" maxWidth="lg">
-          <div>{isLoading && <ColorLinearProgress size={30} />}</div>
-        </Container>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box color="indigo">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
-              Add Recommended Service
-            </Typography>
-          </Box>
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph
-          >
-            Please add recommended service as a salon owner
-          </Typography>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                className={classes.fields}
-                value={Service.serviceName}
-                onChange={this.handleChange}
-                name="service_name"
-                disabled={true}
-                label="Service name"
-                variant="outlined"
-                placeholder="Please enter service name"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                className={classes.fields}
-                fullWidth
-                value={price}
-                onChange={(e) => this.setState({ price: e.target.value })}
-                label="Price"
-                variant="outlined"
-                placeholder="Please enter price"
-              />
-            </Grid>
-          </Grid>
-          <TextareaAutosize
-            className={classes.fields}
-            fullWidth
-            value={this.state.description}
-            onChange={(e) => this.setState({ description: e.target.value })}
-            name="service_description"
-            label="Description"
-            variant="outlined"
-            placeholder="Please enter service description"
-          />
-          <TextField
-            id="filled-select-currency"
-            select
-            disabled={true}
-            className={classes.fields}
-            label={Service.service_category}
-            value={Service.service_category}
-            onChange={this.selectedCategory}
-            variant="outlined"
-            fullWidth
-          >
-            {category.map((option) => (
-              <MenuItem
-                key={Service.service_category}
-                value={Service.service_category}
-              />
-            ))}
-          </TextField>
-          <TextField
-            id="filled-select-currency"
-            select
-            variant="outlined"
-            className={classes.fields}
-            label="Please select service time"
-            value={Service.service_time}
-            onChange={this.selectedTime}
-            fullWidth
-          >
-            {time.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Grid container spacing={10}>
-            <Grid item xs={8} sm={8}>
+        <main>
+          <div>
+            <Container component="main" maxWidth="lg">
+              <div>{isLoading && <ColorLinearProgress size={30} />}</div>
+            </Container>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <Box color="indigo">
+                <Typography variant="h3" align="center">
+                  Add Recommended Service
+                </Typography>
+              </Box>
               <Typography
-                style={{ paddingTop: 8 }}
-                variant="h6"
+                variant="h5"
                 align="center"
                 color="textSecondary"
                 paragraph
               >
-                Please select image
+                Please add recommended service as a salon owner
               </Typography>
-            </Grid>
-            <Grid item xs={4} sm={4}>
-              <IconButton
-                aria-label="add"
-                disabled={true}
-                color="primary"
-                onClick={this.handleOpen.bind(this)}
-                size="medium"
-              >
-                <AddIcon />
-              </IconButton>
-              <DropzoneDialog
-                filesLimit={1}
-                open={this.state.open}
-                onSave={this.handleSave.bind(this)}
-                acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
-                showPreviews={true}
-                maxFileSize={5000000}
-                onClose={this.handleClose.bind(this)}
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    className={classes.fields}
+                    value={Service.serviceName}
+                    onChange={this.handleChange}
+                    name="service_name"
+                    disabled={true}
+                    label="Service name"
+                    variant="outlined"
+                    placeholder="Please enter service name"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    className={classes.fields}
+                    fullWidth
+                    value={price}
+                    onChange={(e) => this.setState({ price: e.target.value })}
+                    label="Price"
+                    variant="outlined"
+                    placeholder="Please enter price"
+                  />
+                </Grid>
+              </Grid>
+              <TextField
+                className={classes.fields}
+                fullWidth
+                value={this.state.description}
+                onChange={(e) => this.setState({ description: e.target.value })}
+                name="service_description"
+                label="Description"
+                variant="outlined"
+                multiline
+                rows={2}
+                rowsMax={3}
+                placeholder="Please enter service description"
               />
-            </Grid>
-          </Grid>
-          <Button
-            variant="contained"
-            className={(classes.fields, classes.button)}
-            color="primary"
-            dis
-            fullWidth
-            onClick={this.handleSubmit}
-          >
-            Add service
-          </Button>
-        </Container>
+              <TextField
+                id="filled-select-currency"
+                select
+                disabled={true}
+                className={classes.fields}
+                label={Service.service_category}
+                value={Service.service_category}
+                onChange={this.selectedCategory}
+                variant="outlined"
+                fullWidth
+              >
+                {category.map((option) => (
+                  <MenuItem
+                    key={Service.service_category}
+                    value={Service.service_category}
+                  />
+                ))}
+              </TextField>
+              <TextField
+                id="filled-select-currency"
+                select
+                variant="outlined"
+                className={classes.fields}
+                label="Please select service time"
+                value={Service.service_time}
+                onChange={this.selectedTime}
+                fullWidth
+              >
+                {time.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Grid container spacing={10}>
+                <Grid item xs={8} sm={8}>
+                  <Typography
+                    style={{ paddingTop: 8 }}
+                    variant="h6"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                  >
+                    Please select image
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4}>
+                  <IconButton
+                    aria-label="add"
+                    disabled={true}
+                    color="primary"
+                    onClick={this.handleOpen.bind(this)}
+                    size="medium"
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <DropzoneDialog
+                    filesLimit={1}
+                    open={this.state.open}
+                    onSave={this.handleSave.bind(this)}
+                    acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+                    showPreviews={true}
+                    maxFileSize={5000000}
+                    onClose={this.handleClose.bind(this)}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                variant="contained"
+                className={(classes.fields, classes.button)}
+                color="primary"
+                dis
+                fullWidth
+                onClick={this.handleSubmit}
+              >
+                Add service
+              </Button>
+            </Container>
+          </div>
+        </main>
       </React.Fragment>
     );
   }

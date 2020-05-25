@@ -16,6 +16,7 @@ import {
   LinearProgress,
   makeStyles,
   IconButton,
+  Box,
   Typography,
   Container,
   Avatar,
@@ -80,7 +81,6 @@ class AdminViewService extends React.Component {
       },
     })
       .then((response) => {
-        console.log("Response in AdminViewService", response);
         this.setState({ List_of_services: response.data, loading: false });
       })
       .catch((error) => {
@@ -141,15 +141,11 @@ class AdminViewService extends React.Component {
           <div className={classes.heroContent}>
             <div>{loading && <ColorLinearProgress size={30} />}</div>
             <Container maxWidth="sm">
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                All Services
-              </Typography>
+              <Box color="indigo">
+                <Typography variant="h3" align="center">
+                  All Services
+                </Typography>
+              </Box>
               {!loading && (
                 <div>
                   {List_of_services.length === 0 ? (
