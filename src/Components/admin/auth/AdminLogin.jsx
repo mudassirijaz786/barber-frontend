@@ -14,6 +14,7 @@ import {
   CssBaseline,
   LinearProgress,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -78,13 +79,10 @@ class AdminLogin extends Component {
     const { account } = this.state;
     this.setState({ error: error || {}, loading: true });
     await axios
-      .post(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/login/superadmin",
-        {
-          email: account.email,
-          password: account.password,
-        }
-      )
+      .post(url + "/login/superadmin", {
+        email: account.email,
+        password: account.password,
+      })
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);

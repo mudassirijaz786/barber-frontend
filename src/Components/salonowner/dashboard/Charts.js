@@ -8,150 +8,148 @@ import PropTypes from "prop-types";
 import { withStyles, Typography, LinearProgress } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
+import { url } from "../../../../src/config.json";
 
 //styling
 const useStyles = makeStyles((theme) => ({
-	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 120,
-	},
-	selectEmpty: {
-		marginTop: theme.spacing(2),
-	},
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 //Loading Indicator
 const ColorLinearProgress = withStyles({
-	colorPrimary: {
-		backgroundColor: "#b2dfdb",
-	},
-	barColorPrimary: {
-		backgroundColor: "#00695c",
-	},
+  colorPrimary: {
+    backgroundColor: "#b2dfdb",
+  },
+  barColorPrimary: {
+    backgroundColor: "#00695c",
+  },
 })(LinearProgress);
 
 //class Chart
 class Charts extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: [],
-			days: 7,
-			isLoading: false,
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      days: 7,
+      isLoading: false,
+    };
+  }
 
-	//showing default chart of 7 days
-	componentDidMount() {
-		this.loadData();
-	}
+  //showing default chart of 7 days
+  componentDidMount() {
+    this.loadData();
+  }
 
-	//handling days
-	handleChange = async (event) => {
-		await this.setState({ days: event.target.value });
-		this.loadData();
-	};
+  //handling days
+  handleChange = async (event) => {
+    await this.setState({ days: event.target.value });
+    this.loadData();
+  };
 
-	//loading data from backend
-	loadData = async () => {
-		this.setState({ isLoading: true });
-		const url =
-			"https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/reports";
+  //loading data from backend
+  loadData = async () => {
+    this.setState({ isLoading: true });
+    await axios({
+      url: url + "/reports",
+      method: "GET",
+      headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
+    })
+      .then((response) => {
+        this.setState({ isLoading: false, data: "" });
+        this.getData(response, "Appiontments", this.state.days);
+      })
+      .catch((error) => {
+        this.setState({ isLoading: false });
+        alert(error);
+      });
+  };
 
-		await axios({
-			url: url,
-			method: "GET",
-			headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
-		})
-			.then((response) => {
-				this.setState({ isLoading: false, data: "" });
-				this.getData(response, "Appiontments", this.state.days);
-			})
-			.catch((error) => {
-				this.setState({ isLoading: false });
-				alert(error);
-			});
-	};
+  //getting chart data and display it
+  getData = (result, graphLabel, days) => {
+    const d = Object.entries(result.data).reverse().slice(0, days).reverse();
+    let labels = [];
+    let data = [];
+    d.forEach((o) => {
+      labels.push(o[1]._id.split("T")[0]);
+      data.push(o[1].count);
+    });
+    const stats = {
+      labels,
+      datasets: [
+        {
+          fill: false,
+          backgroundColor: "#d9e0ab",
+          borderColor: "indigo",
+          borderCapStyle: "butt",
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "indigo",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 3,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "green",
+          pointHoverBorderColor: "orange",
+          pointHoverBorderWidth: 40,
+          pointRadius: 5,
+          pointHitRadius: 20,
+          label: graphLabel,
+          data: data,
+        },
+      ],
+    };
 
-	//getting chart data and display it
-	getData = (result, graphLabel, days) => {
-		const d = Object.entries(result.data).reverse().slice(0, days).reverse();
-		let labels = [];
-		let data = [];
-		d.forEach((o) => {
-			labels.push(o[1]._id.split("T")[0]);
-			data.push(o[1].count);
-		});
-		const stats = {
-			labels,
-			datasets: [
-				{
-					fill: false,
-					backgroundColor: "#d9e0ab",
-					borderColor: "indigo",
-					borderCapStyle: "butt",
-					borderDash: [],
-					borderDashOffset: 0.0,
-					borderJoinStyle: "miter",
-					pointBorderColor: "indigo",
-					pointBackgroundColor: "#fff",
-					pointBorderWidth: 3,
-					pointHoverRadius: 5,
-					pointHoverBackgroundColor: "green",
-					pointHoverBorderColor: "orange",
-					pointHoverBorderWidth: 40,
-					pointRadius: 5,
-					pointHitRadius: 20,
-					label: graphLabel,
-					data: data,
-				},
-			],
-		};
+    //setting data to state
+    this.setState({ data: stats });
+  };
 
-		//setting data to state
-		this.setState({ data: stats });
-	};
-
-	//rendering
-	render() {
-		const { classes } = this.props;
-		return (
-			<div className={classes.formControl}>
-				<div> {this.state.isLoading && <ColorLinearProgress size={30} />}</div>
-				<InputLabel id="demo-simple-select-label">
-					{this.state.days === 7 ||
-					this.state.days === 30 ||
-					this.state.days === 3 ? (
-						<Typography> Showing {this.state.days} days report</Typography>
-					) : (
-						<Typography> Select to see reports</Typography>
-					)}
-				</InputLabel>
-				<Select
-					style={{ width: 300 }}
-					variant="outlined"
-					labelId="demo-simple-select-label"
-					id="demo-simple-select"
-					value={this.state.days}
-					onChange={this.handleChange}
-				>
-					<MenuItem value={3}>3 days</MenuItem>
-					<MenuItem value={7}>Weekly</MenuItem>
-					<MenuItem value={30}>Monthly</MenuItem>
-				</Select>
-				{this.state.data && (
-					<React.Fragment>
-						<Line data={this.state.data} height={90} />
-						<Pie data={this.state.data} height={100} />
-					</React.Fragment>
-				)}
-			</div>
-		);
-	}
+  //rendering
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.formControl}>
+        <div> {this.state.isLoading && <ColorLinearProgress size={30} />}</div>
+        <InputLabel id="demo-simple-select-label">
+          {this.state.days === 7 ||
+          this.state.days === 30 ||
+          this.state.days === 3 ? (
+            <Typography> Showing {this.state.days} days report</Typography>
+          ) : (
+            <Typography> Select to see reports</Typography>
+          )}
+        </InputLabel>
+        <Select
+          style={{ width: 300 }}
+          variant="outlined"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={this.state.days}
+          onChange={this.handleChange}
+        >
+          <MenuItem value={3}>3 days</MenuItem>
+          <MenuItem value={7}>Weekly</MenuItem>
+          <MenuItem value={30}>Monthly</MenuItem>
+        </Select>
+        {this.state.data && (
+          <React.Fragment>
+            <Line data={this.state.data} height={90} />
+            <Pie data={this.state.data} height={100} />
+          </React.Fragment>
+        )}
+      </div>
+    );
+  }
 }
 
 Charts.propTypes = {
-	classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 //exporting Charts

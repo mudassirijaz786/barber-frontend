@@ -15,6 +15,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -78,13 +79,10 @@ class OwnerLogin extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, loading: true });
     await axios
-      .post(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/login/salonOwner",
-        {
-          email: account.email,
-          password: account.password,
-        }
-      )
+      .post(url + "/login/salonOwner", {
+        email: account.email,
+        password: account.password,
+      })
       .then((response) => {
         const token = response.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
@@ -95,6 +93,7 @@ class OwnerLogin extends Component {
       })
       .catch((error) => {
         if (error.response) {
+          console.log(error);
           ToastsStore.error("Error while logging in");
           this.setState({
             loading: false,

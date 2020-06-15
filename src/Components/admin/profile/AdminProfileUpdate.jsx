@@ -14,6 +14,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -99,8 +100,7 @@ class AdminProfileUpdate extends Component {
     form_data.append("phonenumber", Admin.phonenumber);
     var token = localStorage.getItem("x-auth-token");
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin",
+      url: url + "/superadmin",
       method: "PUT",
       data: form_data,
       headers: {

@@ -29,6 +29,7 @@ import OwnerUpdateProfile from "./Components/salonowner/profile/OwnerUpdateProfi
 import OwnerForgetPasswordToken from "./Components/salonowner/password/OwnerForgetPasswordToken";
 import OwnerResetPassword from "./Components/salonowner/password/OwnerResetPassword";
 import AdminLanding from "./Components/admin/dashboard/AdminLanding";
+import url from "../src/config.json";
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -38,7 +39,7 @@ import {
   ToastsStore,
   ToastsContainerPosition,
 } from "react-toasts";
-
+import axios from "axios";
 //styling
 const styles = {
   button: {
@@ -59,6 +60,21 @@ const styles = {
 
 //class App
 class App extends React.Component {
+  async componentDidMount() {
+    if (!sessionStorage.getItem("request")) {
+      sessionStorage.setItem("request", "session___");
+      await axios
+        .post(url + "/ip")
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          if (error.response) {
+            ToastsStore.error(error.response.data);
+          }
+        });
+    }
+  }
   render() {
     const { classes } = this.props;
     return (

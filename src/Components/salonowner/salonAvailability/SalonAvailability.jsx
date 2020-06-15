@@ -13,6 +13,7 @@ import {
   Box,
   Container,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -72,8 +73,7 @@ class SalonAvailability extends Component {
     const { checked } = this.state;
     this.setState({ isLoading: true });
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Salon/availibilty",
+      url: url + "/Salon/availibilty",
       method: "POST",
       Salon_availibilty: checked,
       headers: {

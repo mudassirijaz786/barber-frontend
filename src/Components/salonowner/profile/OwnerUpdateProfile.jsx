@@ -16,6 +16,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -72,10 +73,8 @@ class OwnerUpdateProfile extends Component {
   };
 
   componentDidMount() {
-    const url =
-      "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/getSingle";
     axios({
-      url: url,
+      url: url + "/SalonSignUp/getSingle",
       method: "GET",
       headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
     })
@@ -156,8 +155,7 @@ class OwnerUpdateProfile extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
+      url: "/SalonSignUp",
       method: "PUT",
       data: form_data,
       headers: {

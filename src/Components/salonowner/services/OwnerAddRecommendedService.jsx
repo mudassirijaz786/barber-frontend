@@ -19,6 +19,7 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -108,8 +109,7 @@ class OwnerAddRecommendedService extends Component {
       this.setState({ isLoading: true });
       var token = localStorage.getItem("x-auth-token");
       const promise = axios({
-        url:
-          "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/recomended/service",
+        url: url + "/salonservices/recomended/service",
 
         method: "POST",
         data: form_data,

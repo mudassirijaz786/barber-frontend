@@ -20,6 +20,7 @@ import {
   CardActions,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const useStyles = makeStyles((theme) => ({
@@ -55,9 +56,8 @@ class Schedule extends Component {
   };
 
   afterStateupdatedfinished = (date) => {
-    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
-      url: url,
+      url: url + `/Saloon_owner/schedule/:${date}`,
       method: "GET",
       headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
     })
@@ -75,9 +75,8 @@ class Schedule extends Component {
 
   componentDidMount() {
     const date = new Date();
-    const url = `https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/Saloon_owner/schedule/:${date}`;
     axios({
-      url: url,
+      url: url + `/Saloon_owner/schedule/:${date}`,
       method: "GET",
       headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
     })
@@ -101,9 +100,7 @@ class Schedule extends Component {
     let form_data = new FormData();
     form_data.append("service_status", this.state.service_status);
     await axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/book/appointment/service/status/" +
-        id,
+      url: url + "/book/appointment/service/status/" + id,
       method: "POST",
       data: form_data,
       headers: {
@@ -115,6 +112,9 @@ class Schedule extends Component {
       .then((response) => {
         if (response.status === 200) {
           ToastsStore.success("Appointment status set to availed");
+          const { schedule } = this.state;
+          const filteredList = schedule.filter((e) => e._id !== id);
+          this.setState({ schedule: filteredList });
         }
       })
       .catch((error) => {
@@ -126,9 +126,7 @@ class Schedule extends Component {
 
   notAvailed = async (id) => {
     await axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/book/appointment/customer/unavailed/service/" +
-        id,
+      url: url + "/book/appointment/customer/unavailed/service/" + id,
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",

@@ -19,6 +19,7 @@ import {
   CardHeader,
   Card,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const useStyles = makeStyles((theme) => ({
@@ -73,8 +74,7 @@ class Salon extends React.Component {
 
   loadData = () => {
     Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin",
+      url: "/superadmin",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -97,9 +97,7 @@ class Salon extends React.Component {
     const filteredList = List_of_salons.filter((e) => e._id !== id);
     this.setState({ List_of_salons: filteredList });
     Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin/" +
-        id,
+      url: url + "/superadmin/" + id,
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -122,9 +120,7 @@ class Salon extends React.Component {
     const filteredList = List_of_salons.filter((e) => e._id !== id);
     this.setState({ List_of_salons: filteredList });
     Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/superadmin/" +
-        id,
+      url: url + "/superadmin/" + id,
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",

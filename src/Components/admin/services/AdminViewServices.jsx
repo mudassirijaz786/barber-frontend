@@ -28,6 +28,7 @@ import {
   Grid,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -71,8 +72,7 @@ class AdminViewService extends React.Component {
 
   loadData = async () => {
     await Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services",
+      url: url + "/recomended_services",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -112,9 +112,7 @@ class AdminViewService extends React.Component {
     const filteredList = List_of_services.filter((e) => e._id !== id);
     this.setState({ List_of_services: filteredList });
     Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
-        id,
+      url: url + "/recomended_services/" + id,
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",

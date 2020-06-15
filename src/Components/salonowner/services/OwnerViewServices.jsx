@@ -23,6 +23,7 @@ import {
   CardContent,
   CardActions,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const useStyles = makeStyles((theme) => ({
@@ -65,8 +66,7 @@ class OwnerViewServices extends React.Component {
 
   loadData = async () => {
     await Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices",
+      url: url + "/salonservices",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -109,9 +109,7 @@ class OwnerViewServices extends React.Component {
     const filteredList = List_of_services.filter((e) => e._id !== id);
     this.setState({ List_of_services: filteredList });
     Axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/salonservices/" +
-        id,
+      url: url + "/salonservices/" + id,
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",

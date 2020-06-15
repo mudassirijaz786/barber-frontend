@@ -20,6 +20,7 @@ import {
   LinearProgress,
   Typography,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -145,9 +146,7 @@ class AdminEditService extends Component {
     this.setState({ error: error || {}, isLoading: true });
     var token = localStorage.getItem("x-auth-token");
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services/" +
-        this.props.location.items._id,
+      url: url + "/recomended_services/" + this.props.location.items._id,
       method: "PUT",
       data: form_data,
       headers: {

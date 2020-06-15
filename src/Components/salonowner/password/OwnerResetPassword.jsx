@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -111,13 +112,10 @@ class OwnerResetPassword extends Component {
     obj["token"] = SalonOwner.token;
     obj["confirmpassword"] = SalonOwner.newPassword;
     await axios
-      .post(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/verify_code/and/update_password",
-        {
-          token: obj.token,
-          confirmpassword: obj.confirmpassword,
-        }
-      )
+      .post(url + "/SalonSignUp/verify_code/and/update_password", {
+        token: obj.token,
+        confirmpassword: obj.confirmpassword,
+      })
       .then((response) => {
         this.setState({
           loading: false,

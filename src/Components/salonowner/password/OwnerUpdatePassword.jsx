@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -114,8 +115,7 @@ class OwnerUpdatePassword extends Component {
     form_data.append("confirmpassword", SalonOwner.newPassword);
     var token = localStorage.getItem("x-auth-token");
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/change/password",
+      url: url + "/SalonSignUp/change/password",
       method: "PUT",
       data: form_data,
       headers: {

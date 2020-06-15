@@ -22,6 +22,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 const ColorLinearProgress = withStyles({
   colorPrimary: {
@@ -151,22 +152,19 @@ class OwnerSignup extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, loading: true });
     axios
-      .post(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp",
-        {
-          Salon_owner_firstName: Salon.Salon_owner_firstName,
-          Salon_owner_lastName: Salon.Salon_owner_lastName,
-          email: Salon.Salon_owner_email,
-          password: Salon.Salon_owner_password,
-          phoneNumber: Salon.Salon_owner_phoneNumber,
-          cnic: Salon.Salon_owner_cnic,
-          salonname: Salon.Salon_Name,
-          latitude: latLng.lat,
-          longitude: latLng.lng,
-          Salon_opening_hours: Salon_opening_hours,
-          Salon_closing_hours: Salon_closing_hours,
-        }
-      )
+      .post(url + "/SalonSignUp", {
+        Salon_owner_firstName: Salon.Salon_owner_firstName,
+        Salon_owner_lastName: Salon.Salon_owner_lastName,
+        email: Salon.Salon_owner_email,
+        password: Salon.Salon_owner_password,
+        phoneNumber: Salon.Salon_owner_phoneNumber,
+        cnic: Salon.Salon_owner_cnic,
+        salonname: Salon.Salon_Name,
+        latitude: latLng.lat,
+        longitude: latLng.lng,
+        Salon_opening_hours: Salon_opening_hours,
+        Salon_closing_hours: Salon_closing_hours,
+      })
       .then((response) => {
         ToastsStore.success(
           "Request submitted successfully. We will inform your account verification viva email",

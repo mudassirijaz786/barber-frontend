@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -83,12 +84,9 @@ class OwnerForgetPasswordToken extends Component {
     let obj = {};
     obj["email"] = SalonOwner.email;
     await axios
-      .post(
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/SalonSignUp/forgot/password",
-        {
-          email: obj.email,
-        }
-      )
+      .post(url + "/SalonSignUp/forgot/password", {
+        email: obj.email,
+      })
       .then((response) => {
         if (response.status === 200) {
           ToastsStore.success("Check your email for token");

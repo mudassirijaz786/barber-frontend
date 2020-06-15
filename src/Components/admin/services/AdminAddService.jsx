@@ -19,6 +19,7 @@ import {
   Box,
   Typography,
 } from "@material-ui/core";
+import { url } from "../../../../src/config.json";
 
 //styling
 const styles = {
@@ -130,8 +131,7 @@ class AdminAddService extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     axios({
-      url:
-        "https://digital-salons-app.herokuapp.com/Digital_Saloon.com/api/recomended_services",
+      url: url + "/recomended_services",
       method: "POST",
       data: form_data,
       headers: {
