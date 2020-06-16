@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography, withStyles } from "@material-ui/core";
-
+import RequetsGraph from "../../requests";
 //styling
 const styles = {
   root: {
@@ -30,6 +30,7 @@ class AdminDashboard extends Component {
         <Box color="indigo">
           <Typography variant="h2">This is dashboard for Admin</Typography>
         </Box>
+        <RequetsGraph />
       </div>
     );
   }

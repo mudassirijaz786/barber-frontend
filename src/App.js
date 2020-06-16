@@ -29,7 +29,18 @@ import OwnerUpdateProfile from "./Components/salonowner/profile/OwnerUpdateProfi
 import OwnerForgetPasswordToken from "./Components/salonowner/password/OwnerForgetPasswordToken";
 import OwnerResetPassword from "./Components/salonowner/password/OwnerResetPassword";
 import AdminLanding from "./Components/admin/dashboard/AdminLanding";
-import url from "../src/config.json";
+import ips from "./Components/ips";
+import "primeicons/primeicons.css";
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+
+import "primereact/resources/primereact.css";
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ipUrl } from "../src/config.json";
 import {
   AdminRoute,
   SalonOwnerRoute,
@@ -64,7 +75,7 @@ class App extends React.Component {
     if (!sessionStorage.getItem("request")) {
       sessionStorage.setItem("request", "session___");
       await axios
-        .post(url + "/ip")
+        .post(ipUrl + "/ip")
         .then((response) => {
           console.log(response);
         })
@@ -91,6 +102,7 @@ class App extends React.Component {
             path="/services/edit"
             render={(props) => <OwnerAddRecommendedService {...props} />}
           />
+          <Route exact path="/ips" component={ips} />
           <Route exact path="/secret/admin" component={AdminLanding} />
           <Route
             exact

@@ -47,8 +47,8 @@ const ColorLinearProgress = withStyles({
 class OwnerLogin extends Component {
   state = {
     account: {
-      email: "ijazmudassir536@outlook.com",
-      password: "heLLo$1122",
+      email: "ijazmudassir786@gmail.com",
+      password: "pa$$WORD1122",
     },
     error: {},
     loading: false,
