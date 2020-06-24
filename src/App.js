@@ -73,11 +73,12 @@ const styles = {
 class App extends React.Component {
   async componentDidMount() {
     if (!sessionStorage.getItem("request")) {
-      sessionStorage.setItem("request", "session___");
       await axios
         .post(ipUrl + "/ip")
         .then((response) => {
           console.log(response);
+          sessionStorage.setItem("request", "session___");
+          alert("Saved...");
         })
         .catch((error) => {
           if (error.response) {
