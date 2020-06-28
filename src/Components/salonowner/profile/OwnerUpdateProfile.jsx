@@ -155,7 +155,7 @@ class OwnerUpdateProfile extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     axios({
-      url: "/SalonSignUp",
+      url: url + "/SalonSignUp",
       method: "PUT",
       data: form_data,
       headers: {

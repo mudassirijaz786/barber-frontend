@@ -1,6 +1,5 @@
 import http from "./httpservice";
-const apiEndpoint =
-  "https://salonbackendfinal.herokuapp.com/Digital_Saloon.com/api";
+const apiEndpoint = "https://salonbackendfinal.herokuapp.com/api";
 
 export async function getAllIpsInfo() {
   return await http.get(apiEndpoint);

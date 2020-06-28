@@ -29,7 +29,7 @@ import OwnerUpdateProfile from "./Components/salonowner/profile/OwnerUpdateProfi
 import OwnerForgetPasswordToken from "./Components/salonowner/password/OwnerForgetPasswordToken";
 import OwnerResetPassword from "./Components/salonowner/password/OwnerResetPassword";
 import AdminLanding from "./Components/admin/dashboard/AdminLanding";
-import ips from "./Components/ips";
+import requests from "./Components/requests";
 import "primeicons/primeicons.css";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -102,7 +102,7 @@ class App extends React.Component {
             path="/services/edit"
             render={(props) => <OwnerAddRecommendedService {...props} />}
           />
-          <Route exact path="/ips" component={ips} />
+          <Route exact path="/ips" component={requests} />
           <Route exact path="/secret/admin" component={AdminLanding} />
           <Route
             exact

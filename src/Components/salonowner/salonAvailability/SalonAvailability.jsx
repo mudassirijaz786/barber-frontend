@@ -71,11 +71,15 @@ class SalonAvailability extends Component {
   }
   handleSubmit = async () => {
     const { checked } = this.state;
+    console.log(this.state.checked);
+    var obj = {};
+    obj["salon_availaible"] = checked;
+    console.log(obj);
     this.setState({ isLoading: true });
     axios({
       url: url + "/Salon/availibilty",
       method: "POST",
-      Salon_availibilty: checked,
+      data: obj,
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -106,6 +110,7 @@ class SalonAvailability extends Component {
 
   handleChange = (checked) => {
     this.setState({ checked });
+    console.log(checked);
   };
 
   render() {

@@ -151,7 +151,8 @@ class OwnerSignup extends Component {
     } = this.state;
     const error = this.validate();
     this.setState({ error: error || {}, loading: true });
-    axios
+
+    await axios
       .post(url + "/SalonSignUp", {
         Salon_owner_firstName: Salon.Salon_owner_firstName,
         Salon_owner_lastName: Salon.Salon_owner_lastName,
@@ -166,6 +167,7 @@ class OwnerSignup extends Component {
         Salon_closing_hours: Salon_closing_hours,
       })
       .then((response) => {
+        console.log(response);
         ToastsStore.success(
           "Request submitted successfully. We will inform your account verification viva email",
           3000

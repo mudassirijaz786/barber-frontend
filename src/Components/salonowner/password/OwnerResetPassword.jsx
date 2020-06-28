@@ -192,6 +192,7 @@ class OwnerResetPassword extends Component {
             error={error.newPassword}
             helperText={error.newPassword}
             name="newPassword"
+            type="password"
             placeholder="Please enter your newPassword"
           />
           <TextField
@@ -200,6 +201,7 @@ class OwnerResetPassword extends Component {
             name="confirmNewPassword"
             placeholder="Please enter your confirmNewPassword"
             variant="outlined"
+            type="password"
             error={error.confirmNewPassword}
             helperText={error.confirmNewPassword}
             className={classes.fields}

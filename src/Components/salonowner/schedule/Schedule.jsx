@@ -74,6 +74,7 @@ class Schedule extends Component {
   };
 
   componentDidMount() {
+    console.log(localStorage.getItem("x-auth-token"));
     const date = new Date();
     axios({
       url: url + `/Saloon_owner/schedule/:${date}`,

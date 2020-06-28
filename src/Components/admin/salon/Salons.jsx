@@ -73,8 +73,9 @@ class Salon extends React.Component {
   }
 
   loadData = () => {
+    console.log(url);
     Axios({
-      url: "/superadmin",
+      url: url + "/superadmin",
       method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*",

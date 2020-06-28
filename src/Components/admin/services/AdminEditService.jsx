@@ -135,6 +135,7 @@ class AdminEditService extends Component {
 
   handleSubmit = async () => {
     const { Service } = this.state;
+    console.log(this.props.location.items._id);
     let form_data = new FormData();
     form_data.append("image", Service.img_url);
     form_data.append("servicename", Service.service_name);
@@ -145,7 +146,8 @@ class AdminEditService extends Component {
     const error = this.validate();
     this.setState({ error: error || {}, isLoading: true });
     var token = localStorage.getItem("x-auth-token");
-    axios({
+    console.log(token);
+    await axios({
       url: url + "/recomended_services/" + this.props.location.items._id,
       method: "PUT",
       data: form_data,

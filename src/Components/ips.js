@@ -25,6 +25,7 @@ export default class IPInfo extends Component {
     console.log("hello from ip");
   }
   loadData = () => {
+    console.log("hello from within ip");
     this.setState({ ips: null });
     ipService
       .getAllIpsInfo()
