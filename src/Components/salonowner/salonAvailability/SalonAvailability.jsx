@@ -75,6 +75,7 @@ class SalonAvailability extends Component {
     var obj = {};
     obj["salon_availaible"] = checked;
     console.log(obj);
+    var token = localStorage.getItem("x-auth-token");
     this.setState({ isLoading: true });
     axios({
       url: url + "/Salon/availibilty",
@@ -83,7 +84,7 @@ class SalonAvailability extends Component {
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("x-auth-token"),
+        "x-auth-token": token,
       },
     })
       .then((response) => {
