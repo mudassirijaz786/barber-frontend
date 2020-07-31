@@ -101,7 +101,9 @@ class Schedule extends Component {
     let form_data = new FormData();
     form_data.append("service_status", this.state.service_status);
     await axios({
-      url: url + "/book/appointment/service/status/" + id,
+      url:
+        "localhost:8080/Digital_Saloon.com/api/book/appointment/service/status/" +
+        id,
       method: "POST",
       data: form_data,
       headers: {
